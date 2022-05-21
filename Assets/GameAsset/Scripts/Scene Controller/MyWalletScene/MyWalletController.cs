@@ -13,7 +13,7 @@ public class MyWalletController : MonoBehaviour
      List<ClientCoin> sortedList = new List<ClientCoin>();
     
     void Start(){
-        totalTypeCoin= ResourceManager.Instance.speedNDefault.spriteIcons.Count;
+        totalTypeCoin= ClientData.Instance.speedNDefault.spriteIcons.Count;
         SortAmountCoin();
         CreateListCoin();
     }
@@ -27,7 +27,7 @@ public class MyWalletController : MonoBehaviour
         {
              GameObject item = Instantiate(myWalletItemPrefab,whereToSpawn.position,Quaternion.identity,listCoin.transform);
 
-             SpriteIcon spriteItem = ResourceManager.Instance.GetSpriteIcon(child.nameCoin);
+             SpriteIcon spriteItem = ClientData.Instance.GetSpriteIcon(child.nameCoin);
              
             item.GetComponent<MyWalletItem>().SetProperties(spriteItem.sprite,spriteItem.name,
                 ClientData.Instance.clientUser.GetAmountCoin(spriteItem.name));

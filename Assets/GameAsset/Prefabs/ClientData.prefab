@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 383269634066738057}
   - component: {fileID: 383269634066738056}
-  - component: {fileID: 383269634066738058}
   m_Layer: 0
   m_Name: ClientData
   m_TagString: Untagged
@@ -42,20 +41,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a52f872dc19823540bfd123bee0eac3e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speedNDefault: {fileID: 11400000, guid: 5b4aa409e5b4fc247929fee333ef1ace, type: 2}
-  resourceManager: {fileID: 383269634066738058}
---- !u!114 &383269634066738058
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 383269634066738063}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a7751f2b123ce28459a358101299fb56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   speedNDefault: {fileID: 11400000, guid: 5b4aa409e5b4fc247929fee333ef1ace, type: 2}

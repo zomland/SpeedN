@@ -63,7 +63,7 @@ public class DrivingUIControler : MonoBehaviour
     void LoadImageVehicle()
     {
         currentVehicleRawImg.texture
-        = ClientData.Instance.resourceManager.GetSpriteVehicle
+        = ClientData.Instance.GetSpriteVehicle
         (ClientData.Instance.clientUser.currentVehicle.name).sprite.texture;
     }
 
