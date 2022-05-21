@@ -12,6 +12,5 @@ public class ClientData : Singleton<ClientData>{
 
     void Awake(){
         clientUser = new ClientUser(speedNDefault);
-        resourceManager = GetComponent<ResourceManager>();
     }
 }

@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedNDefault: {fileID: 11400000, guid: 5b4aa409e5b4fc247929fee333ef1ace, type: 2}
+  resourceManager: {fileID: 383269634066738058}
 --- !u!114 &383269634066738058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,4 +59,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speedNDefault: {fileID: 11400000, guid: 5b4aa409e5b4fc247929fee333ef1ace, type: 2}
-  listSpriteItems: []
