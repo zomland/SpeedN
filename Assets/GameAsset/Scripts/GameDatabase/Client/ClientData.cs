@@ -11,6 +11,9 @@ public class ClientData : Singleton<ClientData>{
 
     void Awake(){
         clientUser = new ClientUser(speedNDefault);
+        
+        //Test add Vehicle
+        AddVehicle();
     }
 
     public SpriteIcon GetSpriteIcon(string name)
@@ -30,5 +33,18 @@ public class ClientData : Singleton<ClientData>{
             if(child.name == name) return child;
         }
         return null;
+    }
+
+
+
+    private void AddVehicle()
+    {
+        int i =100;
+        foreach(var child in speedNDefault.spriteVehicles)
+        {
+            var tmp = new ClientVehicle(child.name,i.ToString(),1f,1f,12);
+            i+=10;
+            clientUser.clientNFT.clientVehicles.Add(tmp);
+        }
     }
 }

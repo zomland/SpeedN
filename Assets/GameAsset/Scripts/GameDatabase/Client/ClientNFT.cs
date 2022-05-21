@@ -10,9 +10,9 @@ public class ClientNFT
     public List<ClientGem> clientGems;
     public List<ClientBlueprint> clientBlueprints;
 
-    public ClientNFT(SpeedNDefault speedNDefault)
+    public ClientNFT()
     {
-        InitializeVehicles(speedNDefault);
+        clientVehicles = new List<ClientVehicle>();
 
         clientGems = new List<ClientGem>();
         clientGems.Add(null);   
@@ -21,15 +21,6 @@ public class ClientNFT
         clientBlueprints.Add(null);
     }
 
-    public void InitializeVehicles(SpeedNDefault speedNDefault)
-    {
-        clientVehicles = new List<ClientVehicle>();
-        for (int i = 0; i < speedNDefault.spriteVehicles.Count; i++)
-        {
-            ClientVehicle clientVehicle = new ClientVehicle(speedNDefault.spriteVehicles[i].name, i.ToString(), 1f, 1f, 12);
-            clientVehicles.Add(clientVehicle);
-        }
-    }
 
 }
 

@@ -9,30 +9,23 @@ public class MyWalletItem : MonoBehaviour
     public Image icon;
     public TextMeshProUGUI nameCoinText;
     public TextMeshProUGUI amountCoinText;
-
-    string nameCoin ;
-    float amount;
-
+    
     MyWalletUIController myWalletUIController;
+    ClientCoin coin;
 
     void Start(){
         myWalletUIController = FindObjectOfType<MyWalletUIController>();
     }
 
-    public void SetProperties(Sprite icon , string nameCoin , float amountCoin)
+    public void SetProperties(ClientCoin coin)
     {
-        this.nameCoin = nameCoin;
-        this.amount = amountCoin;
-        this.icon.sprite = icon;
-        this.nameCoinText.text = nameCoin;
-        this.amountCoinText.text = amountCoin.ToString();
-    }
-
-    public void suadi(){
-        Debug.Log("1");
+        this.coin = coin;
+        this.nameCoinText.text = coin.nameCoin;
+        this.icon.sprite = ClientData.Instance.GetSpriteIcon(coin.nameCoin).sprite;
+        this.amountCoinText.text = coin.amount.ToString();
     }
 
     public void OnClickItemCoin(){
-        myWalletUIController.DisplayCoin(amount , nameCoin);
+        myWalletUIController.DisplayCoin(coin);
     }
 }

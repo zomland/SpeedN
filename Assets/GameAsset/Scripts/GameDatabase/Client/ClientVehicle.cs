@@ -36,6 +36,7 @@ public class ClientVehicle : BaseNFT
         energy = energyMax;
         energyPerMeter = _energyPerMeter;
         coinPerMeter = _coinPerMeter;
+        Debug.Log("hi");
     }
 
     void CreateExpToUpLevels()

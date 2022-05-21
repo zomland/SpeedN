@@ -13,6 +13,10 @@ public class MyItemSceneUIController : MonoBehaviour
     [Header("Button")]
     public List<MyItemSceneMenuButton> listMenuButton;
 
+    [Header("PopUp")]
+    public GameObject panelMain;
+    public GameObject panelMyItemDetail;
+
     public void OnClickMenuButton(MyItemSceneMenuButton tmp)
     {
         foreach(var child in listMenuButton)
@@ -27,5 +31,10 @@ public class MyItemSceneUIController : MonoBehaviour
                 child.GetComponentInChildren<TextMeshProUGUI>().color = Color.white;
             }
         }
+    }
+
+    public void OnClickVehicleItem(){
+        panelMain.gameObject.SetActive(false);
+        panelMyItemDetail.gameObject.SetActive(true);
     }
 }

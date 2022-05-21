@@ -26,11 +26,8 @@ public class MyWalletController : MonoBehaviour
         foreach(var child in sortedList)
         {
              GameObject item = Instantiate(myWalletItemPrefab,whereToSpawn.position,Quaternion.identity,listCoin.transform);
-
-             SpriteIcon spriteItem = ClientData.Instance.GetSpriteIcon(child.nameCoin);
              
-            item.GetComponent<MyWalletItem>().SetProperties(spriteItem.sprite,spriteItem.name,
-                ClientData.Instance.clientUser.GetAmountCoin(spriteItem.name));
+            item.GetComponent<MyWalletItem>().SetProperties(child);
         }
     }
 }

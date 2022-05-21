@@ -26,8 +26,8 @@ public class ClientUser
 
         InitializeCoin(speedNDefault);
         
-        clientNFT = new ClientNFT(speedNDefault);
-        currentVehicle = clientNFT.clientVehicles[0];
+        clientNFT = new ClientNFT();
+      //  currentVehicle = clientNFT.clientVehicles[0];
     }
 
     public void InitializeCoin(SpeedNDefault speedNDefault){

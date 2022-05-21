@@ -36,8 +36,8 @@ public class MyWalletUIController : MonoBehaviour
         addressText.text = s;
     }
 
-    public void DisplayCoin(float amount, string nameCoin){
-        amountCoinText.text = amount.ToString();
-        typeCoinText.text = nameCoin;
+    public void DisplayCoin(ClientCoin coin){
+        amountCoinText.text = coin.amount.ToString();
+        typeCoinText.text = coin.nameCoin;
     }
 }
