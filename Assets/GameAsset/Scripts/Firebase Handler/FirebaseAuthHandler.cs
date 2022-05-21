@@ -62,10 +62,11 @@ namespace FirebaseHandler
                     signInCompleted.SetCanceled();
                     return;
                 }
-                
+
                 {
                     GoogleSignInUser googleUser = task.Result;
-                    
+                    ClientUser user = ClientData.Instance.clientUser;
+                    user.email = googleUser.Email;
                     Debug.Log("Result: " + JsonConvert.SerializeObject(googleUser));
                     
                     Credential credential = GoogleAuthProvider.GetCredential(googleUser.IdToken, null);
@@ -158,11 +159,12 @@ namespace FirebaseHandler
             {
                 if (senderAuth.CurrentUser != null && senderAuth.CurrentUser == _auth.CurrentUser)
                 {
-                    ClientData.Instance.clientUser.userID = senderAuth.CurrentUser.UserId;
-                    ClientData.Instance.clientUser.userName = senderAuth.CurrentUser.DisplayName;
-                    ClientData.Instance.clientUser.email = senderAuth.CurrentUser.Email;
-                    ClientData.Instance.clientUser.CreateUserKey();
-                    FirebaseApi.Instance.AddNewUser();
+                    ClientUser user = ClientData.Instance.clientUser;
+                    user.userID = senderAuth.CurrentUser.UserId;
+                    user.userName = senderAuth.CurrentUser.DisplayName;
+                    if(user.email.Length == 0) user.email = senderAuth.CurrentUser.Email;
+                    user.CreateUserKey();
+                    FirebaseApi.Instance.AddNewUser(user);
                     if (!_isAutoCheck) return;
                     GameStateParam.MainState = true;
                 }

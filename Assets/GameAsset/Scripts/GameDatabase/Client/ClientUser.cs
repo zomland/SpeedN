@@ -44,22 +44,27 @@ public class ClientUser
 
     public void CreateUserKey()
     {
-        userKey = userID + emailProcessed();
+        userKey = emailProcessed() + "-" + userID;
     }
 
     string emailProcessed()
     {
-
         string result = email;
         char[] specialChars = {'!', '#', '$','%' ,'&' ,'*','+' ,'-','/' ,'=','?', '^', '_',
         '`','{','|','}','"','(',')',',',':',';','<','>','@','[',']','.'};
 
-        foreach (char specialChar in specialChars)
+        // foreach (char specialChar in specialChars)
+        // {
+        //     while (result.IndexOf(specialChar) != -1)
+        //     {
+        //         result = result.Remove(result.IndexOf(specialChar), 1);
+        //     }
+        // }
+
+        int index = email.IndexOf('@');
+        if (index > -1)
         {
-            while (result.IndexOf(specialChar) != -1)
-            {
-                result = result.Remove(result.IndexOf(specialChar), 1);
-            }
+            result = email.Remove(index);
         }
 
         return result;

@@ -52,9 +52,9 @@ namespace FirebaseHandler
             _authHandler.SignOut();
         }
 
-        public void PostUser()
+        public void PostUser(ClientUser user)
         {
-            _databaseHandler.PostUser(ClientData.Instance.clientUser, OnFirebaseDatabaseHandling);
+            _databaseHandler.PostUser(user, OnFirebaseDatabaseHandling);
         }
 
         public void PostUserValue(string valueKey, System.Object newValue)
@@ -62,9 +62,9 @@ namespace FirebaseHandler
             _databaseHandler.PostUserValue(ClientData.Instance.clientUser, valueKey, newValue, OnFirebaseDatabaseHandling);
         }
 
-        public void AddNewUser()
+        public void AddNewUser(ClientUser user)
         {
-            _databaseHandler.AddNewUser(ClientData.Instance.clientUser, OnFirebaseDatabaseHandling);
+            _databaseHandler.AddNewUser(user, OnFirebaseDatabaseHandling);
         }
 
         public void GetUserData()
