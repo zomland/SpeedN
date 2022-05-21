@@ -55,7 +55,15 @@ public class ClientVehicle : BaseNFT
 
     public void UseEnergy(float meter)
     {
-        energy -= energyPerMeter * meter;
+        if(energy>0)
+        {
+            energy -= energyPerMeter * meter;
+        }
+        else
+        {
+            Debug.Log("het nang luong");
+        }
+        
     }
 
     public float energyPercent()
