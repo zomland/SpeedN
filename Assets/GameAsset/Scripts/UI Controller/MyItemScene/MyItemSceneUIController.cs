@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Linq;
 
 public class MyItemSceneUIController : MonoBehaviour
 {
@@ -16,6 +17,26 @@ public class MyItemSceneUIController : MonoBehaviour
     [Header("PopUp")]
     public GameObject panelMain;
     public GameObject panelMyItemDetail;
+
+    [Header("Coin")]
+    public Image[] spriteTypeCoin;
+    public TextMeshProUGUI [] coinAmountText;
+
+    void Start()
+    {
+        DisplayCoinUI(); 
+    }
+
+    private void DisplayCoinUI()
+    {
+        var sortedList = ClientData.Instance.clientUser.clientCoins.OrderByDescending(coin=>coin.amount).ToList();
+        for(int i = 0;i< 3; i++)
+        {
+            
+            coinAmountText[i].text = sortedList[i].amount.ToString();
+            spriteTypeCoin[i].sprite = ClientData.Instance.GetSpriteIcon(sortedList[i].nameCoin).sprite;
+        }
+    }
 
     public void OnClickMenuButton(MyItemSceneMenuButton tmp)
     {
