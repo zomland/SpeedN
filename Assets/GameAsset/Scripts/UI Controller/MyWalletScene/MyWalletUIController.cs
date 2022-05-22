@@ -11,15 +11,15 @@ public class MyWalletUIController : MonoBehaviour
     public TextMeshProUGUI userNameText;
 
     void Start(){
-        userNameText.text = ClientData.Instance.clientUser.userName;
-        amountCoinText.text = ClientData.Instance.clientUser.clientCoins[0].amount.ToString();
-        typeCoinText.text = ClientData.Instance.clientUser.clientCoins[0].nameCoin;
+        userNameText.text = ClientData.Instance.ClientUser.userName;
+        amountCoinText.text = ClientData.Instance.ClientUser.clientCoins[0].amount.ToString();
+        typeCoinText.text = ClientData.Instance.ClientUser.clientCoins[0].nameCoin;
 
         DisplayAddress();
     }
 
     private void DisplayAddress(){
-        string address =  ClientData.Instance.clientUser.address;
+        string address =  ClientData.Instance.ClientUser.address;
         string s="";
         for (int i =0;i< address.Length ;i++)
         {

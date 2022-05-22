@@ -29,7 +29,7 @@ public class MyItemSceneUIController : MonoBehaviour
 
     private void DisplayCoinUI()
     {
-        var sortedList = ClientData.Instance.clientUser.clientCoins.OrderByDescending(coin=>coin.amount).ToList();
+        var sortedList = ClientData.Instance.ClientUser.clientCoins.OrderByDescending(coin=>coin.amount).ToList();
         for(int i = 0;i< 3; i++)
         {
             

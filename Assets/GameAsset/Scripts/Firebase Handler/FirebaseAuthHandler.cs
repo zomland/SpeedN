@@ -65,7 +65,7 @@ namespace FirebaseHandler
 
                 {
                     GoogleSignInUser googleUser = task.Result;
-                    ClientUser user = ClientData.Instance.clientUser;
+                    ClientUser user = ClientData.Instance.ClientUser;
                     user.email = googleUser.Email;
                     Debug.Log("Result: " + JsonConvert.SerializeObject(googleUser));
                     
@@ -159,7 +159,7 @@ namespace FirebaseHandler
             {
                 if (senderAuth.CurrentUser != null && senderAuth.CurrentUser == _auth.CurrentUser)
                 {
-                    ClientUser user = ClientData.Instance.clientUser;
+                    ClientUser user = ClientData.Instance.ClientUser;
                     user.userID = senderAuth.CurrentUser.UserId;
                     user.userName = senderAuth.CurrentUser.DisplayName;
                     if(user.email.Length == 0) user.email = senderAuth.CurrentUser.Email;

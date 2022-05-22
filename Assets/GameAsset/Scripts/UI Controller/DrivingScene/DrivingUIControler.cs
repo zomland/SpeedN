@@ -52,19 +52,19 @@ public class DrivingUIControler : MonoBehaviour
 
     void LoadNameVehicle()
     {
-        nameVehicleText.text = ClientData.Instance.clientUser.currentVehicle.name;
+        nameVehicleText.text = ClientData.Instance.ClientUser.currentVehicle.name;
     }
 
     void LoadMessage()
     {
-        textMessage.text="Using vehicle" + ClientData.Instance.clientUser.currentVehicle.name;
+        textMessage.text="Using vehicle" + ClientData.Instance.ClientUser.currentVehicle.name;
     }
 
     void LoadImageVehicle()
     {
         currentVehicleRawImg.texture
         = ClientData.Instance.GetSpriteVehicle
-        (ClientData.Instance.clientUser.currentVehicle.name).sprite.texture;
+        (ClientData.Instance.ClientUser.currentVehicle.name).sprite.texture;
     }
 
     void LoadDataMovingRecordDetail()
@@ -86,14 +86,14 @@ public class DrivingUIControler : MonoBehaviour
 
     void DecreaseEnergy()
     {
-        ClientData.Instance.clientUser.currentVehicle.UseEnergy(GPSControler.GetDistance());
+        ClientData.Instance.ClientUser.currentVehicle.UseEnergy(GPSControler.GetDistance());
     }
 
 
     void UpdateEnergyMonitor()
     {
         DecreaseEnergy();
-        EnergyMonitorControler.SetValueShow(ClientData.Instance.clientUser.currentVehicle.energyPercent());
+        EnergyMonitorControler.SetValueShow(ClientData.Instance.ClientUser.currentVehicle.energyPercent());
     }
 
     public void GotoWallet()

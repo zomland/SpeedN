@@ -15,6 +15,7 @@ public class PopUpControler : MonoBehaviour
     public void LogOut()
     {
         FirebaseApi.Instance.SignOut();
+        GameStateParam.LoginState = true;
     }
 
     public void StopDriving()

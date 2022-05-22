@@ -38,4 +38,9 @@ public class MyItemSceneItemVehicle : MonoBehaviour
         myItemSceneUIController.OnClickVehicleItem();
         myItemSceneUI_2Controller.DisplayUI(vehicle);
     }
+
+    public void ChooseClick()
+    {
+        ClientData.Instance.ClientUser.currentVehicle = vehicle;
+    }
 }

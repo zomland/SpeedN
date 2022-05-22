@@ -254,7 +254,7 @@ public class GPS_H : MonoBehaviour
 
     void CalculateNumCoin()
     {
-        numCoin = distance * ClientData.Instance.clientUser.currentVehicle.coinPerMeter;
+        numCoin = distance * ClientData.Instance.ClientUser.currentVehicle.coinPerMeter;
     }
 
     void ShowNumCoinOnDriving()

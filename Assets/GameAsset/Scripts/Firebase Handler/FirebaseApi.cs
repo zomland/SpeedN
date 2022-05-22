@@ -59,7 +59,7 @@ namespace FirebaseHandler
 
         public void PostUserValue(string valueKey, System.Object newValue)
         {
-            _databaseHandler.PostUserValue(ClientData.Instance.clientUser, valueKey, newValue, OnFirebaseDatabaseHandling);
+            _databaseHandler.PostUserValue(ClientData.Instance.ClientUser, valueKey, newValue, OnFirebaseDatabaseHandling);
         }
 
         public void AddNewUser(ClientUser user)
@@ -69,17 +69,17 @@ namespace FirebaseHandler
 
         public void GetUserData()
         {
-            _databaseHandler.GetUserData(ClientData.Instance.clientUser, OnFirebaseDatabaseHandling);
+            _databaseHandler.GetUserData(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling);
         }
 
         public void CheckUserExisted()
         {
-            _databaseHandler.CheckUserExisted(ClientData.Instance.clientUser, OnFirebaseDatabaseHandling);
+            _databaseHandler.CheckUserExisted(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling);
         }
 
         public void RemoveUser()
         {
-            _databaseHandler.RemoveUser(ClientData.Instance.clientUser, OnFirebaseDatabaseHandling);
+            _databaseHandler.RemoveUser(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling);
         }
 
         void OnFirebaseDatabaseHandling(string nameProcedure, string message, int errorID)

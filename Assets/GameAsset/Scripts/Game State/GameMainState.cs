@@ -29,12 +29,27 @@ namespace Runtime
             return;
         }
 
+        public override void CheckExitTransition()
+        {
+            if (GameStateParam.LoginState)
+            {
+                GameStateController.EnqueueTransition<GameLoginState>();
+                GameStateParam.LoginState = false;
+            }
+        }
+
         public override void ExitStateBehaviour(float dt, GameState toState)
         {
             var scene = SceneManager.GetSceneByName("HomeScene");
             if (scene.isLoaded)
             {
                 UnloadSceneAsync("HomeScene").Forget();
+            }
+
+            var accountScene = SceneManager.GetSceneByName("AccountScene");
+            if (accountScene.isLoaded)
+            {
+                UnloadSceneAsync("AccountScene").Forget();
             }
             
             RemoveListener();

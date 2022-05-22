@@ -34,19 +34,27 @@ public class HomeUIControler : MonoBehaviour
 
     void LoadImageVehicle()
     {
-        currentVehicleRawImg.texture
-        = ClientData.Instance.GetSpriteVehicle
-        (ClientData.Instance.clientUser.currentVehicle.name).sprite.texture;
+        ClientVehicle crrVehicle = ClientData.Instance.ClientUser.currentVehicle;
+        if (crrVehicle != null)
+        {
+            currentVehicleRawImg.texture = ClientData.Instance.GetSpriteVehicle(crrVehicle.name).sprite.texture;
+        }
     }
 
     void LoadNameVehicle()
     {
-        nameVehicleText.text = ClientData.Instance.clientUser.currentVehicle.name;
+        ClientVehicle crrVehicle = ClientData.Instance.ClientUser.currentVehicle;
+        if (crrVehicle != null)
+        {
+            nameVehicleText.text = crrVehicle.name;
+        }
+        
     }
 
     void LoadEnergyMonitor()
     {
-        EnergyMonitorControler.SetValueShow(ClientData.Instance.clientUser.currentVehicle.energyPercent());
+        ClientVehicle crrVehicle = ClientData.Instance.ClientUser.currentVehicle;
+        if (crrVehicle != null) EnergyMonitorControler.SetValueShow(crrVehicle.energyPercent());
     }
 
     /*void Update()
