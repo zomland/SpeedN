@@ -119,8 +119,6 @@ namespace FirebaseHandler
 
         public void SignUpWithEmail(string email, string password, AuthCallback callback)
         {
-            Debug.LogWarning(email+"handle");
-            Debug.LogWarning(password + "handle");
             _auth.CreateUserWithEmailAndPasswordAsync(email, password)
                 .ContinueWithOnMainThread(task =>
                 {
