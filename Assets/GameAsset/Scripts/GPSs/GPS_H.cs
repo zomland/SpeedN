@@ -219,10 +219,10 @@ public class GPS_H : MonoBehaviour
         float d2 = otherLatitude * (Mathf.PI / 180f);
         float num2 = otherLongitude * (Mathf.PI / 180f) - num1;
         float d3 = Mathf.Pow(Mathf.Sin((d2 - d1) / 2f), 2) +
-            Mathf.Cos(d1) * Mathf.Cos(d2) * Mathf.Pow(Mathf.Sin(num2 / 2.0f), 2);
-        float distance = earthRadius *
+                   Mathf.Cos(d1) * Mathf.Cos(d2) * Mathf.Pow(Mathf.Sin(num2 / 2.0f), 2);
+        double mdistance = earthRadius *
             (2.0f * Mathf.Atan2(Mathf.Sqrt(d3), Mathf.Sqrt(1.0f - d3)));
-        return distance;
+        return (float) mdistance;
     }
 
     public void ResetDistance()
