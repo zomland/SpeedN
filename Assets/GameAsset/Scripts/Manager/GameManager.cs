@@ -15,14 +15,6 @@ public class GameManager : Singleton<GameManager>
 
     public void HideLoading()
     {
-        try
-        {
-            loadingProgress.Hide();
-        }
-        catch (UnityException e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
+        loadingProgress.Hide();
     }
 }

@@ -59,29 +59,39 @@ namespace FirebaseHandler
             _authHandler.SignOut();
         }
 
-        public void PostUser(ClientUser user)
+        public async UniTaskVoid PostUser(ClientUser user)
         {
-            _databaseHandler.PostUser(user, OnFirebaseDatabaseHandling);
+            _databaseHandler.PostUser(user, OnFirebaseDatabaseHandling).Forget();
+
+            await UniTask.Yield();
         }
 
-        public void PostUserValue(string valueKey, System.Object newValue)
+        public async UniTaskVoid PostUserValue(string valueKey, System.Object newValue)
         {
-            _databaseHandler.PostUserValue(ClientData.Instance.ClientUser, valueKey, newValue, OnFirebaseDatabaseHandling);
+            _databaseHandler.PostUserValue(ClientData.Instance.ClientUser, valueKey, newValue, OnFirebaseDatabaseHandling)
+                .Forget();
+            
+            await UniTask.Yield();
         }
 
-        public void AddNewUser(ClientUser user)
+        public async UniTaskVoid AddNewUser(ClientUser user)
         {
-            _databaseHandler.AddNewUser(user, OnFirebaseDatabaseHandling);
+            _databaseHandler.AddNewUser(user, OnFirebaseDatabaseHandling).Forget();
+            await UniTask.Yield();
         }
 
-        public void GetUserData()
+        public async UniTaskVoid GetUserData()
         {
-            _databaseHandler.GetUserData(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling);
+            _databaseHandler.GetUserData(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling).Forget();
+            
+            await UniTask.Yield();
         }
 
-        public void CheckUserExisted()
+        public async UniTaskVoid CheckUserExisted()
         {
-            _databaseHandler.CheckUserExisted(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling);
+            _databaseHandler.CheckUserExisted(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling).Forget();
+            
+            await UniTask.Yield();
         }
 
         public void RemoveUser()

@@ -6,6 +6,7 @@ using Firebase.Database;
 using Firebase.Extensions;
 using System;
 using System.Text;
+using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Global;
 
@@ -36,9 +37,9 @@ namespace FirebaseHandler
             databaseUsersRef.ChildMoved += HandleChildMoved;
         }
 
-        public void PostUser(ClientUser user, DatabaseCallback databaseCallback)
+        public async UniTaskVoid PostUser(ClientUser user, DatabaseCallback databaseCallback)
         {
-            databaseUsersRef
+            await databaseUsersRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 bool isUserExisted = false;
@@ -76,9 +77,9 @@ namespace FirebaseHandler
             });   
         }
 
-        public void PostUserValue(ClientUser user, string valueKey, System.Object newValue, DatabaseCallback databaseCallback)
+        public async UniTaskVoid PostUserValue(ClientUser user, string valueKey, System.Object newValue, DatabaseCallback databaseCallback)
         {
-            databaseUsersRef
+            await databaseUsersRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 bool isUserExisted = false;
@@ -116,9 +117,9 @@ namespace FirebaseHandler
             
         }
 
-        public void AddNewUser(ClientUser user, DatabaseCallback databaseCallback)
+        public async UniTaskVoid AddNewUser(ClientUser user, DatabaseCallback databaseCallback)
         {
-            databaseUsersRef
+            await databaseUsersRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 bool isUserExisted = false;
@@ -157,9 +158,9 @@ namespace FirebaseHandler
 
         }
 
-        public void GetUserData(ClientUser user, DatabaseCallback databaseCallback)
+        public async UniTaskVoid GetUserData(ClientUser user, DatabaseCallback databaseCallback)
         {
-            databaseUsersRef
+            await databaseUsersRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
@@ -189,9 +190,9 @@ namespace FirebaseHandler
             databaseCallback.Invoke("RemoveUser","User is removed",0);
         }
 
-        public void CheckUserExisted(ClientUser user, DatabaseCallback databaseCallback)
+        public async UniTaskVoid CheckUserExisted(ClientUser user, DatabaseCallback databaseCallback)
         {
-            databaseUsersRef
+            await  databaseUsersRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 bool isUserExisted = false;

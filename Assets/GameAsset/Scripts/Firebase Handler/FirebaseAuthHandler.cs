@@ -169,7 +169,7 @@ namespace FirebaseHandler
                     user.userName = senderAuth.CurrentUser.DisplayName;
                     if(user.email.Length == 0) user.email = senderAuth.CurrentUser.Email;
                     user.CreateUserKey();
-                    FirebaseApi.Instance.AddNewUser(user);
+                    FirebaseApi.Instance.AddNewUser(user).Forget();
                     if (!_isAutoCheck) return;
                     GameStateParam.MainState = true;
                 }
