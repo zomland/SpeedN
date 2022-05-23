@@ -5,6 +5,7 @@ using Base;
 using Firebase.Auth;
 using UnityEngine;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Global;
 using Zenject;
 
@@ -30,21 +31,27 @@ namespace FirebaseHandler
             _databaseHandler.InitializeDatabase();
         }
 
-        public void SignInWithGoogle(AuthCallback callback)
+        public async UniTaskVoid SignInWithGoogle(AuthCallback callback)
         {
-            _authHandler.SignInWithGoogle(callback);
+            _authHandler.SignInWithGoogle(callback).Forget();
+
+            await UniTask.Yield();
         }
 
-        public void SignUpWithEmailAndPassword(string email, string password, AuthCallback callback)
+        public async UniTaskVoid SignUpWithEmailAndPassword(string email, string password, AuthCallback callback)
         {
             //Debug.LogWarning(email);
             //Debug.LogWarning(password);
-            _authHandler.SignUpWithEmail(email, password, callback);
+            _authHandler.SignUpWithEmail(email, password, callback).Forget();
+
+            await UniTask.Yield();
         }
 
-        public void SignInWithEmailAndPassword(string email, string password, AuthCallback callback)
+        public async UniTaskVoid SignInWithEmailAndPassword(string email, string password, AuthCallback callback)
         {
-            _authHandler.SignInWithEmail(email, password, callback);
+           _authHandler.SignInWithEmail(email, password, callback).Forget();
+
+           await UniTask.Yield();
         }
 
         public void SignOut()
@@ -52,29 +59,39 @@ namespace FirebaseHandler
             _authHandler.SignOut();
         }
 
-        public void PostUser(ClientUser user)
+        public async UniTaskVoid PostUser(ClientUser user)
         {
-            _databaseHandler.PostUser(user, OnFirebaseDatabaseHandling);
+            _databaseHandler.PostUser(user, OnFirebaseDatabaseHandling).Forget();
+
+            await UniTask.Yield();
         }
 
-        public void PostUserValue(string valueKey, System.Object newValue)
+        public async UniTaskVoid PostUserValue(string valueKey, System.Object newValue)
         {
-            _databaseHandler.PostUserValue(ClientData.Instance.ClientUser, valueKey, newValue, OnFirebaseDatabaseHandling);
+            _databaseHandler.PostUserValue(ClientData.Instance.ClientUser, valueKey, newValue, OnFirebaseDatabaseHandling)
+                .Forget();
+            
+            await UniTask.Yield();
         }
 
-        public void AddNewUser(ClientUser user)
+        public async UniTaskVoid AddNewUser(ClientUser user)
         {
-            _databaseHandler.AddNewUser(user, OnFirebaseDatabaseHandling);
+            _databaseHandler.AddNewUser(user, OnFirebaseDatabaseHandling).Forget();
+            await UniTask.Yield();
         }
 
-        public void GetUserData()
+        public async UniTaskVoid GetUserData()
         {
-            _databaseHandler.GetUserData(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling);
+            _databaseHandler.GetUserData(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling).Forget();
+            
+            await UniTask.Yield();
         }
 
-        public void CheckUserExisted()
+        public async UniTaskVoid CheckUserExisted()
         {
-            _databaseHandler.CheckUserExisted(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling);
+            _databaseHandler.CheckUserExisted(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling).Forget();
+            
+            await UniTask.Yield();
         }
 
         public void RemoveUser()
