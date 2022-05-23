@@ -1,6 +1,7 @@
 using System.Collections;
 using System;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Extensions;
 using Global;
@@ -32,34 +33,37 @@ namespace FirebaseHandler
             OnAuthStateChanged(this, null);
         }
 
-        public void SignInWithGoogle(AuthCallback success)
+        public async UniTaskVoid SignInWithGoogle(AuthCallback success)
         {
             if (GoogleSignIn.Configuration == null)
             {
                 GoogleSignInConfiguration configuration = new GoogleSignInConfiguration()
                 {
-                    WebClientId = WebClientId, RequestIdToken = true
+                    WebClientId = WebClientId, RequestIdToken = true, RequestEmail = true
                 };
                 GoogleSignIn.Configuration = configuration;
                 GoogleSignIn.Configuration.UseGameSignIn = false;
                 GoogleSignIn.Configuration.RequestIdToken = true;
+                GoogleSignIn.Configuration.RequestEmail = true;
             }
 
             _isAutoCheck = false;
-
+            
             Task<GoogleSignInUser> signIn = GoogleSignIn.DefaultInstance.SignIn();
             TaskCompletionSource<FirebaseUser> signInCompleted = new TaskCompletionSource<FirebaseUser>();
 
-            signIn.ContinueWith(task =>
+            await signIn.ContinueWith(task =>
             {
                 if (task.IsFaulted)
                 {
-                    Debug.Log("Sign In Failed " + task.Exception.Message);
+                    Debug.Log("Sign In Failed " + task.Exception?.Message);
+                    success.Invoke(null, "Sign in was canceled", AuthError.Cancelled);
                     return;
                 }
                 if (task.IsCanceled)
                 {
                     signInCompleted.SetCanceled();
+                    success.Invoke(null, task.Exception?.Message, AuthError.Failure);
                     return;
                 }
 
@@ -94,53 +98,54 @@ namespace FirebaseHandler
             });
         }
 
-        public void SignInWithEmail(string email, string password, AuthCallback callback)
+        public async UniTaskVoid SignInWithEmail(string email, string password, AuthCallback callback)
         {
-            _auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
-            {
-                if (task.IsFaulted)
+            await _auth.SignInWithEmailAndPasswordAsync(email, password)
+                .ContinueWith(task =>
                 {
-                    Debug.Log("Sign In Failed: " + task.Exception.Message);
-                    callback.Invoke(null, task.Exception.Message, AuthError.Failure);
-                    return;
-                }
-                
-                if (task.IsCanceled)
-                {
-                    Debug.Log("Sign In Canceled");
-                    callback.Invoke(null, "Signin process was canceled!", AuthError.Cancelled);
-                    return;
-                }
-                
-                Debug.Log("Sign In Success");
-                callback.Invoke(task.Result, "Sign In Success");
-            });
-        }
-
-        public void SignUpWithEmail(string email, string password, AuthCallback callback)
-        {
-            Debug.LogWarning(email+"handle");
-            Debug.LogWarning(password + "handle");
-            _auth.CreateUserWithEmailAndPasswordAsync(email, password)
-                .ContinueWithOnMainThread(task =>
-                {
-                    if (task.IsCanceled)
-                    {
-                        Debug.LogError("SignUpWithEmailAndPasswordAsync was canceled.");
-                        callback.Invoke(null, "Signup process was canceled!", AuthError.Cancelled);
-                        return;
-                    }
                     if (task.IsFaulted)
                     {
-                        Debug.LogError("SignupWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                        Debug.Log("Sign In Failed: " + task.Exception.Message);
                         callback.Invoke(null, task.Exception.Message, AuthError.Failure);
                         return;
                     }
-
-                    FirebaseUser newUser = task.Result;
-                    Debug.LogFormat("User signed in successfully");
-                    callback.Invoke(task.Result, "Sign Up Success");
+                
+                    if (task.IsCanceled)
+                    {
+                        Debug.Log("Sign In Canceled");
+                        callback.Invoke(null, "Signin process was canceled!", AuthError.Cancelled);
+                        return;
+                    }
+                
+                    Debug.Log("Sign In Success");
+                    callback.Invoke(task.Result, "Sign In Success");
                 });
+        }
+
+        public async UniTaskVoid SignUpWithEmail(string email, string password, AuthCallback callback)
+        {
+            Debug.LogWarning(email+"handle");
+            Debug.LogWarning(password + "handle");
+            await _auth.CreateUserWithEmailAndPasswordAsync(email, password)
+            .ContinueWithOnMainThread(task =>
+            {
+                if (task.IsCanceled)
+                {
+                    Debug.LogError("SignUpWithEmailAndPasswordAsync was canceled.");
+                    callback.Invoke(null, "Signup process was canceled!", AuthError.Cancelled);
+                    return;
+                }
+                if (task.IsFaulted)
+                {
+                    Debug.LogError("SignupWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                    callback.Invoke(null, task.Exception.Message, AuthError.Failure);
+                    return;
+                }
+            
+                FirebaseUser newUser = task.Result;
+                Debug.LogFormat("User signed in successfully");
+                callback.Invoke(task.Result, "Sign Up Success");
+            });
         }
 
         public void LinkWithCredential(string credential)

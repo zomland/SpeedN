@@ -5,6 +5,7 @@ using Base;
 using Firebase.Auth;
 using UnityEngine;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Global;
 using Zenject;
 
@@ -30,21 +31,27 @@ namespace FirebaseHandler
             _databaseHandler.InitializeDatabase();
         }
 
-        public void SignInWithGoogle(AuthCallback callback)
+        public async UniTaskVoid SignInWithGoogle(AuthCallback callback)
         {
-            _authHandler.SignInWithGoogle(callback);
+            _authHandler.SignInWithGoogle(callback).Forget();
+
+            await UniTask.Yield();
         }
 
-        public void SignUpWithEmailAndPassword(string email, string password, AuthCallback callback)
+        public async UniTaskVoid SignUpWithEmailAndPassword(string email, string password, AuthCallback callback)
         {
             //Debug.LogWarning(email);
             //Debug.LogWarning(password);
-            _authHandler.SignUpWithEmail(email, password, callback);
+            _authHandler.SignUpWithEmail(email, password, callback).Forget();
+
+            await UniTask.Yield();
         }
 
-        public void SignInWithEmailAndPassword(string email, string password, AuthCallback callback)
+        public async UniTaskVoid SignInWithEmailAndPassword(string email, string password, AuthCallback callback)
         {
-            _authHandler.SignInWithEmail(email, password, callback);
+           _authHandler.SignInWithEmail(email, password, callback).Forget();
+
+           await UniTask.Yield();
         }
 
         public void SignOut()

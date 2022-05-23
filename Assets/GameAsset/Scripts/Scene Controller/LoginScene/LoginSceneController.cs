@@ -1,6 +1,7 @@
  using System.Collections;
 using System.Collections.Generic;
-using Firebase.Auth;
+ using Cysharp.Threading.Tasks;
+ using Firebase.Auth;
 using UnityEngine;
 using FirebaseHandler;
 using Global;
@@ -13,21 +14,33 @@ namespace Runtime.Controller
         [SerializeField] private InputField emailSigninInput;
         [SerializeField] private InputField passwordSigninInput;
 
-        public void SignInWithGoogleClick()
+        public async void SignInWithGoogleClick()
         {
-            FirebaseApi.Instance.SignInWithGoogle(OnSignInCallback);
+            GameManager.Instance.ShowLoading();
+            FirebaseApi.Instance.SignInWithGoogle(OnSignInCallback).Forget();
+            
+            GameManager.Instance.HideLoading();
         }
 
-        public void SignInWithEmail()
+        public async void SignInWithEmail()
         {
+            GameManager.Instance.ShowLoading();
             FirebaseApi.Instance.SignInWithEmailAndPassword(emailSigninInput.text, passwordSigninInput.text, 
-                OnSignInCallback);
+                OnSignInCallback).Forget();
+
+            await UniTask.Yield();
+            GameManager.Instance.HideLoading();
         }
         
-        public void SignUpWithEmail()
+        public async void SignUpWithEmail()
         {
+            GameManager.Instance.ShowLoading();
             FirebaseApi.Instance.SignUpWithEmailAndPassword(emailSigninInput.text, passwordSigninInput.text,
-                OnSignInCallback);
+                OnSignInCallback).Forget();
+
+            await UniTask.Yield();
+            
+            GameManager.Instance.HideLoading();
         }
 
         private void OnSignInCallback(FirebaseUser user, string message, AuthError errorId)
