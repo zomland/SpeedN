@@ -6,6 +6,8 @@ using FirebaseHandler;
 using Global;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+
+
 namespace Runtime.Controller
 {
     public class LoginSceneController : MonoBehaviour
@@ -27,13 +29,13 @@ namespace Runtime.Controller
         }
         public void SignInWithGoogleClick()
         {
-            FirebaseApi.Instance.SignInWithGoogle(OnSignInCallback);
+            FirebaseApi.Instance.SignInWithGoogle(OnSignInCallback).Forget();
         }
 
         public void SignInWithEmail()
         {
             FirebaseApi.Instance.SignInWithEmailAndPassword(emailSigninInput.text, passwordSigninInput.text,
-                OnSignInCallback);
+                OnSignInCallback).Forget();
         }
         public static bool isValidEmail(string inputEmail)
         {
@@ -69,7 +71,7 @@ namespace Runtime.Controller
                             SignIn.SetActive(true);
                             SignUp.SetActive(false);
                             FirebaseApi.Instance.SignUpWithEmailAndPassword(emailSigninInput.text, passwordSigninInput.text,
-                                OnSignInCallback);
+                                OnSignInCallback).Forget();
                         }
                         else
                         {

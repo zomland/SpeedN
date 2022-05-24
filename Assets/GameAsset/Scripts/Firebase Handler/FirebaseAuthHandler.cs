@@ -1,6 +1,7 @@
 using System.Collections;
 using System;
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 using Firebase.Auth;
 using Firebase.Extensions;
 using Global;
@@ -32,7 +33,7 @@ namespace FirebaseHandler
             OnAuthStateChanged(this, null);
         }
 
-        public void SignInWithGoogle(AuthCallback success)
+        public async UniTaskVoid SignInWithGoogle(AuthCallback success)
         {
             if (GoogleSignIn.Configuration == null)
             {
@@ -50,7 +51,7 @@ namespace FirebaseHandler
             Task<GoogleSignInUser> signIn = GoogleSignIn.DefaultInstance.SignIn();
             TaskCompletionSource<FirebaseUser> signInCompleted = new TaskCompletionSource<FirebaseUser>();
 
-            signIn.ContinueWith(task =>
+            await signIn.ContinueWith(task =>
             {
                 if (task.IsFaulted)
                 {
@@ -94,9 +95,9 @@ namespace FirebaseHandler
             });
         }
 
-        public void SignInWithEmail(string email, string password, AuthCallback callback)
+        public async UniTaskVoid SignInWithEmail(string email, string password, AuthCallback callback)
         {
-            _auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
+            await _auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task =>
             {
                 if (task.IsFaulted)
                 {
@@ -117,9 +118,9 @@ namespace FirebaseHandler
             });
         }
 
-        public void SignUpWithEmail(string email, string password, AuthCallback callback)
+        public async UniTaskVoid SignUpWithEmail(string email, string password, AuthCallback callback)
         {
-            _auth.CreateUserWithEmailAndPasswordAsync(email, password)
+           await _auth.CreateUserWithEmailAndPasswordAsync(email, password)
                 .ContinueWithOnMainThread(task =>
                 {
                     if (task.IsCanceled)
