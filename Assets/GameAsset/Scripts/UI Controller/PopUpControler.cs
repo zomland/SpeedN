@@ -18,9 +18,8 @@ public class PopUpControler : MonoBehaviour
         GameStateParam.LoginState = true;
     }
 
-    public void StopDriving()
+    public void GotoItemFromHomeScene()
     {
-        //Messenger.RaiseMessage(Message.LoadScene, Scenes.HomeScene, Scenes.DrivingScene);
-        Debug.LogWarning("Stop driving");
+        Messenger.RaiseMessage(Message.LoadScene,Scenes.MyItemScene,Scenes.HomeScene);
     }
 }

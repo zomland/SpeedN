@@ -25,13 +25,13 @@ public class ClientUser
         address = "0x4fd54DdF44C41B60F0Fa267Dda04B73Bf373768B";
 
         InitializeCoin(speedNDefault);
-        
+
         clientNFT = new ClientNFT();
-      //  currentVehicle = clientNFT.clientVehicles[0];
     }
 
-    public void InitializeCoin(SpeedNDefault speedNDefault){
-         clientCoins = new List<ClientCoin>();
+    public void InitializeCoin(SpeedNDefault speedNDefault)
+    {
+        clientCoins = new List<ClientCoin>();
         int k = 1;
         for (int i = 0; i < speedNDefault.spriteIcons.Count; i++)
         {
@@ -39,33 +39,34 @@ public class ClientUser
             clientCoins.Add(clientCoin);
             k += 10;
         }
-
     }
-
+    public void InitialVehicle()
+    {
+        currentVehicle = clientNFT.clientVehicles[0];
+    }
     public void CreateUserKey()
     {
         userKey = emailProcessed() + "-" + userID;
     }
-
     string emailProcessed()
     {
         string result = email;
         char[] specialChars = {'!', '#', '$','%' ,'&' ,'*','+' ,'-','/' ,'=','?', '^', '_',
         '`','{','|','}','"','(',')',',',':',';','<','>','@','[',']','.'};
 
-        // foreach (char specialChar in specialChars)
-        // {
-        //     while (result.IndexOf(specialChar) != -1)
-        //     {
-        //         result = result.Remove(result.IndexOf(specialChar), 1);
-        //     }
-        // }
+        foreach (char specialChar in specialChars)
+        {
+            while (result.IndexOf(specialChar) != -1)
+            {
+                result = result.Remove(result.IndexOf(specialChar), 1);
+            }
+        }
 
-        int index = email.IndexOf('@');
+        /*int index = email.IndexOf('@');
         if (index > -1)
         {
             result = email.Remove(index);
-        }
+        }*/
 
         return result;
     }

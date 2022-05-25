@@ -18,11 +18,10 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
     public void DisplayUI(ClientVehicle vehicle)
     {
         this.vehicle = vehicle;
-
-        spriteVehicle.sprite = ClientData.Instance.GetSpriteVehicle(vehicle.name).sprite;
-        vehicleIDText.text = vehicle.vehicleID;
-        nameText.text = vehicle.name;
-        energyText.text = (vehicle.energy / vehicle.energyMax).ToString() + "%";
-        levelText.text =  vehicle.level.ToString();
+        spriteVehicle.sprite = ClientData.Instance.GetSpriteVehicle(vehicle.Attrib.Name).sprite;
+        vehicleIDText.text = vehicle.Attrib.ID;
+        nameText.text = vehicle.Attrib.Name;
+        energyText.text = (vehicle.EnergyPercent()*100).ToString() + "%";
+        levelText.text =  vehicle.Attrib.Level.ToString();
     }
 }

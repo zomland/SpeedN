@@ -10,57 +10,49 @@ public class HomeUIControler : MonoBehaviour
 {
 
     public ClockMonitorControler EnergyMonitorControler;
+    public GameObject PopupOutOfEnergy;
     public RawImage currentVehicleRawImg;
     public Text nameVehicleText;
+    ClientVehicle _currentVehicle;
 
-
-    [Range(0f, 1f)]
-    public float valueEnergy;
-
-    void Start()
+    private void Awake()
     {
+        Debug.Log("home scene START");
+        _currentVehicle = ClientData.Instance.ClientUser.currentVehicle;
         LoadEnergyMonitor();
         LoadNameVehicle();
         LoadImageVehicle();
     }
-
-
-    public void GoToDrivingScene()
+    void Start()
     {
-        Messenger.RaiseMessage(Message.LoadScene, Scenes.DrivingScene, Scenes.HomeScene);
-    }
 
-    // Update is called once per frame
+    }
 
     void LoadImageVehicle()
     {
-        ClientVehicle crrVehicle = ClientData.Instance.ClientUser.currentVehicle;
-        if (crrVehicle != null)
+        if (_currentVehicle != null)
         {
-            currentVehicleRawImg.texture = ClientData.Instance.GetSpriteVehicle(crrVehicle.name).sprite.texture;
+            currentVehicleRawImg.texture 
+                = ClientData.Instance.GetSpriteVehicle(_currentVehicle.Attrib.Name).sprite.texture;
         }
     }
 
     void LoadNameVehicle()
     {
-        ClientVehicle crrVehicle = ClientData.Instance.ClientUser.currentVehicle;
-        if (crrVehicle != null)
+        if (_currentVehicle != null)
         {
-            nameVehicleText.text = crrVehicle.name;
+            nameVehicleText.text = _currentVehicle.Attrib.Name;
         }
-        
     }
 
     void LoadEnergyMonitor()
     {
-        ClientVehicle crrVehicle = ClientData.Instance.ClientUser.currentVehicle;
-        if (crrVehicle != null) EnergyMonitorControler.SetValueShow(crrVehicle.energyPercent());
+        if (_currentVehicle != null)
+        {
+            EnergyMonitorControler.Initialize(new float[] { 0f, 1f });
+            EnergyMonitorControler.SetValue(_currentVehicle.EnergyPercent());
+        }
     }
-
-    /*void Update()
-    {
-        EnergyMonitorControler.SetValueShow(valueEnergy);
-    }*/
 
 
     #region Button Click Handler
@@ -78,6 +70,18 @@ public class HomeUIControler : MonoBehaviour
     public void ClickToItemScene()
     {
         SceneTransferClick(Scenes.HomeScene, Scenes.MyItemScene);
+    }
+
+    public void ClickToDrivingScene()
+    {
+        if (_currentVehicle.IsOutOfEnergy())
+        {
+            PopupOutOfEnergy.SetActive(true);
+        }
+        else
+        {
+            SceneTransferClick(Scenes.HomeScene, Scenes.DrivingScene);
+        }
     }
 
     #endregion

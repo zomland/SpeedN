@@ -8,13 +8,19 @@ public class AnimationCar : MonoBehaviour
     public RectTransform[] LinesRect;
     public RectTransform CarRect;
     public float timeLoopLines;
-    float speedCar = 8 * Screen.width / 1080f;
+    float speedCar;
 
     float timeRun;
     const int numLines = 3;
     float[] speedLines = new float[numLines];
 
-    void BackToStart()
+
+    void Start()
+    {
+        speedCar = (Screen.width + CarRect.rect.width) / 168;
+    }
+
+    void BackToStartPosition()
     {
         foreach (RectTransform rectTf in LinesRect)
         {
@@ -51,12 +57,12 @@ public class AnimationCar : MonoBehaviour
     {
         if (isPlaying)
         {
-            timeRun += Time.deltaTime;
+            timeRun += Time.fixedDeltaTime;
             CarMotion();
             LinesMotion();
             if (timeRun >= timeLoopLines)
             {
-                BackToStart();
+                BackToStartPosition();
                 timeRun = 0;
             }
         }
@@ -65,6 +71,11 @@ public class AnimationCar : MonoBehaviour
     public void Play()
     {
         isPlaying = true;
+    }
+
+    public void Stop()
+    {
+        isPlaying = false;
     }
 
     // Update is called once per frame

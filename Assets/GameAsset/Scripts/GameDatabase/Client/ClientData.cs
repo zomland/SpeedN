@@ -7,18 +7,20 @@ public class ClientData : Singleton<ClientData>
     public ClientUser ClientUser => _clientUser;
     [field: SerializeField] public SpeedNDefault speedNDefault { get; private set; }
 
-    void Awake(){
+    void Awake()
+    {
         _clientUser = new ClientUser(speedNDefault);
-        
         //Test add Vehicle
         AddVehicle();
+        Debug.Log(_clientUser.GetStringJsonData());
+        _clientUser.InitialVehicle();
     }
 
     public SpriteIcon GetSpriteIcon(string name)
     {
-        foreach(var child in speedNDefault.spriteIcons)
+        foreach (var child in speedNDefault.spriteIcons)
         {
-            if(child.name == name) return child;
+            if (child.name == name) return child;
         }
         return null;
     }
@@ -26,23 +28,22 @@ public class ClientData : Singleton<ClientData>
     //Vehicle Sprite
     public SpriteVehicle GetSpriteVehicle(string name)
     {
-        foreach(var child in speedNDefault.spriteVehicles)
+        foreach (var child in speedNDefault.spriteVehicles)
         {
-            if(child.name == name) return child;
+            if (child.name == name) return child;
         }
         return null;
     }
 
-
-
     private void AddVehicle()
     {
-        int i =100;
-        foreach(var child in speedNDefault.spriteVehicles)
+        int i = 100;
+        foreach (var child in speedNDefault.spriteVehicles)
         {
-            var tmp = new ClientVehicle(child.name,i.ToString(),1f,1f,12);
-            i+=10;
-            _clientUser.clientNFT.clientVehicles.Add(tmp);
+            CarAttribute carAttribute= new CarAttribute(child.name,i.ToString(),VehicleRarity.Common
+                ,CarType.Urban,2000f,1f,1f);
+                Debug.Log(child.name);
+            _clientUser.clientNFT.clientVehicles.Add(new ClientCar(carAttribute));
         }
     }
 }

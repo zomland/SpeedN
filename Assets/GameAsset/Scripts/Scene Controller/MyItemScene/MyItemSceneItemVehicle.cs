@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using Base.MessageSystem;
+using Global;
 
 public class MyItemSceneItemVehicle : MonoBehaviour
 {
@@ -28,10 +30,10 @@ public class MyItemSceneItemVehicle : MonoBehaviour
     {
         this.vehicle = vehicle;
 
-        spriteVehicle.sprite = ClientData.Instance.GetSpriteVehicle(vehicle.name).sprite;
-        nameVehicleText.text = vehicle.name;
-        tagText.text = vehicle.vehicleID;
-        levelText.text = vehicle.level.ToString();
+        spriteVehicle.sprite = ClientData.Instance.GetSpriteVehicle(vehicle.Attrib.Name).sprite;
+        nameVehicleText.text = vehicle.Attrib.Name;
+        tagText.text = vehicle.Attrib.ID;
+        levelText.text = vehicle.Attrib.Level.ToString();
     }
 
     public void OnClickButton(){    
@@ -42,5 +44,6 @@ public class MyItemSceneItemVehicle : MonoBehaviour
     public void ChooseClick()
     {
         ClientData.Instance.ClientUser.currentVehicle = vehicle;
+        Messenger.RaiseMessage(Message.LoadScene, Scenes.HomeScene, Scenes.MyItemScene);
     }
 }

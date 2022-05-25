@@ -70,7 +70,7 @@ namespace Runtime.Controller
                             popup.SetActive(false);
                             SignIn.SetActive(true);
                             SignUp.SetActive(false);
-                            FirebaseApi.Instance.SignUpWithEmailAndPassword(emailSigninInput.text, passwordSigninInput.text,
+                            FirebaseApi.Instance.SignUpWithEmailAndPassword(emailSignupInput.text, passwordSignupInput.text,
                                 OnSignInCallback).Forget();
                         }
                         else

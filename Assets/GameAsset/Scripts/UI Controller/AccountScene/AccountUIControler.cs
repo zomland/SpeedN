@@ -11,26 +11,27 @@ public class AccountUIControler : MonoBehaviour
     , FAQDetailsCv, SupportCv, PopUpLogoutCv;
     public GameObject[] networkTickSigns;
     public GameObject[] languageTickSigns;
-    public RectTransform ViewportContentAnswerRect;
-    public RectTransform ContentAnswerFAQRect;
+    public RectTransform ViewportRect;
+    public RectTransform ContentRect;
+    public RectTransform ContentAnswerRect;
+    public ScrollRect AnswerScrollRect;
 
     Dictionary<string, GameObject> CanvasDictionary = new Dictionary<string, GameObject>();
     Dictionary<string, GameObject[]> TickSignDictionary = new Dictionary<string, GameObject[]>();
     int optNetwork = 0;
     int optLanguage = 0;
     bool isMute = false;
-    float maxYOfContentAnswerRect;
-    
+    float maxHeightOfContentRect;
+
     string currentLanguage;
     string currentNetwork;
-    string currnetState="Main";
+    string currentState = "Main";
 
 
 
     private void Start()
     {
-        maxYOfContentAnswerRect=ViewportContentAnswerRect.rect.height
-        -1400f;
+        maxHeightOfContentRect = ContentAnswerRect.rect.height - ViewportRect.rect.height;
 
         CanvasDictionary["Main"] = MainCv;
         CanvasDictionary["Profile"] = ProfileCv;
@@ -51,7 +52,7 @@ public class AccountUIControler : MonoBehaviour
     public void ActiveCanvas(string name)
     {
         Debug.Log("Go to " + name);
-        currnetState=name;
+        currentState = name;
         foreach (KeyValuePair<string, GameObject> element in CanvasDictionary)
         {
             if (name == "PopUpLogout" & element.Key == "Main")
@@ -127,7 +128,7 @@ public class AccountUIControler : MonoBehaviour
         ChangeTickSign("Language", opt);
     }
 
-    public void LoadFAQDetialData(int numQues)
+    public void LoadFAQDetailData(int numQues)
     {
         Debug.Log("Load data FAQ " + numQues.ToString());
     }
@@ -143,7 +144,7 @@ public class AccountUIControler : MonoBehaviour
                 GotoEnglishTelegram();
                 break;
             case 2:
-                GotoVietnameseTelagram();
+                GotoVietnameseTelegram();
                 break;
             case 3:
                 GotoTwitter();
@@ -169,9 +170,9 @@ public class AccountUIControler : MonoBehaviour
     {
         Debug.Log("Go to EnglishTelegram");
     }
-    void GotoVietnameseTelagram()
+    void GotoVietnameseTelegram()
     {
-        Debug.Log("Go to VietnameseTelagram");
+        Debug.Log("Go to VietnameseTelegram");
     }
     void GotoTwitter()
     {
@@ -187,20 +188,32 @@ public class AccountUIControler : MonoBehaviour
     }
     void ControlScrollRect()
     {
-        if(currnetState=="FAQDetails")
+        if (currentState == "FAQDetails")
         {
-            if (ContentAnswerFAQRect.localPosition.y<0)
+            if (ContentRect.localPosition.y <= 0f)
             {
-                ContentAnswerFAQRect.localPosition=new Vector3(0f,0f,0f);
+                ContentRect.localPosition = new Vector3(0f, 0f, 0f);
+                AnswerScrollRect.decelerationRate = 0f;
             }
-            if (ContentAnswerFAQRect.localPosition.y>maxYOfContentAnswerRect)
+            else
             {
-                ContentAnswerFAQRect.localPosition=new Vector3(0f,maxYOfContentAnswerRect,0f);
+                AnswerScrollRect.decelerationRate = 0.135f;
+            }
+            if (ContentRect.localPosition.y >= maxHeightOfContentRect)
+            {
+                ContentRect.localPosition = new Vector3(0f, maxHeightOfContentRect, 0f);
+                AnswerScrollRect.decelerationRate = 0f;
+            }
+            else
+            {
+                if(ContentRect.localPosition.y > 0f)
+                AnswerScrollRect.decelerationRate = 0.135f;
             }
         }
     }
 
-    private void Update() {
+    private void Update()
+    {
         ControlScrollRect();
     }
 }

@@ -32,7 +32,6 @@ public class MyItemSceneUIController : MonoBehaviour
         var sortedList = ClientData.Instance.ClientUser.clientCoins.OrderByDescending(coin=>coin.amount).ToList();
         for(int i = 0;i< 3; i++)
         {
-            
             coinAmountText[i].text = sortedList[i].amount.ToString();
             spriteTypeCoin[i].sprite = ClientData.Instance.GetSpriteIcon(sortedList[i].nameCoin).sprite;
         }

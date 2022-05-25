@@ -8,29 +8,36 @@ using UnityEngine.UI;
 
 public class DrivingUIControler : MonoBehaviour
 {
-    public ClockMonitorControler EnergyMonitorControler;
-    public RawImage currentVehicleRawImg;
-    public Text nameVehicleText;
-    public Text textMessage;
+    [Header("Driving")]
+    public Text textVehicleName;
     public GameObject CountDownScene;
-    public GameObject MovingRecordDetailScene;
     public Text textCountdown;
-    public GPS_H GPSControler;
+    public Text textDistanceDriving;
+    public Text textNumCoin;
+    public Image imgGPSStatus;
+    public ClockMonitorControler EnergyMonitorControler;
+    public ClockMonitorControler SpeedMonitorControler;
+    //--------------------------------
 
-    [Range(0f, 1f)]
-    public float valueEnergy;
-    public bool isStart = true;
-    float timeCountdown = 3f;
+    [Header("MovingRecord")]
+    public MovingRecordControler _movingRecordControler;
+    public bool isShowRecord = false;
+    //-------------------------
+
+    public GPSControler _GPSControler;
+    ClientVehicle _currentVehicle;
+    const float minDistanceToRecord = 0.005f;//Km
+    const float minTimeDroveToRecord = 10f;//second
 
 
     void Start()
     {
-        LoadNameVehicle();
-        LoadImageVehicle();
-        LoadMessage();
+        _currentVehicle = ClientData.Instance.ClientUser.currentVehicle;
+        textVehicleName.text = _currentVehicle.Attrib.Name;
+        EnergyMonitorControler.Initialize(new float[] { 0f, 1f });
+        SpeedMonitorControler.Initialize(_currentVehicle.Attrib.LimitSpeed);
         StartCoroutine(CountDown());
     }
-
     IEnumerator CountDown()
     {
         CountDownScene.SetActive(true);
@@ -45,81 +52,84 @@ public class DrivingUIControler : MonoBehaviour
         CountDownScene.SetActive(false);
     }
 
-    public void BackToHome()
+    #region Show Driving
+    void ShowOnDriving()
     {
-        Messenger.RaiseMessage(Message.LoadScene, Scenes.HomeScene, Scenes.DrivingScene);
+        if (_GPSControler.isGPSAccessed) imgGPSStatus.color = Color.green;
+        else imgGPSStatus.color = Color.red;
+        ShowDistance();
+        textNumCoin.text = _GPSControler.GetNumCoin().ToString("0.0");
+        EnergyMonitorControler.SetValue(_currentVehicle.EnergyPercent());
+        SpeedMonitorControler.SetValue(_GPSControler.GetSpeed());
     }
-
-    void LoadNameVehicle()
+    void ShowDistance()
     {
-        nameVehicleText.text = ClientData.Instance.ClientUser.currentVehicle.name;
-    }
+        textDistanceDriving.text = _GPSControler.GetDistance().ToString("0.00");
 
-    void LoadMessage()
+    }
+    #endregion
+
+    #region Show Record
+    public void ShowMovingRecord()
     {
-        textMessage.text="Using vehicle" + ClientData.Instance.ClientUser.currentVehicle.name;
-    }
+        if (!isShowRecord)
+        {
+            if (_GPSControler.GetTimeDrove() < minTimeDroveToRecord 
+                & _GPSControler.GetDistance() > minDistanceToRecord)
+            {
+                BackToHome();
+            }
+            else
+            {
+                _movingRecordControler.CreateMovingRecord(_GPSControler.GetNumCoin()
+                    , _currentVehicle.Attrib.Name, _GPSControler.GetDistance()
+                        , _GPSControler.GetTimeDroveString());
 
-    void LoadImageVehicle()
+                _movingRecordControler.DisplayMovingRecord();
+                isShowRecord = true;
+            }
+        }
+    }
+    void CheckShowMovingRecord()
     {
-        currentVehicleRawImg.texture
-        = ClientData.Instance.GetSpriteVehicle
-        (ClientData.Instance.ClientUser.currentVehicle.name).sprite.texture;
+        if (_currentVehicle.IsOutOfEnergy() && !isShowRecord)
+        {
+            ShowMovingRecord();
+            _GPSControler.SetState("Stop");
+        }
     }
+    #endregion
 
-    void LoadDataMovingRecordDetail()
-    {
-        GPSControler.LoadDataForRecord();
-    }
-
-    public void ShowMovingRecordDetail()
-    {
-        LoadDataMovingRecordDetail();
-        SaveRecord();
-        MovingRecordDetailScene.SetActive(true);
-    }
-
-    void SaveRecord()
-    {
-        Debug.LogWarning("Save record");
-    }
-
-    void DecreaseEnergy()
-    {
-        ClientData.Instance.ClientUser.currentVehicle.UseEnergy(GPSControler.GetDistance());
-    }
-
-
-    void UpdateEnergyMonitor()
-    {
-        DecreaseEnergy();
-        EnergyMonitorControler.SetValueShow(ClientData.Instance.ClientUser.currentVehicle.energyPercent());
-    }
-
+    #region Button click
     public void GotoWallet()
     {
         Debug.LogWarning("Go to wallet");
+        //Messenger.RaiseMessage(Message.LoadScene,Scenes.MyWallet,Scenes.HomeScene);
     }
-
     public void PauseDriving()
     {
-        GPSControler.isPausing = true;
+        _GPSControler.SetState("Pausing");
         Debug.LogWarning("Pausing");
     }
-
     public void ResumeDriving()
     {
-        GPSControler.isPausing = false;
+        _GPSControler.SetState("Driving");
         Debug.LogWarning("Resume");
     }
-
     public void Reload()
     {
         Debug.LogWarning("Reload");
     }
+    public void BackToHome()
+    {
+        Messenger.RaiseMessage(Message.LoadScene, Scenes.HomeScene, Scenes.DrivingScene);
+    }
+    #endregion
 
     void Update()
     {
-        UpdateEnergyMonitor();
+        ShowOnDriving();
+        CheckShowMovingRecord();
+        Debug.Log("Distance: " + _GPSControler.GetDistance().ToString());
     }
 }
