@@ -1,18 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class SwapUIController : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [Header("Icon")]
+    public Image iconSend;
+    public Image iconGet;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    [Header("Name Coin")]
+    public TextMeshProUGUI nameCoinSend;
+    public TextMeshProUGUI nameCoinGet;
+
+    [Header("CurrentAmount")]
+    public TextMeshProUGUI amountSend;
+    public TextMeshProUGUI amountGet;
+
+    [Header("Input Field")]
+    public TMP_InputField inputSend;
+    public TMP_InputField inputGet;
+
+    
 }
