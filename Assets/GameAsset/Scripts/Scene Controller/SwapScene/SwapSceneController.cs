@@ -9,12 +9,7 @@ public class SwapSceneController : MonoBehaviour
     public SwapSceneItem itemGet;
 
     [Header("List")]
-    public GameObject listSend;
-    public GameObject listGet;
-
-    [Header("Where To Spawn")] 
-    public GameObject send;
-    public GameObject get;
-
+    public GameObject[] list;
+    public GameObject[] whereSpawn;
 
 }
