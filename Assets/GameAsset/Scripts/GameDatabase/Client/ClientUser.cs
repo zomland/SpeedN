@@ -32,7 +32,7 @@ public class ClientUser
     public void InitializeCoin(SpeedNDefault speedNDefault)
     {
         clientCoins = new List<ClientCoin>();
-        int k = 1;
+        int k = 100;
         for (int i = 0; i < speedNDefault.spriteIcons.Count; i++)
         {
             var clientCoin = new ClientCoin(speedNDefault.spriteIcons[i].name, k);

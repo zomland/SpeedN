@@ -17,7 +17,7 @@ public class SwapSceneData : MonoBehaviour
     {
         for(int i = 0 ;i< 2 ;i++)
         {
-            var tmp  = ClientData.Instance.ClientUser.clientCoins[i];
+            ClientCoin tmp =  new ClientCoin(ClientData.Instance.ClientUser.clientCoins[i].nameCoin,0);
             swapCoin.Add(tmp);
         }
         swapUIController.DisplaySwapScene();
