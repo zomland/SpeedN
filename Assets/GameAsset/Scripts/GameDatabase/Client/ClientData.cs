@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ClientData : Singleton<ClientData>
 {
-    private ClientUser _clientUser;
+    public  ClientUser _clientUser;
     public ClientUser ClientUser => _clientUser;
     [field: SerializeField] public SpeedNDefault speedNDefault { get; private set; }
 
@@ -12,7 +12,6 @@ public class ClientData : Singleton<ClientData>
         _clientUser = new ClientUser(speedNDefault);
         //Test add Vehicle
         AddVehicle();
-        Debug.Log(_clientUser.GetStringJsonData());
         _clientUser.InitialVehicle();
     }
 
@@ -42,7 +41,6 @@ public class ClientData : Singleton<ClientData>
         {
             CarAttribute carAttribute= new CarAttribute(child.name,i.ToString(),VehicleRarity.Common
                 ,CarType.Urban,2000f,1f,1f);
-                Debug.Log(child.name);
             _clientUser.clientNFT.clientVehicles.Add(new ClientCar(carAttribute));
         }
     }
