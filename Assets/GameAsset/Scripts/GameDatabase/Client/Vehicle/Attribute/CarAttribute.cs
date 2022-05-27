@@ -9,6 +9,7 @@ public class CarAttribute : VehicleAttribute
     public CarAttribute(string _name, string _id, VehicleRarity _rarity, CarType _type
         , float _gasMax, float _gasPerMeter, float _coinPerMeter)
     {
+        vehicleType = VehicleType.Car;
         Name = _name;
         ID = _id;
         Level = 0;

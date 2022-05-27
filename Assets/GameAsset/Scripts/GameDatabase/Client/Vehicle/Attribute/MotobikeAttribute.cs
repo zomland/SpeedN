@@ -10,6 +10,7 @@ public class MotobikeAttribute : VehicleAttribute
     public MotobikeAttribute(string _name, string _id, VehicleRarity _rarity, MotobikeType _type
         , float _gasMax, float _gasPerMeter)
     {
+        vehicleType = VehicleType.Motobike;
         Name = _name;
         ID = _id;
         Level = 0;

@@ -5,7 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class ClientGasVehicle : ClientVehicle
 {
-    public ClientGasVehicle(){}
+    public ClientGasVehicle() { }
     public override bool IsOutOfEnergy()
     {
         return Attrib.Gas <= 0f;
@@ -25,6 +25,7 @@ public class ClientGasVehicle : ClientVehicle
         {
             Debug.Log("Out of energy");
         }
+        if (Attrib.Gas < 0) Attrib.Gas = 0f;
     }
     public override void FillUpEnergy()
     {

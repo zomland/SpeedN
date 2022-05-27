@@ -10,6 +10,7 @@ public class VehicleAttribute
     public int Level;
     public float[] LimitSpeed;
     public float Efficiency;
+    public VehicleType vehicleType;
     public VehicleRarity Rarity;
     public float Luck;
     public float Comfort;
@@ -24,12 +25,17 @@ public class VehicleAttribute
     public float Stamina;
     public float StaminaMax;
     public float CoinPerMeter;
-
 }
 
 public enum VehicleRarity
 {
     Common, Uncommon, Rare, Epic, Legendary
 }
+
+public enum VehicleType
+{
+    Car, Motobike, Shoes, Bicycle
+}
+
 
 

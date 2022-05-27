@@ -9,6 +9,7 @@ public class BicycleAttribute : VehicleAttribute
     public BicycleAttribute(string _name, string _id, VehicleRarity _rarity, BicycleType _type
         , float _staminaMax, float _staminaPerMeter)
     {
+        vehicleType = VehicleType.Bicycle;
         Name = _name;
         ID = _id;
         Level = 0;

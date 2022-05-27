@@ -5,8 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class ClientStaminaVehicle : ClientVehicle
 {
-    public ClientStaminaVehicle(){}
-    
+    public ClientStaminaVehicle() { }
+
     public override bool IsOutOfEnergy()
     {
         return Attrib.Stamina <= 0f;
@@ -25,6 +25,7 @@ public class ClientStaminaVehicle : ClientVehicle
         {
             Debug.Log("Out of energy");
         }
+        if (Attrib.Stamina < 0) Attrib.Stamina = 0f;
     }
     public override void FillUpEnergy()
     {
