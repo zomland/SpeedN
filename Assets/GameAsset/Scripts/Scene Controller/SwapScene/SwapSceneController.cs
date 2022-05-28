@@ -13,6 +13,7 @@ public class SwapSceneController : MonoBehaviour
     public GameObject[] whereSpawn;
 
     bool [] isSpawn ={false,false};
+    
 
     public void OnClickChooseCoin(int index)
     {
@@ -36,4 +37,11 @@ public class SwapSceneController : MonoBehaviour
         }
     }
 
+    public void ChooseCoin(int index)
+    {
+            for(int i = 0;i< list[index].transform.childCount;i++)
+            {
+                list[index].transform.GetChild(i).GetComponent<SwapSceneItem>().choice.gameObject.SetActive(false);
+            }    
+    }
 }

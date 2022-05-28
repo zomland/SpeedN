@@ -21,6 +21,15 @@ public class SwapSceneData : MonoBehaviour
             swapCoin.Add(tmp);
         }
         swapUIController.DisplaySwapScene();
+    }
 
+    public void ChangeSwapCoin(int index, string nameCoin)
+    {
+        swapCoin[index].nameCoin = nameCoin;
+    }
+
+    public void UpdateAmountSwapCoin(int index , int amount)
+    {
+        swapCoin[index].amount = amount;
     }
 }

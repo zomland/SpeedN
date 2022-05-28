@@ -592,7 +592,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 411599788}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1
@@ -1947,8 +1947,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 211, y: -35}
-  m_SizeDelta: {x: 322.273, y: 80.434}
+  m_AnchoredPosition: {x: 272.05286, y: -35}
+  m_SizeDelta: {x: 444.366, y: 80.434}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &537740317
 MonoBehaviour:
@@ -1998,14 +1998,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 3
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 2
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 3
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 0
@@ -2491,7 +2491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 685304426}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 1
   m_Elasticity: 0.1
@@ -4733,8 +4733,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 211, y: -35}
-  m_SizeDelta: {x: 322.273, y: 80.434}
+  m_AnchoredPosition: {x: 266.705, y: -35}
+  m_SizeDelta: {x: 433.683, y: 80.434}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1174365698
 MonoBehaviour:
@@ -4784,14 +4784,14 @@ MonoBehaviour:
   m_VerticalScrollbarEventHandler: {fileID: 0}
   m_LayoutGroup: {fileID: 0}
   m_ScrollSensitivity: 1
-  m_ContentType: 0
+  m_ContentType: 3
   m_InputType: 0
   m_AsteriskChar: 42
-  m_KeyboardType: 0
+  m_KeyboardType: 2
   m_LineType: 0
   m_HideMobileInput: 0
   m_HideSoftKeyboard: 0
-  m_CharacterValidation: 0
+  m_CharacterValidation: 3
   m_RegexValue: 
   m_GlobalPointSize: 14
   m_CharacterLimit: 0
@@ -8592,7 +8592,7 @@ MonoBehaviour:
   nameCoin:
   - {fileID: 1932342373}
   - {fileID: 1996229934}
-  amount:
+  amountText:
   - {fileID: 546831751}
   - {fileID: 214709565}
   input:
@@ -8610,9 +8610,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b329ffeccf3d994489ef51ad635bc6a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSend: {fileID: -6885197220561458616, guid: 9a2b514b1f932494497e86b6c40b6e1a,
+  itemSend: {fileID: -6885197220561458616, guid: 9f9df9501eab99d4a9d598201e49f00b,
     type: 3}
-  itemGet: {fileID: -6885197220561458616, guid: 9f9df9501eab99d4a9d598201e49f00b,
+  itemGet: {fileID: -6885197220561458616, guid: 9a2b514b1f932494497e86b6c40b6e1a,
     type: 3}
   list:
   - {fileID: 685304425}
