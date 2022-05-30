@@ -23,11 +23,13 @@ public class MovingRecordControler : MonoBehaviour
     {
         string timeCreate = System.DateTime.Now.ToString();
         _movingRecordDetail = new MovingRecordDetail(timeCreate, _numCoin, _vehicleName, _distance, _timeDroveString);
-        ClientData.Instance._movingRecordManager.AddMovingRecordDetail(_movingRecordDetail);
-        FirebaseApi.Instance.AddAMovingRecord(_movingRecordDetail,OnAddAMovingRecord).Forget();
-        
-        
-        
+        if (ClientData.Instance.clientMovingRecord.movingRecordDetails[0].distance == 0f
+            & ClientData.Instance.clientMovingRecord.AmountRecord() == 1)
+        {
+            ClientData.Instance.clientMovingRecord.movingRecordDetails[0] = _movingRecordDetail;
+        }
+        else ClientData.Instance.clientMovingRecord.AddMovingRecordDetail(_movingRecordDetail);
+        FirebaseApi.Instance.AddAMovingRecord(_movingRecordDetail, OnAddAMovingRecord).Forget();
     }
     public void DisplayMovingRecord()
     {
@@ -53,7 +55,7 @@ public class MovingRecordControler : MonoBehaviour
         Debug.LogWarning("Save Record");
     }
 
-    void OnAddAMovingRecord(string nameProcedure,string message, int Id)
+    void OnAddAMovingRecord(string nameProcedure, string message, int Id)
     {
         Debug.Log("OnAddAMovingRecord");
     }

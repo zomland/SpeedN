@@ -173,12 +173,12 @@ namespace FirebaseHandler
 
         void OnDoneSetUpMovingRecord(string a, string b, int c)
         {
-            Debug.Log("OnDoneSetUpMovingRecord: " + ClientData.Instance._movingRecordManager.GetStringJsonData());
+            Debug.Log("OnDoneSetUpMovingRecord: " + ClientData.Instance.clientMovingRecord.GetStringJsonData());
         }
 
         void OnDoneSetUpUser(string a, string b, int c)
         {
-            Debug.Log("OnDoneSetUpMovingRecord: " + ClientData.Instance.ClientUser.GetStringJsonData());
+            Debug.Log("OnDoneSetUpUser: " + ClientData.Instance.ClientUser.GetStringJsonData());
         }
     }
 }
