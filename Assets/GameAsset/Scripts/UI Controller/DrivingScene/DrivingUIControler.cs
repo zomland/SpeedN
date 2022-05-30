@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Base.MessageSystem;
 using Global;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class DrivingUIControler : MonoBehaviour
@@ -35,7 +34,7 @@ public class DrivingUIControler : MonoBehaviour
         _currentVehicle = ClientData.Instance.ClientUser.currentVehicle;
         textVehicleName.text = _currentVehicle.Attrib.Name;
         EnergyMonitorControler.Initialize(new float[] { 0f, 1f });
-        SpeedMonitorControler.Initialize(_currentVehicle.Attrib.LimitSpeed);
+        SpeedMonitorControler.Initialize(new float[] { 0f, _currentVehicle.Attrib.LimitSpeed[1] });
         StartCoroutine(CountDown());
     }
     IEnumerator CountDown()
@@ -59,8 +58,11 @@ public class DrivingUIControler : MonoBehaviour
         else imgGPSStatus.color = Color.red;
         ShowDistance();
         textNumCoin.text = _GPSControler.GetNumCoin().ToString("0.0");
-        EnergyMonitorControler.SetValue(_currentVehicle.EnergyPercent());
-        SpeedMonitorControler.SetValue(_GPSControler.GetSpeed());
+        if (!isShowRecord)
+        {
+            EnergyMonitorControler.SetValue(_currentVehicle.EnergyPercent());
+            SpeedMonitorControler.SetValue(_GPSControler.GetSpeed());
+        }
     }
     void ShowDistance()
     {
@@ -74,7 +76,7 @@ public class DrivingUIControler : MonoBehaviour
     {
         if (!isShowRecord)
         {
-            if (_GPSControler.GetTimeDrove() < minTimeDroveToRecord 
+            if (_GPSControler.GetTimeDrove() < minTimeDroveToRecord
                 & _GPSControler.GetDistance() > minDistanceToRecord)
             {
                 BackToHome();
@@ -86,6 +88,7 @@ public class DrivingUIControler : MonoBehaviour
                         , _GPSControler.GetTimeDroveString());
 
                 _movingRecordControler.DisplayMovingRecord();
+                _GPSControler.SetState("Stop");
                 isShowRecord = true;
             }
         }
@@ -130,6 +133,5 @@ public class DrivingUIControler : MonoBehaviour
     {
         ShowOnDriving();
         CheckShowMovingRecord();
-        Debug.Log("Distance: " + _GPSControler.GetDistance().ToString());
     }
 }

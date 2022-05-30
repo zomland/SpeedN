@@ -12,13 +12,13 @@ public class GPSControler : MonoBehaviour
     float distance = 0;
     float oldLongitude, oldLatitude;
     float currentLongitude, currentLatitude;
-    float timeCalculate = 0.3f;
+    float timeCalculate = 0.02f;
     float timeCheckGPS = 1f;
     float timeTryToAccess = 10f;
     float speedCurrent;
     float speedAverage = 0;
     float speedAlmostRight = 0;
-    float minSpeed = 3.6f;//Km
+    float minDeltaDistance = 0.003f;//Km
     float timeDrove = 0f;
     float numCoin = 0;
     const float earthRadius = 6376.5f;//Km
@@ -41,6 +41,7 @@ public class GPSControler : MonoBehaviour
     ClientVehicle _currentVehicle;
     const int secondsPerHour = 3600;
     const int secondsPerMin = 60;
+
 
     private void Start()
     {
@@ -86,6 +87,7 @@ public class GPSControler : MonoBehaviour
     {
         PopUpGPSWarning.SetActive(!isGPSAccessed);
     }
+
     #endregion
 
     #region OnGPSState
@@ -122,18 +124,22 @@ public class GPSControler : MonoBehaviour
             oldLatitude = currentLatitude;
             oldLongitude = currentLongitude;
 
+            Debug.Log("delta: " + deltaDistance);
+
             ProcessSpeeds(deltaDistance);
 
             if (Speeds.Count == timesGetSpeed)
             {
-                if (speedAlmostRight > minSpeed & _drivingState == DrivingState.Driving)
+                if (_drivingState == DrivingState.Driving)
                 {
-                    deltaDistance = speedAlmostRight * timesGetSpeed * timeCalculate;
+                    deltaDistance = speedAlmostRight * timesGetSpeed * timeCalculate / secondsPerHour;
                     distance += deltaDistance;
                     UseEnergy(deltaDistance);
                     CalculateNumCoin();
+                    Debug.Log("Speed: " + speedAlmostRight);
+                    Speeds.Clear();
                 }
-                Speeds.Clear();
+
             }
         }
     }
@@ -166,7 +172,16 @@ public class GPSControler : MonoBehaviour
     }
     void GetSpeeds(float deltaDistance)
     {
-        speedCurrent = deltaDistance / timeCalculate * secondsPerHour;
+        if (deltaDistance > minDeltaDistance)
+        {
+            speedCurrent = deltaDistance / timeCalculate * secondsPerHour; //Km/h
+
+        }
+        else
+        {
+            speedCurrent = 0;
+        }
+        Debug.Log("speed:" + speedCurrent);
         Speeds.Add(speedCurrent);
     }
 

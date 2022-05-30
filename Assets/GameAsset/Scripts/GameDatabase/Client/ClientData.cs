@@ -5,6 +5,7 @@ public class ClientData : Singleton<ClientData>
 {
     public  ClientUser _clientUser;
     public ClientUser ClientUser => _clientUser;
+    public MovingRecordManager _movingRecordManager;
     [field: SerializeField] public SpeedNDefault speedNDefault { get; private set; }
 
     void Awake()
@@ -13,6 +14,7 @@ public class ClientData : Singleton<ClientData>
         //Test add Vehicle
         AddVehicle();
         _clientUser.InitialVehicle();
+        _movingRecordManager= new MovingRecordManager();
     }
 
     public SpriteIcon GetSpriteIcon(string name)
@@ -32,6 +34,11 @@ public class ClientData : Singleton<ClientData>
             if (child.name == name) return child;
         }
         return null;
+    }
+
+    public void GetMovingRecords()
+    {
+        
     }
 
     private void AddVehicle()

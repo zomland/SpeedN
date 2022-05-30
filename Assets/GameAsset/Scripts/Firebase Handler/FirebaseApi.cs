@@ -59,44 +59,59 @@ namespace FirebaseHandler
             _authHandler.SignOut();
         }
 
-        public async UniTaskVoid PostUser(ClientUser user)
+        public async UniTaskVoid PostUser(ClientUser user,DatabaseCallback callback)
         {
-            _databaseHandler.PostUser(user, OnFirebaseDatabaseHandling).Forget();
+            _databaseHandler.PostUser(user, callback).Forget();
 
             await UniTask.Yield();
         }
 
-        public async UniTaskVoid PostUserValue(string valueKey, System.Object newValue)
+        public async UniTaskVoid PostUserValue(string valueKey, System.Object newValue, DatabaseCallback callback)
         {
-            _databaseHandler.PostUserValue(ClientData.Instance.ClientUser, valueKey, newValue, OnFirebaseDatabaseHandling)
+            _databaseHandler.PostUserValue(ClientData.Instance.ClientUser, valueKey, newValue, callback)
                 .Forget();
             
             await UniTask.Yield();
         }
 
-        public async UniTaskVoid AddNewUser(ClientUser user)
+        public async UniTaskVoid GetUserData(DatabaseCallback callback)
         {
-            _databaseHandler.AddNewUser(user, OnFirebaseDatabaseHandling).Forget();
-            await UniTask.Yield();
-        }
-
-        public async UniTaskVoid GetUserData()
-        {
-            _databaseHandler.GetUserData(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling).Forget();
+            _databaseHandler.GetUserData(ClientData.Instance.ClientUser, callback).Forget();
             
             await UniTask.Yield();
         }
 
-        public async UniTaskVoid CheckUserExisted()
+        public async UniTaskVoid CheckUserExisted(DatabaseCallback callback)
         {
-            _databaseHandler.CheckUserExisted(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling).Forget();
+            _databaseHandler.CheckUserExisted(ClientData.Instance.ClientUser, callback).Forget();
             
             await UniTask.Yield();
         }
 
-        public void RemoveUser()
+        public void RemoveUser(DatabaseCallback callback)
         {
-            _databaseHandler.RemoveUser(ClientData.Instance.ClientUser, OnFirebaseDatabaseHandling);
+            _databaseHandler.RemoveUser(callback);
+        }
+
+        public async UniTaskVoid AddAMovingRecord(MovingRecordDetail _movingRecord,DatabaseCallback callback)
+        {
+            _databaseHandler.AddAMovingRecord(_movingRecord,ClientData.Instance._movingRecordManager
+                , callback).Forget();
+            await UniTask.Yield();
+        }
+
+        public async UniTaskVoid GetMovingRecords(DatabaseCallback callback)
+        {
+            _databaseHandler.GetMovingRecordsData(ClientData.Instance.ClientUser
+                ,ClientData.Instance._movingRecordManager, callback).Forget();
+            await UniTask.Yield();
+        }
+
+        public async UniTaskVoid InitialSetUpClient(DatabaseCallback callbackUser,DatabaseCallback callbackMovingRecord)
+        {
+            _databaseHandler.InitialSetUpClient(ClientData.Instance.ClientUser
+                ,ClientData.Instance._movingRecordManager, callbackUser,callbackMovingRecord);
+            await UniTask.Yield();
         }
 
         void OnFirebaseDatabaseHandling(string nameProcedure, string message, int errorID)

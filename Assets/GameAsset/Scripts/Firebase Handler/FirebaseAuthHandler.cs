@@ -39,7 +39,8 @@ namespace FirebaseHandler
             {
                 GoogleSignInConfiguration configuration = new GoogleSignInConfiguration()
                 {
-                    WebClientId = WebClientId, RequestIdToken = true
+                    WebClientId = WebClientId,
+                    RequestIdToken = true
                 };
                 GoogleSignIn.Configuration = configuration;
                 GoogleSignIn.Configuration.UseGameSignIn = false;
@@ -69,7 +70,7 @@ namespace FirebaseHandler
                     ClientUser user = ClientData.Instance.ClientUser;
                     user.email = googleUser.Email;
                     Debug.Log("Result: " + JsonConvert.SerializeObject(googleUser));
-                    
+
                     Credential credential = GoogleAuthProvider.GetCredential(googleUser.IdToken, null);
                     _auth.SignInAndRetrieveDataWithCredentialAsync(credential).ContinueWith(authTask =>
                     {
@@ -105,14 +106,14 @@ namespace FirebaseHandler
                     callback.Invoke(null, task.Exception.Message, AuthError.Failure);
                     return;
                 }
-                
+
                 if (task.IsCanceled)
                 {
                     Debug.Log("Sign In Canceled");
                     callback.Invoke(null, "Signin process was canceled!", AuthError.Cancelled);
                     return;
                 }
-                
+
                 Debug.Log("Sign In Success");
                 callback.Invoke(task.Result, "Sign In Success");
             });
@@ -120,31 +121,31 @@ namespace FirebaseHandler
 
         public async UniTaskVoid SignUpWithEmail(string email, string password, AuthCallback callback)
         {
-           await _auth.CreateUserWithEmailAndPasswordAsync(email, password)
-                .ContinueWithOnMainThread(task =>
-                {
-                    if (task.IsCanceled)
-                    {
-                        Debug.LogError("SignUpWithEmailAndPasswordAsync was canceled.");
-                        callback.Invoke(null, "Signup process was canceled!", AuthError.Cancelled);
-                        return;
-                    }
-                    if (task.IsFaulted)
-                    {
-                        Debug.LogError("SignupWithEmailAndPasswordAsync encountered an error: " + task.Exception);
-                        callback.Invoke(null, task.Exception.Message, AuthError.Failure);
-                        return;
-                    }
+            await _auth.CreateUserWithEmailAndPasswordAsync(email, password)
+                 .ContinueWithOnMainThread(task =>
+                 {
+                     if (task.IsCanceled)
+                     {
+                         Debug.LogError("SignUpWithEmailAndPasswordAsync was canceled.");
+                         callback.Invoke(null, "Signup process was canceled!", AuthError.Cancelled);
+                         return;
+                     }
+                     if (task.IsFaulted)
+                     {
+                         Debug.LogError("SignupWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                         callback.Invoke(null, task.Exception.Message, AuthError.Failure);
+                         return;
+                     }
 
-                    FirebaseUser newUser = task.Result;
-                    Debug.LogFormat("User signed in successfully");
-                    callback.Invoke(task.Result, "Sign Up Success");
-                });
+                     FirebaseUser newUser = task.Result;
+                     Debug.LogFormat("User signed in successfully");
+                     callback.Invoke(task.Result, "Sign Up Success");
+                 });
         }
 
         public void LinkWithCredential(string credential)
         {
-            
+
         }
 
         public void SignOut()
@@ -161,13 +162,23 @@ namespace FirebaseHandler
                     ClientUser user = ClientData.Instance.ClientUser;
                     user.userID = senderAuth.CurrentUser.UserId;
                     user.userName = senderAuth.CurrentUser.DisplayName;
-                    if(user.email.Length == 0) user.email = senderAuth.CurrentUser.Email;
+                    if (user.email.Length == 0) user.email = senderAuth.CurrentUser.Email;
                     user.CreateUserKey();
-                    FirebaseApi.Instance.AddNewUser(user);
+                    FirebaseApi.Instance.InitialSetUpClient(OnDoneSetUpUser, OnDoneSetUpMovingRecord).Forget();
                     if (!_isAutoCheck) return;
                     GameStateParam.MainState = true;
                 }
             }
+        }
+
+        void OnDoneSetUpMovingRecord(string a, string b, int c)
+        {
+            Debug.Log("OnDoneSetUpMovingRecord: " + ClientData.Instance._movingRecordManager.GetStringJsonData());
+        }
+
+        void OnDoneSetUpUser(string a, string b, int c)
+        {
+            Debug.Log("OnDoneSetUpMovingRecord: " + ClientData.Instance.ClientUser.GetStringJsonData());
         }
     }
 }
