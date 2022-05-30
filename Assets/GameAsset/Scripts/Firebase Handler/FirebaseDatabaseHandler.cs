@@ -14,11 +14,11 @@ namespace FirebaseHandler
 {
     public class FirebaseDatabaseHandler
     {
-        DatabaseReference databaseRef;
         DatabaseReference databaseUsersRef;
         DatabaseReference databaseAssetsRef;
-
-        public DatabaseCallback ValueChangedCallBack,ValueChangedFallBack;
+        DatabaseReference databaseMovingRecordsRef;
+        DatabaseReference databaseClientUserRef;
+        DatabaseReference databaseClientMovingRecordRef;
 
         ~FirebaseDatabaseHandler()
         {
@@ -27,17 +27,45 @@ namespace FirebaseHandler
 
         public void InitializeDatabase()
         {
-            databaseRef = FirebaseDatabase.DefaultInstance.RootReference;
-            databaseUsersRef = FirebaseDatabase.DefaultInstance.GetReference("Users");
-            databaseAssetsRef = FirebaseDatabase.DefaultInstance.GetReference("Assets");
-            databaseUsersRef.ValueChanged += HandleValueChanged;
-            databaseUsersRef.ChildAdded += HandleChildAdded;
-            databaseUsersRef.ChildChanged += HandleChildChanged;
-            databaseUsersRef.ChildRemoved += HandleChildRemoved;
-            databaseUsersRef.ChildMoved += HandleChildMoved;
+            SetUpGeneralReferences();
+            SetUpGeneralEvents();
         }
 
-        public async UniTaskVoid PostUser(ClientUser user, DatabaseCallback databaseCallback)
+        public void InitialSetUpClient(ClientUser user, MovingRecordManager _movingRecordManager
+            , DatabaseCallback callbackUser, DatabaseCallback callbackMovingRecord)
+        {
+            InitialSetUpUser(user, callbackUser).Forget();
+            InitialSetUpMovingRecord(user, _movingRecordManager, callbackMovingRecord).Forget();
+        }
+
+        void SetUpGeneralReferences()
+        {
+            databaseUsersRef = FirebaseDatabase.DefaultInstance.GetReference("Users");
+            databaseMovingRecordsRef = FirebaseDatabase.DefaultInstance.GetReference("MovingRecords");
+            databaseAssetsRef = FirebaseDatabase.DefaultInstance.GetReference("Assets");
+        }
+        void SetUpGeneralEvents()
+        {
+            //Event users
+            databaseUsersRef.ChildAdded += HandleUserAdded;
+            databaseUsersRef.ChildRemoved += HandleUserRemoved;
+            //Event asset
+            databaseAssetsRef.ValueChanged += HandleAssetsValueChanged;
+        }
+
+        void SetUpUserRef(string _useKey)
+        {
+            databaseClientUserRef = databaseUsersRef.Child(_useKey);
+            databaseClientUserRef.ValueChanged += HandleUserValueChanged;
+        }
+        void SetUpMovingRecordRef(string _useKey)
+        {
+            databaseClientMovingRecordRef = databaseMovingRecordsRef.Child(_useKey);
+            databaseClientMovingRecordRef.ChildAdded += HandleMovingRecordAdded;
+        }
+
+        #region User method
+        public async UniTaskVoid InitialSetUpUser(ClientUser user, DatabaseCallback databaseCallback)
         {
             await databaseUsersRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
@@ -46,14 +74,52 @@ namespace FirebaseHandler
                 if (task.IsFaulted)
                 {
                     //DisplayError("connect database failed");
-                    databaseCallback.Invoke("PostUser","connect database failed",0);
+                    databaseCallback.Invoke("InitialSetUpUser", "connect database failed", 0);
                 }
                 else if (task.IsCompleted)
                 {
                     DataSnapshot snapshot = task.Result;
                     // Do something with snapshot...
-                    DataSnapshot UserSnapshot = snapshot.Child(user.userKey);
-                    if (UserSnapshot.GetValue(true) == null)
+                    DataSnapshot clientSnapshot = snapshot.Child(user.userKey);
+                    if (clientSnapshot.GetValue(true) == null)
+                    {
+                        isUserExisted = false;
+                    }
+                    else
+                    {
+                        isUserExisted = true;
+                        string JsonData = JsonConvert.SerializeObject(clientSnapshot.GetValue(true));
+                        JsonUtility.FromJsonOverwrite(JsonData, user);
+                        SetUpUserRef(user.userKey);
+                        databaseCallback.Invoke("InitialSetUpUser", "user existed: Get data user", 0);
+
+                    }
+                }
+                if (!isUserExisted)
+                {
+                    string JsonData = user.GetStringJsonData();
+                    databaseUsersRef.Child(user.userKey).SetRawJsonValueAsync(JsonData);
+                    SetUpUserRef(user.userKey);
+                    databaseCallback.Invoke("InitialSetUpUser", "new user: Add success", 0);
+                }
+            });
+        }
+        public async UniTaskVoid PostUser(ClientUser user, DatabaseCallback databaseCallback)
+        {
+            await databaseClientUserRef
+            .GetValueAsync().ContinueWithOnMainThread(task =>
+            {
+                bool isUserExisted = false;
+                if (task.IsFaulted)
+                {
+                    //DisplayError("connect database failed");
+                    databaseCallback.Invoke("PostUser", "connect database failed", 0);
+                }
+                else if (task.IsCompleted)
+                {
+                    DataSnapshot snapshot = task.Result;
+                    // Do something with snapshot...
+                    if (snapshot.GetValue(true) == null)
                     {
                         isUserExisted = false;
                     }
@@ -65,35 +131,33 @@ namespace FirebaseHandler
                 if (isUserExisted)
                 {
                     string JsonData = JsonUtility.ToJson(user);
-                    databaseUsersRef.Child(user.userKey).SetRawJsonValueAsync(JsonData);
+                    databaseClientUserRef.SetRawJsonValueAsync(JsonData);
                     //DisplayWarning("PostUser: post success");
-                    databaseCallback?.Invoke("PostUser","success",0); 
+                    databaseCallback.Invoke("PostUser", "success", 0);
                 }
                 else
                 {
                     //DisplayWarning("Post User: User not existed");
-                    databaseCallback.Invoke("PostUser","User not existed",0);
+                    databaseCallback.Invoke("PostUser", "User not existed", 0);
                 }
-            });   
+            });
         }
-
         public async UniTaskVoid PostUserValue(ClientUser user, string valueKey, System.Object newValue, DatabaseCallback databaseCallback)
         {
-            await databaseUsersRef
+            await databaseClientUserRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 bool isUserExisted = false;
                 if (task.IsFaulted)
                 {
                     //DisplayError("connect database failed");
-                    databaseCallback.Invoke("PostUserValue","connect database failed",0);
+                    databaseCallback.Invoke("PostUserValue", "connect database failed", 0);
                 }
                 else if (task.IsCompleted)
                 {
                     DataSnapshot snapshot = task.Result;
                     // Do something with snapshot...
-                    DataSnapshot UserSnapshot = snapshot.Child(user.userKey);
-                    if (UserSnapshot.GetValue(true) == null)
+                    if (snapshot.GetValue(true) == null)
                     {
                         isUserExisted = false;
                     }
@@ -104,36 +168,45 @@ namespace FirebaseHandler
                 }
                 if (isUserExisted)
                 {
-                    databaseUsersRef.Child(user.userKey).Child(valueKey).SetValueAsync(newValue);
-                    databaseCallback.Invoke("PostUserValue","success",0); 
+                    string json = JsonUtility.ToJson(newValue);
+                    databaseClientUserRef.Child(valueKey).SetRawJsonValueAsync(json);
+                    databaseCallback.Invoke("PostUserValue", "success", 0);
                 }
                 else
                 {
-                    string JsonData = user.GetStringJsonData();
-                    databaseUsersRef.Child(user.userKey).SetRawJsonValueAsync(JsonData);
-                    databaseCallback.Invoke("PostUserValue","User not existed",0);
+                    databaseCallback.Invoke("PostUserValue", "User not existed", 0);
                 }
             });
-            
         }
-
-        public async UniTaskVoid AddNewUser(ClientUser user, DatabaseCallback databaseCallback)
+        public async UniTaskVoid PostUserNFT(ClientUser user, TypeNFT typeNFT, System.Object newValue
+            , DatabaseCallback databaseCallback)
         {
-            await databaseUsersRef
+            string NFTKey = "";
+            switch (typeNFT)
+            {
+                case TypeNFT.Gem:
+                    NFTKey = "clientGems";
+                    break;
+                case TypeNFT.Blueprint:
+                    NFTKey = "clientBlueprints";
+                    break;
+                case TypeNFT.Vehicle:
+                    NFTKey = "clientVehicles";
+                    break;
+            }
+            await databaseClientUserRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 bool isUserExisted = false;
                 if (task.IsFaulted)
                 {
-                    //DisplayError("connect database failed");
-                    databaseCallback.Invoke("AddNewUser","connect database failed",0);
+                    databaseCallback.Invoke("PostUserNFT", "connect database failed", 0);
                 }
                 else if (task.IsCompleted)
                 {
                     DataSnapshot snapshot = task.Result;
                     // Do something with snapshot...
-                    DataSnapshot UserSnapshot = snapshot.Child(user.userKey);
-                    if (UserSnapshot.GetValue(true) == null)
+                    if (snapshot.GetValue(true) == null)
                     {
                         isUserExisted = false;
                     }
@@ -144,70 +217,65 @@ namespace FirebaseHandler
                 }
                 if (isUserExisted)
                 {
-                    //DisplayWarning("AddUser: user existed");
-                    databaseCallback.Invoke("AddNewUser","User existed",0);
+                    string json = JsonUtility.ToJson(newValue);
+                    databaseClientUserRef.Child("clientsNFT").Child(NFTKey).SetRawJsonValueAsync(json);
+                    databaseCallback.Invoke("PostUserNFT", "success", 0);
                 }
                 else
                 {
-                    string JsonData = user.GetStringJsonData();
-                    databaseUsersRef.Child(user.userKey).SetRawJsonValueAsync(JsonData);
-                    //DisplayWarning("AddUser: Add success");
-                    databaseCallback.Invoke("AddNewUser","Add success",0);
+                    databaseCallback.Invoke("PostUserNFT", "User not existed", 0);
                 }
             });
-
         }
 
         public async UniTaskVoid GetUserData(ClientUser user, DatabaseCallback databaseCallback)
         {
-            await databaseUsersRef
+            await databaseClientUserRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 if (task.IsFaulted)
                 {
                     //DisplayError("Get data user failed");
-                    databaseCallback.Invoke("GetUser","connect database failed",0);
+                    databaseCallback.Invoke("GetUser", "connect database failed", 0);
                 }
                 else if (task.IsCompleted)
                 {
                     DataSnapshot snapshot = task.Result;
                     // Do something with snapshot...
-                    DataSnapshot UserSnapshot = snapshot.Child(user.userKey);
-                    string JsonData = JsonConvert.SerializeObject(UserSnapshot.GetValue(true));
+                    string JsonData = JsonConvert.SerializeObject(snapshot.GetValue(true));
                     JsonUtility.FromJsonOverwrite(JsonData, user);
                     Debug.Log(JsonData);
                     //DisplayMessage("Get data success");
-                    databaseCallback.Invoke("GetUser","Get data success",0);
+                    databaseCallback.Invoke("GetUser", "Get data success", 0);
                 }
             });
         }
-
-        public void RemoveUser(ClientUser user, DatabaseCallback databaseCallback)
+        public void RemoveUser(DatabaseCallback databaseCallback)
         {
             //Delete Account
-            databaseUsersRef.Child(user.userKey).SetValueAsync(null);
-            //DisplayWarning("User is removed");
-            databaseCallback.Invoke("RemoveUser","User is removed",0);
+            databaseClientUserRef.SetValueAsync(null);
+            databaseClientMovingRecordRef.SetValueAsync(null);
+            databaseCallback.Invoke("RemoveUser", "User is removed", 0);
         }
 
         public async UniTaskVoid CheckUserExisted(ClientUser user, DatabaseCallback databaseCallback)
         {
-            await  databaseUsersRef
+            await databaseClientUserRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
             {
                 bool isUserExisted = false;
                 if (task.IsFaulted)
                 {
                     //DisplayError("Check data user failed: cant connect database");
-                    databaseCallback.Invoke("CheckUserExisted","connect database failed",0);
+                    databaseCallback.Invoke("CheckUserExisted", "connect database failed", 0);
                     isUserExisted = false;
                 }
                 else if (task.IsCompleted)
                 {
                     DataSnapshot snapshot = task.Result;
                     // Do something with snapshot...
-                    DataSnapshot UserSnapshot = snapshot.Child(user.userKey);
-                    if (UserSnapshot.GetValue(true) == null)
+
+                    if (snapshot.GetValue(true) == null)
                     {
                         isUserExisted = false;
                     }
@@ -218,27 +286,135 @@ namespace FirebaseHandler
                 }
                 if (isUserExisted)
                 {
-                    databaseCallback.Invoke("CheckUserExisted","User existed",0);
+                    databaseCallback.Invoke("CheckUserExisted", "User existed", 0);
                 }
                 else
                 {
-                    databaseCallback.Invoke("CheckUserExisted","username does not exist -> new user or error",0);
+                    databaseCallback.Invoke("CheckUserExisted", "username does not exist -> new user or error", 0);
                 }
             });
-
         }
+        #endregion User method
 
-        public void SetValueChangedCallBack(DatabaseCallback OnValueChanged)
+        #region MovingRecord method
+        public async UniTaskVoid InitialSetUpMovingRecord(ClientUser user, MovingRecordManager _movingRecordManager
+            , DatabaseCallback databaseCallback)
         {
-            ValueChangedCallBack= OnValueChanged;
+            await databaseMovingRecordsRef
+            .GetValueAsync().ContinueWithOnMainThread(task =>
+            {
+                bool isExisted = false;
+                if (task.IsFaulted)
+                {
+                    //DisplayError("connect database failed");
+                    databaseCallback.Invoke("InitialSetUpMovingRecord", "connect database failed", 0);
+                }
+                else if (task.IsCompleted)
+                {
+                    DataSnapshot snapshot = task.Result;
+                    // Do something with snapshot...
+                    DataSnapshot clientSnapshot = snapshot.Child(user.userKey);
+                    if (clientSnapshot.GetValue(true) == null)
+                    {
+                        isExisted = false;
+                    }
+                    else
+                    {
+                        isExisted = true;
+                        string JsonData = JsonConvert.SerializeObject(clientSnapshot.GetValue(true));
+                        Debug.Log(JsonData);
+                        Debug.Log(_movingRecordManager.GetStringJsonData());
+                        _movingRecordManager.AddMovingRecordDetail(null);
+                        Debug.Log(_movingRecordManager.GetStringJsonData());
+                        JsonUtility.FromJsonOverwrite(JsonData, _movingRecordManager.movingRecordDetails);
+                        //_movingRecordManager = JsonUtility.FromJson<MovingRecordManager>(JsonData);
+                        SetUpMovingRecordRef(user.userKey);
+                        databaseCallback.Invoke("InitialSetUpMovingRecord", "user existed : get data"
+                            , 0);
+                    }
+                }
+                if (!isExisted)
+                {
+                    string JsonData = new MovingRecordDetail().GetStringJsonData();
+                    databaseMovingRecordsRef.Child(user.userKey).Child("0")
+                        .SetRawJsonValueAsync(new MovingRecordDetail().GetStringJsonData());
+                    SetUpMovingRecordRef(user.userKey);
+                    databaseCallback.Invoke("InitialSetUpMovingRecord", "new user : Add data", 0);
+                }
+            });
         }
 
-        public void SetUpDatabaseChangeHandler()
+        public async UniTaskVoid AddAMovingRecord(MovingRecordDetail _movingRecordDetail
+            , MovingRecordManager _movingRecordManager, DatabaseCallback databaseCallback)
         {
-            
+            await databaseClientMovingRecordRef
+            .GetValueAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    //DisplayError("connect database failed");
+                    databaseCallback.Invoke("AddMovingRecord", "connect database failed", 0);
+                }
+                else if (task.IsCompleted)
+                {
+                    DataSnapshot snapshot = task.Result;
+                    // Do something with snapshot...
+                    string json = _movingRecordDetail.GetStringJsonData();
+                    databaseClientMovingRecordRef.Child((_movingRecordManager.AmountRecord() - 1).ToString())
+                        .SetRawJsonValueAsync(json);
+                    databaseCallback.Invoke("AddMovingRecord", "Add success", 0);
+                }
+            });
         }
 
-        void HandleValueChanged(object sender, ValueChangedEventArgs args)
+        public async UniTaskVoid GetMovingRecordsData(ClientUser user
+            , MovingRecordManager _movingRecordManger, DatabaseCallback databaseCallback)
+        {
+            await databaseClientMovingRecordRef
+            .GetValueAsync().ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted)
+                {
+                    //DisplayError("Get data user failed");
+                    databaseCallback.Invoke("GetMovingRecordsData", "connect database failed", 0);
+                }
+                else if (task.IsCompleted)
+                {
+                    DataSnapshot snapshot = task.Result;
+                    // Do something with snapshot...
+                    string JsonData = JsonConvert.SerializeObject(snapshot.GetValue(true));
+                    JsonUtility.FromJsonOverwrite(JsonData, _movingRecordManger);
+                    Debug.Log(JsonData);
+                    //DisplayMessage("Get data success");
+                    databaseCallback.Invoke("GetMovingRecordsData", "Get data success", 0);
+                }
+            });
+        }
+
+        #endregion movingRecord method
+
+        #region Handler Events
+        void HandleUserValueChanged(object sender, ValueChangedEventArgs args)
+        {
+            if (args.DatabaseError != null)
+            {
+                DisplayError(args.DatabaseError.Message);
+                return;
+            }
+            DisplayMessage("Data of client user have changes");
+        }
+
+        void HandleAssetsValueChanged(object sender, ValueChangedEventArgs args)
+        {
+            if (args.DatabaseError != null)
+            {
+                DisplayError(args.DatabaseError.Message);
+                return;
+            }
+            DisplayMessage("Data of assets have changes");
+        }
+
+        void HandleUserAdded(object sender, ChildChangedEventArgs args)
         {
             if (args.DatabaseError != null)
             {
@@ -246,10 +422,22 @@ namespace FirebaseHandler
                 return;
             }
             // Do something with the data in args.Snapshot
-            //ValueChangedCallBack.Invoke("HandleValueChanged","value has changed",0);
+            DisplayMessage("User Added");
+
         }
 
-        void HandleChildAdded(object sender, ChildChangedEventArgs args)
+        void HandleUserRemoved(object sender, ChildChangedEventArgs args)
+        {
+            if (args.DatabaseError != null)
+            {
+                Debug.LogError(args.DatabaseError.Message);
+                return;
+            }
+            // Do something with the data in args.Snapshot
+            DisplayMessage("User Remove");
+        }
+
+        void HandleMovingRecordAdded(object sender, ChildChangedEventArgs args)
         {
             if (args.DatabaseError != null)
             {
@@ -257,29 +445,7 @@ namespace FirebaseHandler
                 return;
             }
             // Do something with the data in args.Snapshot
-            DisplayMessage("User.ChildAdded");
-        }
-
-        void HandleChildChanged(object sender, ChildChangedEventArgs args)
-        {
-            if (args.DatabaseError != null)
-            {
-                Debug.LogError(args.DatabaseError.Message);
-                return;
-            }
-            // Do something with the data in args.Snapshot
-            DisplayMessage("User.ChildChanged");
-        }
-
-        void HandleChildRemoved(object sender, ChildChangedEventArgs args)
-        {
-            if (args.DatabaseError != null)
-            {
-                Debug.LogError(args.DatabaseError.Message);
-                return;
-            }
-            // Do something with the data in args.Snapshot
-            DisplayMessage("User.ChildRemove");
+            DisplayMessage("Moving Record Added");
         }
 
         void HandleChildMoved(object sender, ChildChangedEventArgs args)
@@ -292,7 +458,9 @@ namespace FirebaseHandler
             // Do something with the data in args.Snapshot
             DisplayMessage("User.ChildMoved");
         }
+        #endregion Handler Events
 
+        #region DisplayMessage
         void DisplayMessage(string message = "")
         {
             Debug.Log("Firebase-database-notify: " + message);
@@ -307,7 +475,6 @@ namespace FirebaseHandler
         {
             Debug.LogError("Firebase-database-error: " + error);
         }
-
-
+        #endregion DisplayMessage
     }
 }
