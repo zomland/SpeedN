@@ -15,7 +15,6 @@ public class databaseHandler : MonoBehaviour
     private void Awake()
     {
         _databaseHandler.InitializeDatabase();
-        _databaseHandler.SetValueChangedCallBack(OnValueChanged);
     }
     void Start()
     {

@@ -26,6 +26,11 @@ namespace Global
         WriteCanceled = -25
     }
 
+    public enum TypeNFT
+    {
+        Gem, Blueprint, Vehicle
+    }
+
     public enum Message { LoadScene }
 
     public enum Scenes

@@ -26,7 +26,7 @@ public class ClockMonitorControler : MonoBehaviour
     float maxValue;
     float minValue;
     float value;
-    
+
 
     public void Initialize(float[] _limitValue)
     {
@@ -46,14 +46,13 @@ public class ClockMonitorControler : MonoBehaviour
         if (_value >= minValue & _value <= maxValue)
         {
             value = _value;
-            ValueShowPercent = (_value - minValue) / (maxValue - minValue);
-            isOverRangeValue = false;
         }
         else
         {
-            Debug.LogWarning(gameObject.name + ":" + _value.ToString() + ": Value out of range clock");
-            isOverRangeValue = true;
+            if (_value < minValue) value = minValue;
+            else value = maxValue;
         }
+        ValueShowPercent = (_value - minValue) / (maxValue - minValue);
 
     }
 
