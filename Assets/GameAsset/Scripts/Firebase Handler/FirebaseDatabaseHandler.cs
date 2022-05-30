@@ -31,11 +31,11 @@ namespace FirebaseHandler
             SetUpGeneralEvents();
         }
 
-        public void InitialSetUpClient(ClientUser user, MovingRecordManager _movingRecordManager
+        public void InitialSetUpClient(ClientUser user, ClientMovingRecord clientMovingRecord
             , DatabaseCallback callbackUser, DatabaseCallback callbackMovingRecord)
         {
             InitialSetUpUser(user, callbackUser).Forget();
-            InitialSetUpMovingRecord(user, _movingRecordManager, callbackMovingRecord).Forget();
+            InitialSetUpMovingRecord(user, clientMovingRecord, callbackMovingRecord).Forget();
         }
 
         void SetUpGeneralReferences()
@@ -297,7 +297,7 @@ namespace FirebaseHandler
         #endregion User method
 
         #region MovingRecord method
-        public async UniTaskVoid InitialSetUpMovingRecord(ClientUser user, MovingRecordManager _movingRecordManager
+        public async UniTaskVoid InitialSetUpMovingRecord(ClientUser user, ClientMovingRecord clientMovingRecord
             , DatabaseCallback databaseCallback)
         {
             await databaseMovingRecordsRef
@@ -322,22 +322,18 @@ namespace FirebaseHandler
                     {
                         isExisted = true;
                         string JsonData = JsonConvert.SerializeObject(clientSnapshot.GetValue(true));
-                        Debug.Log(JsonData);
-                        Debug.Log(_movingRecordManager.GetStringJsonData());
-                        _movingRecordManager.AddMovingRecordDetail(null);
-                        Debug.Log(_movingRecordManager.GetStringJsonData());
-                        JsonUtility.FromJsonOverwrite(JsonData, _movingRecordManager.movingRecordDetails);
+                        clientMovingRecord.AddMovingRecordDetail(null);
+                        JsonUtility.FromJsonOverwrite(JsonData, clientMovingRecord);
                         //_movingRecordManager = JsonUtility.FromJson<MovingRecordManager>(JsonData);
                         SetUpMovingRecordRef(user.userKey);
-                        databaseCallback.Invoke("InitialSetUpMovingRecord", "user existed : get data"
-                            , 0);
+                        databaseCallback.Invoke("InitialSetUpMovingRecord", "user existed : get data", 0);
                     }
                 }
                 if (!isExisted)
                 {
-                    string JsonData = new MovingRecordDetail().GetStringJsonData();
-                    databaseMovingRecordsRef.Child(user.userKey).Child("0")
-                        .SetRawJsonValueAsync(new MovingRecordDetail().GetStringJsonData());
+                    clientMovingRecord.AddMovingRecordDetail(null);
+                    databaseMovingRecordsRef.Child(user.userKey)
+                        .SetRawJsonValueAsync(clientMovingRecord.GetStringJsonData());
                     SetUpMovingRecordRef(user.userKey);
                     databaseCallback.Invoke("InitialSetUpMovingRecord", "new user : Add data", 0);
                 }
@@ -345,7 +341,7 @@ namespace FirebaseHandler
         }
 
         public async UniTaskVoid AddAMovingRecord(MovingRecordDetail _movingRecordDetail
-            , MovingRecordManager _movingRecordManager, DatabaseCallback databaseCallback)
+            , ClientMovingRecord clientMovingRecord, DatabaseCallback databaseCallback)
         {
             await databaseClientMovingRecordRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
@@ -357,10 +353,10 @@ namespace FirebaseHandler
                 }
                 else if (task.IsCompleted)
                 {
-                    DataSnapshot snapshot = task.Result;
                     // Do something with snapshot...
                     string json = _movingRecordDetail.GetStringJsonData();
-                    databaseClientMovingRecordRef.Child((_movingRecordManager.AmountRecord() - 1).ToString())
+                    databaseClientMovingRecordRef.Child("movingRecordDetails")
+                        .Child((clientMovingRecord.AmountRecord() - 1).ToString())
                         .SetRawJsonValueAsync(json);
                     databaseCallback.Invoke("AddMovingRecord", "Add success", 0);
                 }
@@ -368,7 +364,7 @@ namespace FirebaseHandler
         }
 
         public async UniTaskVoid GetMovingRecordsData(ClientUser user
-            , MovingRecordManager _movingRecordManger, DatabaseCallback databaseCallback)
+            , ClientMovingRecord clientMovingRecord, DatabaseCallback databaseCallback)
         {
             await databaseClientMovingRecordRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
@@ -383,7 +379,7 @@ namespace FirebaseHandler
                     DataSnapshot snapshot = task.Result;
                     // Do something with snapshot...
                     string JsonData = JsonConvert.SerializeObject(snapshot.GetValue(true));
-                    JsonUtility.FromJsonOverwrite(JsonData, _movingRecordManger);
+                    JsonUtility.FromJsonOverwrite(JsonData, clientMovingRecord);
                     Debug.Log(JsonData);
                     //DisplayMessage("Get data success");
                     databaseCallback.Invoke("GetMovingRecordsData", "Get data success", 0);

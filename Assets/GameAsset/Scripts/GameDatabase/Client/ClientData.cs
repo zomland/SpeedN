@@ -3,9 +3,9 @@ using UnityEngine;
 
 public class ClientData : Singleton<ClientData>
 {
-    public  ClientUser _clientUser;
+    public ClientUser _clientUser;
     public ClientUser ClientUser => _clientUser;
-    public MovingRecordManager _movingRecordManager;
+    public ClientMovingRecord clientMovingRecord;
     [field: SerializeField] public SpeedNDefault speedNDefault { get; private set; }
 
     void Awake()
@@ -14,7 +14,7 @@ public class ClientData : Singleton<ClientData>
         //Test add Vehicle
         AddVehicle();
         _clientUser.InitialVehicle();
-        _movingRecordManager= new MovingRecordManager();
+        clientMovingRecord = new ClientMovingRecord();
     }
 
     public SpriteIcon GetSpriteIcon(string name)
@@ -38,7 +38,7 @@ public class ClientData : Singleton<ClientData>
 
     public void GetMovingRecords()
     {
-        
+
     }
 
     private void AddVehicle()
@@ -46,8 +46,8 @@ public class ClientData : Singleton<ClientData>
         int i = 100;
         foreach (var child in speedNDefault.spriteVehicles)
         {
-            CarAttribute carAttribute= new CarAttribute(child.name,i.ToString(),VehicleRarity.Common
-                ,CarType.Urban,2000f,1f,1f);
+            CarAttribute carAttribute = new CarAttribute(child.name, i.ToString(), VehicleRarity.Common
+                , CarType.Urban, 2000f, 1f, 1f);
             _clientUser.clientNFT.clientVehicles.Add(new ClientCar(carAttribute));
         }
     }

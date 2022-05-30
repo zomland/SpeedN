@@ -3,13 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class MovingRecordManager
+public class ClientMovingRecord
 {
-    [SerializeField]
-    public List<MovingRecordDetail> movingRecordDetails;
-    public MovingRecordManager(){
-        movingRecordDetails= new List<MovingRecordDetail>();
-    }
+    public List<MovingRecordDetail> movingRecordDetails = new List<MovingRecordDetail>();
+    public ClientMovingRecord() { }
 
     public void AddMovingRecordDetail(MovingRecordDetail _detail)
     {

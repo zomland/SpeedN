@@ -49,9 +49,9 @@ namespace FirebaseHandler
 
         public async UniTaskVoid SignInWithEmailAndPassword(string email, string password, AuthCallback callback)
         {
-           _authHandler.SignInWithEmail(email, password, callback).Forget();
+            _authHandler.SignInWithEmail(email, password, callback).Forget();
 
-           await UniTask.Yield();
+            await UniTask.Yield();
         }
 
         public void SignOut()
@@ -59,7 +59,7 @@ namespace FirebaseHandler
             _authHandler.SignOut();
         }
 
-        public async UniTaskVoid PostUser(ClientUser user,DatabaseCallback callback)
+        public async UniTaskVoid PostUser(ClientUser user, DatabaseCallback callback)
         {
             _databaseHandler.PostUser(user, callback).Forget();
 
@@ -70,21 +70,21 @@ namespace FirebaseHandler
         {
             _databaseHandler.PostUserValue(ClientData.Instance.ClientUser, valueKey, newValue, callback)
                 .Forget();
-            
+
             await UniTask.Yield();
         }
 
         public async UniTaskVoid GetUserData(DatabaseCallback callback)
         {
             _databaseHandler.GetUserData(ClientData.Instance.ClientUser, callback).Forget();
-            
+
             await UniTask.Yield();
         }
 
         public async UniTaskVoid CheckUserExisted(DatabaseCallback callback)
         {
             _databaseHandler.CheckUserExisted(ClientData.Instance.ClientUser, callback).Forget();
-            
+
             await UniTask.Yield();
         }
 
@@ -93,9 +93,9 @@ namespace FirebaseHandler
             _databaseHandler.RemoveUser(callback);
         }
 
-        public async UniTaskVoid AddAMovingRecord(MovingRecordDetail _movingRecord,DatabaseCallback callback)
+        public async UniTaskVoid AddAMovingRecord(MovingRecordDetail _movingRecord, DatabaseCallback callback)
         {
-            _databaseHandler.AddAMovingRecord(_movingRecord,ClientData.Instance._movingRecordManager
+            _databaseHandler.AddAMovingRecord(_movingRecord, ClientData.Instance.clientMovingRecord
                 , callback).Forget();
             await UniTask.Yield();
         }
@@ -103,14 +103,14 @@ namespace FirebaseHandler
         public async UniTaskVoid GetMovingRecords(DatabaseCallback callback)
         {
             _databaseHandler.GetMovingRecordsData(ClientData.Instance.ClientUser
-                ,ClientData.Instance._movingRecordManager, callback).Forget();
+                , ClientData.Instance.clientMovingRecord, callback).Forget();
             await UniTask.Yield();
         }
 
-        public async UniTaskVoid InitialSetUpClient(DatabaseCallback callbackUser,DatabaseCallback callbackMovingRecord)
+        public async UniTaskVoid InitialSetUpClient(DatabaseCallback callbackUser, DatabaseCallback callbackMovingRecord)
         {
             _databaseHandler.InitialSetUpClient(ClientData.Instance.ClientUser
-                ,ClientData.Instance._movingRecordManager, callbackUser,callbackMovingRecord);
+                , ClientData.Instance.clientMovingRecord, callbackUser, callbackMovingRecord);
             await UniTask.Yield();
         }
 
