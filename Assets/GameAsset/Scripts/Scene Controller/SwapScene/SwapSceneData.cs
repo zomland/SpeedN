@@ -32,4 +32,9 @@ public class SwapSceneData : MonoBehaviour
     {
         swapCoin[index].amount = amount;
     }
+
+    public void ConvertCoinToCoin()
+    {
+        swapCoin[1].amount = swapCoin[0].amount /2;
+    }
 }

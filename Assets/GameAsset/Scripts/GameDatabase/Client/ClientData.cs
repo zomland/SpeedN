@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ClientData : Singleton<ClientData>
 {
-    public  ClientUser _clientUser;
+    private  ClientUser _clientUser;
     public ClientUser ClientUser => _clientUser;
     [field: SerializeField] public SpeedNDefault speedNDefault { get; private set; }
 

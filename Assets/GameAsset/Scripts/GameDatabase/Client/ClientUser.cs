@@ -89,4 +89,19 @@ public class ClientUser
         }
         return 0;
     }
+
+    public void SwapCoin(string send , string get , float amountSend, float amountGet)
+    {
+        foreach(var child in clientCoins)
+        {
+            if(child.nameCoin == send)
+            {
+                child.amount -= amountSend;
+            }
+            else if(child.nameCoin == get)
+            {
+                child.amount += amountGet;
+            }
+        }
+    }
 }

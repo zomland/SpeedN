@@ -624,12 +624,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 383269634066738056, guid: 2d7a40f670d7799449575a191b65999c,
-        type: 3}
-      propertyPath: <speedNDefault>k__BackingField
-      value: 
-      objectReference: {fileID: 11400000, guid: 5b4aa409e5b4fc247929fee333ef1ace,
-        type: 2}
     - target: {fileID: 383269634066738057, guid: 2d7a40f670d7799449575a191b65999c,
         type: 3}
       propertyPath: m_RootOrder
