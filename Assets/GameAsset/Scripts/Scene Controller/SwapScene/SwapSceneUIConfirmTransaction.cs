@@ -35,6 +35,7 @@ public class SwapSceneUIConfirmTransaction : MonoBehaviour
         List<ClientCoin> newClientCoin =  ClientData.Instance.ClientUser.clientCoins;
 
         FirebaseApi.Instance.PostUserValue("clientCoins",newClientCoin);
-        
+
+        FindObjectOfType<SwapUIController>().DisplaySwapScene();
     }
 }

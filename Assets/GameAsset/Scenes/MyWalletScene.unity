@@ -809,8 +809,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d5677094a61eb74ca21e5c13162fe35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toScene: 7
-  fromScene: 8
+  toScene: 8
+  fromScene: 7
 --- !u!1 &432608285
 GameObject:
   m_ObjectHideFlags: 0
