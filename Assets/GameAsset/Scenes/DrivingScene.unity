@@ -3524,7 +3524,7 @@ MonoBehaviour:
   SpeedMonitorControler: {fileID: 1766064987}
   _movingRecordControler: {fileID: 1178271875}
   isShowRecord: 0
-  _GPSControler: {fileID: 1815308405}
+  gpsController: {fileID: 1815308407}
 --- !u!1 &1465058162
 GameObject:
   m_ObjectHideFlags: 0
@@ -4534,7 +4534,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1815308406}
-  - component: {fileID: 1815308405}
+  - component: {fileID: 1815308407}
   m_Layer: 0
   m_Name: GPS
   m_TagString: Untagged
@@ -4542,20 +4542,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1815308405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1815308404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe7bd266fb91bc948949433a2669ad01, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PopUpGPSWarning: {fileID: 2038653649}
-  isGPSAccessed: 1
 --- !u!4 &1815308406
 Transform:
   m_ObjectHideFlags: 0
@@ -4570,6 +4556,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1815308407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1815308404}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb829ff903f26524fa31d2c16a597077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  popupGpsWarning: {fileID: 2038653649}
 --- !u!1 &1844795020 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7205811911859644108, guid: 85f1967cea02b0644ba39a9331da48fe,

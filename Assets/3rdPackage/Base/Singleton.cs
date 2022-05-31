@@ -7,7 +7,7 @@ namespace Base
     /// Inherit from this base class to create a singleton.
     /// e.g. public class MyClassName : Singleton<MyClassName> {}
     /// </summary>
-    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    public class Singleton<T> : BaseMono where T : BaseMono
     {
         // Check to see if we're about to be destroyed.
         protected static bool m_ShuttingDown = false;
@@ -43,9 +43,9 @@ namespace Base
                             var singletonObject = new GameObject();
                             m_Instance = singletonObject.AddComponent<T>();
                             singletonObject.name = typeof(T).ToString() + " (Singleton)";
-                            
+
                             // Make instance persistent.
-                            DontDestroyOnLoad(m_Instance.gameObject);
+                            //DontDestroyOnLoad(singletonObject);
                         }
                     }
 
@@ -54,13 +54,14 @@ namespace Base
             }
         }
 
-        protected void OnApplicationQuit()
+        protected virtual void OnApplicationQuit()
         {
             m_ShuttingDown = true;
         }
 
-        protected void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             m_ShuttingDown = true;
         }
     }
