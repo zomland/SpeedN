@@ -26,10 +26,6 @@ public class GPSControler : MonoBehaviour
     List<float> Speeds = new List<float>();
     //========================================================
     int timesGetSpeed = 5;
-    enum DrivingState
-    {
-        Start, Driving, Pausing, Stop
-    }
     DrivingState _drivingState = DrivingState.Start;
     Dictionary<string, DrivingState> StateDictionary = new Dictionary<string, DrivingState>()
     {

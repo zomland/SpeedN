@@ -180,11 +180,6 @@ namespace Base.Pattern
                 _states.Add(stateName, state);
             }
         }
-
-        private void OnDestroy()
-        {
-            Debug.Log("Test");
-        }
     }
 }
 

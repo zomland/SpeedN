@@ -23,7 +23,8 @@ public class DrivingUIControler : MonoBehaviour
     public bool isShowRecord = false;
     //-------------------------
 
-    public GPSControler _GPSControler;
+    //[SerializeField] private GPSControler _GPSControler;
+    [SerializeField] private GPSController gpsController;
     ClientVehicle _currentVehicle;
     const float minDistanceToRecord = 0.005f;//Km
     const float minTimeDroveToRecord = 10f;//second
@@ -54,19 +55,19 @@ public class DrivingUIControler : MonoBehaviour
     #region Show Driving
     void ShowOnDriving()
     {
-        if (_GPSControler.isGPSAccessed) imgGPSStatus.color = Color.green;
+        if (gpsController.IsLocationReady) imgGPSStatus.color = Color.green;
         else imgGPSStatus.color = Color.red;
         ShowDistance();
-        textNumCoin.text = _GPSControler.GetNumCoin().ToString("0.0");
+        //textNumCoin.text = _GPSControler.GetNumCoin().ToString("0.0");
         if (!isShowRecord)
         {
             EnergyMonitorControler.SetValue(_currentVehicle.EnergyPercent());
-            SpeedMonitorControler.SetValue(_GPSControler.GetSpeed());
+            SpeedMonitorControler.SetValue(gpsController.GetSpeed());
         }
     }
     void ShowDistance()
     {
-        textDistanceDriving.text = _GPSControler.GetDistance().ToString("0.00");
+        textDistanceDriving.text = gpsController.GetDistance().ToString("0.00");
 
     }
     #endregion
@@ -74,31 +75,32 @@ public class DrivingUIControler : MonoBehaviour
     #region Show Record
     public void ShowMovingRecord()
     {
-        if (!isShowRecord)
-        {
-            if (_GPSControler.GetTimeDroveSecond() < minTimeDroveToRecord
-                & _GPSControler.GetDistance() < minDistanceToRecord)
-            {
-                BackToHome();
-            }
-            else
-            {
-                _movingRecordDetailControler.CreateMovingRecord(_GPSControler.GetNumCoin()
-                    , _currentVehicle.Attrib.Name, _GPSControler.GetDistance()
-                        , _GPSControler.GetTimeDroveString(), _GPSControler.GetTimeDroveHour());
-
-                _movingRecordDetailControler.DisplayMovingRecord();
-                _GPSControler.SetState("Stop");
-                isShowRecord = true;
-            }
-        }
+        // if (!isShowRecord)
+        // {
+        //     if (_GPSControler.GetTimeDrove() < minTimeDroveToRecord
+        //         & _GPSControler.GetDistance() > minDistanceToRecord)
+        //     {
+        //         BackToHome();
+        //     }
+        //     else
+        //     {
+        //         _movingRecordControler.CreateMovingRecord(_GPSControler.GetNumCoin()
+        //             , _currentVehicle.Attrib.Name, _GPSControler.GetDistance()
+        //                 , _GPSControler.GetTimeDroveString());
+        //
+        //         _movingRecordControler.DisplayMovingRecord();
+        //         _GPSControler.SetState("Stop");
+        //         isShowRecord = true;
+        //     }
+        // }
     }
     void CheckShowMovingRecord()
     {
         if (_currentVehicle.IsOutOfEnergy() && !isShowRecord)
         {
             ShowMovingRecord();
-            _GPSControler.SetState("Stop");
+            //_GPSControler.SetState("Stop");
+            gpsController.DrivingState = DrivingState.Stop;
         }
     }
     #endregion
@@ -111,12 +113,14 @@ public class DrivingUIControler : MonoBehaviour
     }
     public void PauseDriving()
     {
-        _GPSControler.SetState("Pausing");
+        //_GPSControler.SetState("Pausing");
+        gpsController.DrivingState = DrivingState.Pausing;
         Debug.LogWarning("Pausing");
     }
     public void ResumeDriving()
     {
-        _GPSControler.SetState("Driving");
+        //_GPSControler.SetState("Driving");
+        gpsController.DrivingState = DrivingState.Driving;
         Debug.LogWarning("Resume");
     }
     public void Reload()

@@ -62,11 +62,11 @@ public class ClientUser
             }
         }
 
-        /*int index = email.IndexOf('@');
-        if (index > -1)
-        {
-            result = email.Remove(index);
-        }*/
+        // int index = email.IndexOf('@');
+        // if (index > -1)
+        // {
+        //     result = email.Remove(index);
+        // }
 
         return result;
     }
