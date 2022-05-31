@@ -9,6 +9,7 @@ using System.Text;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Global;
+using Newtonsoft.Json;
 
 namespace FirebaseHandler
 {
@@ -130,7 +131,7 @@ namespace FirebaseHandler
                 }
                 if (isUserExisted)
                 {
-                    string JsonData = JsonUtility.ToJson(user);
+                    string JsonData = JsonConvert.SerializeObject(user);
                     databaseClientUserRef.SetRawJsonValueAsync(JsonData);
                     //DisplayWarning("PostUser: post success");
                     databaseCallback.Invoke("PostUser", "success", 0);
@@ -168,7 +169,7 @@ namespace FirebaseHandler
                 }
                 if (isUserExisted)
                 {
-                    string json = JsonUtility.ToJson(newValue);
+                    string json = JsonConvert.SerializeObject(newValue);
                     databaseClientUserRef.Child(valueKey).SetRawJsonValueAsync(json);
                     databaseCallback.Invoke("PostUserValue", "success", 0);
                 }
@@ -217,7 +218,7 @@ namespace FirebaseHandler
                 }
                 if (isUserExisted)
                 {
-                    string json = JsonUtility.ToJson(newValue);
+                    string json = JsonConvert.SerializeObject(newValue);
                     databaseClientUserRef.Child("clientsNFT").Child(NFTKey).SetRawJsonValueAsync(json);
                     databaseCallback.Invoke("PostUserNFT", "success", 0);
                 }

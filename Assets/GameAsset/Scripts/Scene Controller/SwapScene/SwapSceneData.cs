@@ -37,4 +37,12 @@ public class SwapSceneData : MonoBehaviour
     {
         swapCoin[1].amount = swapCoin[0].amount /2;
     }
+
+    public void ResetSwapCoin()
+    {
+        for(int i = 0;i< 2; i++)
+        {
+            swapCoin[i].amount = 0;
+        }
+    }
 }

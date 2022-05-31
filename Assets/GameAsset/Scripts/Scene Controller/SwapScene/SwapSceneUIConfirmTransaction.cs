@@ -5,6 +5,9 @@ using UnityEngine.UI;
 using TMPro;
 using FirebaseHandler;
 using Global;
+using Cysharp.Threading.Tasks;
+
+
 
 public class SwapSceneUIConfirmTransaction : MonoBehaviour
 {
@@ -29,13 +32,20 @@ public class SwapSceneUIConfirmTransaction : MonoBehaviour
         }
     }
 
-    public void  OnClickConfirmButton()
+    public void OnClickConfirmButton()
     {
         ClientData.Instance.ClientUser.SwapCoin(swapSceneData.swapCoin[0].nameCoin , swapSceneData.swapCoin[1].nameCoin ,swapSceneData.swapCoin[0].amount,swapSceneData.swapCoin[1].amount  );
         List<ClientCoin> newClientCoin =  ClientData.Instance.ClientUser.clientCoins;
 
-        FirebaseApi.Instance.PostUserValue("clientCoins",newClientCoin);
+       FirebaseApi.Instance.PostUserValue("clientCoins",newClientCoin,Success);
 
+        swapSceneData.ResetSwapCoin();
         FindObjectOfType<SwapUIController>().DisplaySwapScene();
+        
+    }           
+
+    void Success(string a, string b, int c)     
+    {
+
     }
 }

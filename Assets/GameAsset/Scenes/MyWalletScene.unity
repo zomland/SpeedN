@@ -686,8 +686,8 @@ GameObject:
   - component: {fileID: 375897373}
   - component: {fileID: 375897375}
   - component: {fileID: 375897374}
-  - component: {fileID: 375897377}
   - component: {fileID: 375897376}
+  - component: {fileID: 375897377}
   m_Layer: 5
   m_Name: Swap
   m_TagString: Untagged

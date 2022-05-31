@@ -52,7 +52,7 @@ public class SwapUIController : MonoBehaviour
 
     public void OnClickConfirmTransaction()
     {
-        if(swapSceneData.swapCoin[0].amount > ClientData.Instance.ClientUser.GetAmountCoin(swapSceneData.swapCoin[0].nameCoin))
+        if(swapSceneData.swapCoin[0].amount > ClientData.Instance.ClientUser.GetAmountCoin(swapSceneData.swapCoin[0].nameCoin) )
         {
             warningPopup.gameObject.SetActive(true);
         }
