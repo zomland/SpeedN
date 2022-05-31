@@ -4,9 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using FirebaseHandler;
 
-public class MovingRecordControler : MonoBehaviour
+public class MovingRecordDetailControler : MonoBehaviour
 {
-    public GameObject MovingRecordDetailScene;
     public Text textMessageMovingRecord;
     public RawImage currentVehicleRawImg;
     public Text textUserName;
@@ -19,10 +18,12 @@ public class MovingRecordControler : MonoBehaviour
     MovingRecordDetail _movingRecordDetail;
 
     public void CreateMovingRecord(float _numCoin, string _vehicleName, float _distance
-        , string _timeDroveString)
+        , string _timeDroveString, float _timeDrove)
     {
         string timeCreate = System.DateTime.Now.ToString();
         _movingRecordDetail = new MovingRecordDetail(timeCreate, _numCoin, _vehicleName, _distance, _timeDroveString);
+        ClientData.Instance.clientMovingRecord.totalKm += _distance;
+        ClientData.Instance.clientMovingRecord.totalTime += _timeDrove;
         if (ClientData.Instance.clientMovingRecord.movingRecordDetails[0].distance == 0f
             & ClientData.Instance.clientMovingRecord.AmountRecord() == 1)
         {
@@ -30,6 +31,11 @@ public class MovingRecordControler : MonoBehaviour
         }
         else ClientData.Instance.clientMovingRecord.AddMovingRecordDetail(_movingRecordDetail);
         FirebaseApi.Instance.AddAMovingRecord(_movingRecordDetail, OnAddAMovingRecord).Forget();
+    }
+
+    public void LoadDataMovingRecord(int index)
+    {
+        _movingRecordDetail = ClientData.Instance.clientMovingRecord.movingRecordDetails[index];
     }
     public void DisplayMovingRecord()
     {
@@ -42,7 +48,7 @@ public class MovingRecordControler : MonoBehaviour
         ShowDistance();
         textTimeDrove.text = _movingRecordDetail.timeDroveString;
         //userAvatar;
-        MovingRecordDetailScene.SetActive(true);
+        this.gameObject.SetActive(true);
     }
 
     void ShowDistance()

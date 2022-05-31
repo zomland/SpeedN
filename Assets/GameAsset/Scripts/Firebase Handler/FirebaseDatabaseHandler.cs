@@ -9,7 +9,6 @@ using System.Text;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 using Global;
-using Newtonsoft.Json;
 
 namespace FirebaseHandler
 {
@@ -341,7 +340,7 @@ namespace FirebaseHandler
             });
         }
 
-        public async UniTaskVoid AddAMovingRecord(MovingRecordDetail _movingRecordDetail
+        public async UniTaskVoid AddAMovingRecord(float _totalTime, float _totalKm, MovingRecordDetail _movingRecordDetail
             , ClientMovingRecord clientMovingRecord, DatabaseCallback databaseCallback)
         {
             await databaseClientMovingRecordRef
@@ -356,6 +355,8 @@ namespace FirebaseHandler
                 {
                     // Do something with snapshot...
                     string json = _movingRecordDetail.GetStringJsonData();
+                    databaseClientMovingRecordRef.Child("totalTime").SetValueAsync(_totalTime);
+                    databaseClientMovingRecordRef.Child("totalKm").SetValueAsync(_totalKm);
                     databaseClientMovingRecordRef.Child("movingRecordDetails")
                         .Child((clientMovingRecord.AmountRecord() - 1).ToString())
                         .SetRawJsonValueAsync(json);

@@ -3522,7 +3522,7 @@ MonoBehaviour:
   imgGPSStatus: {fileID: 137561012}
   EnergyMonitorControler: {fileID: 597206469}
   SpeedMonitorControler: {fileID: 1766064987}
-  _movingRecordControler: {fileID: 1178271875}
+  _movingRecordDetailControler: {fileID: 1178271875}
   isShowRecord: 0
   _GPSControler: {fileID: 1815308405}
 --- !u!1 &1465058162

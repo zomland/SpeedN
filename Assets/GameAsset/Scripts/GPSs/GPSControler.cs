@@ -240,7 +240,12 @@ public class GPSControler : MonoBehaviour
     {
         return numCoin;
     }
-    public float GetTimeDrove()
+    public float GetTimeDroveHour()
+    {
+        return timeDrove/secondsPerHour;
+    }
+
+    public float GetTimeDroveSecond()
     {
         return timeDrove;
     }

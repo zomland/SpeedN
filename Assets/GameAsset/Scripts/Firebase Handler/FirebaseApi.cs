@@ -95,7 +95,9 @@ namespace FirebaseHandler
 
         public async UniTaskVoid AddAMovingRecord(MovingRecordDetail _movingRecord, DatabaseCallback callback)
         {
-            _databaseHandler.AddAMovingRecord(_movingRecord, ClientData.Instance.clientMovingRecord
+            float _totalKm = ClientData.Instance.clientMovingRecord.totalKm;
+            float _totalTime = ClientData.Instance.clientMovingRecord.totalTime;
+            _databaseHandler.AddAMovingRecord(_totalTime,_totalKm,_movingRecord, ClientData.Instance.clientMovingRecord
                 , callback).Forget();
             await UniTask.Yield();
         }

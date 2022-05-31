@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System;
+using Newtonsoft.Json;
 
 public class AccountUIControler : MonoBehaviour
 {
@@ -11,10 +12,17 @@ public class AccountUIControler : MonoBehaviour
     , FAQDetailsCv, SupportCv, PopUpLogoutCv;
     public GameObject[] networkTickSigns;
     public GameObject[] languageTickSigns;
-    public RectTransform ViewportRect;
-    public RectTransform ContentRect;
+    public RectTransform ViewportRectFAQ;
+    public RectTransform ContentRectFAQ;
     public RectTransform ContentAnswerRect;
     public ScrollRect AnswerScrollRect;
+    public MovingRecordOnAccountControler movingRecordOAControler;
+    public GameObject ButtonsInfoRecord;
+
+    public Text textTotalKm;
+    public Text textTotalTime;
+
+    public Text textTotalKmOnMain;
 
     Dictionary<string, GameObject> CanvasDictionary = new Dictionary<string, GameObject>();
     Dictionary<string, GameObject[]> TickSignDictionary = new Dictionary<string, GameObject[]>();
@@ -31,7 +39,7 @@ public class AccountUIControler : MonoBehaviour
 
     private void Start()
     {
-        maxHeightOfContentRect = ContentAnswerRect.rect.height - ViewportRect.rect.height;
+        maxHeightOfContentRect = ContentAnswerRect.rect.height - ViewportRectFAQ.rect.height;
 
         CanvasDictionary["Main"] = MainCv;
         CanvasDictionary["Profile"] = ProfileCv;
@@ -47,12 +55,28 @@ public class AccountUIControler : MonoBehaviour
 
         TickSignDictionary["Network"] = networkTickSigns;
         TickSignDictionary["Language"] = languageTickSigns;
+
+        ShowTotalOnMovingRecordState();
+    }
+
+    void ShowTotalOnMovingRecordState()
+    {
+        if (ClientData.Instance != null)
+        {
+            string totalKmString = ClientData.Instance.clientMovingRecord.totalKm.ToString("0.0") + " Km";
+            textTotalKmOnMain.text = totalKmString;
+            textTotalKm.text = totalKmString;
+            textTotalTime.text = ClientData.Instance.clientMovingRecord.totalTime.ToString("0.00") + " Hour";
+        }
+
     }
 
     public void ActiveCanvas(string name)
     {
         Debug.Log("Go to " + name);
         currentState = name;
+        if (name == "MovingRecord") movingRecordOAControler.isOnMovingRecordState = true;
+        else movingRecordOAControler.isOnMovingRecordState = false;
         foreach (KeyValuePair<string, GameObject> element in CanvasDictionary)
         {
             if (name == "PopUpLogout" & element.Key == "Main")
@@ -186,34 +210,47 @@ public class AccountUIControler : MonoBehaviour
     {
         Debug.Log("Go to Reddit");
     }
-    void ControlScrollRect()
+    void ControlScrollRectFAQ()
     {
         if (currentState == "FAQDetails")
         {
-            if (ContentRect.localPosition.y <= 0f)
+            if (ContentRectFAQ.localPosition.y <= 0f)
             {
-                ContentRect.localPosition = new Vector3(0f, 0f, 0f);
+                ContentRectFAQ.localPosition = new Vector3(0f, 0f, 0f);
                 AnswerScrollRect.decelerationRate = 0f;
             }
             else
             {
                 AnswerScrollRect.decelerationRate = 0.135f;
             }
-            if (ContentRect.localPosition.y >= maxHeightOfContentRect)
+            if (ContentRectFAQ.localPosition.y >= maxHeightOfContentRect)
             {
-                ContentRect.localPosition = new Vector3(0f, maxHeightOfContentRect, 0f);
+                ContentRectFAQ.localPosition = new Vector3(0f, maxHeightOfContentRect, 0f);
                 AnswerScrollRect.decelerationRate = 0f;
             }
             else
             {
-                if(ContentRect.localPosition.y > 0f)
-                AnswerScrollRect.decelerationRate = 0.135f;
+                if (ContentRectFAQ.localPosition.y > 0f)
+                    AnswerScrollRect.decelerationRate = 0.135f;
             }
         }
     }
 
+    void ControlScrollRectButtonInfoRecord()
+    {
+        if (ButtonsInfoRecord.transform.childCount > 0)
+        {
+            Debug.Log("first" + ButtonsInfoRecord.transform.GetChild(0).position.y);
+            Debug.Log("last" + ButtonsInfoRecord.transform.GetChild(ButtonsInfoRecord.transform.childCount - 1).position.y);
+        }
+
+    }
+
+
+
     private void Update()
     {
-        ControlScrollRect();
+        ControlScrollRectFAQ();
+        ControlScrollRectButtonInfoRecord();
     }
 }

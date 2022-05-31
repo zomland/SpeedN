@@ -19,7 +19,7 @@ public class DrivingUIControler : MonoBehaviour
     //--------------------------------
 
     [Header("MovingRecord")]
-    public MovingRecordControler _movingRecordControler;
+    public MovingRecordDetailControler _movingRecordDetailControler;
     public bool isShowRecord = false;
     //-------------------------
 
@@ -76,18 +76,18 @@ public class DrivingUIControler : MonoBehaviour
     {
         if (!isShowRecord)
         {
-            if (_GPSControler.GetTimeDrove() < minTimeDroveToRecord
-                & _GPSControler.GetDistance() > minDistanceToRecord)
+            if (_GPSControler.GetTimeDroveSecond() < minTimeDroveToRecord
+                & _GPSControler.GetDistance() < minDistanceToRecord)
             {
                 BackToHome();
             }
             else
             {
-                _movingRecordControler.CreateMovingRecord(_GPSControler.GetNumCoin()
+                _movingRecordDetailControler.CreateMovingRecord(_GPSControler.GetNumCoin()
                     , _currentVehicle.Attrib.Name, _GPSControler.GetDistance()
-                        , _GPSControler.GetTimeDroveString());
+                        , _GPSControler.GetTimeDroveString(), _GPSControler.GetTimeDroveHour());
 
-                _movingRecordControler.DisplayMovingRecord();
+                _movingRecordDetailControler.DisplayMovingRecord();
                 _GPSControler.SetState("Stop");
                 isShowRecord = true;
             }

@@ -81,8 +81,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6868561504584609191}
+  - component: {fileID: 7390913229806859070}
   m_Layer: 5
-  m_Name: InfoMovingRecord
+  m_Name: ButtonToRecordDetail
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -109,6 +110,24 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7390913229806859070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6868561504584609190}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77dbe8607b621de4daff2a179f29bc8f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  indexRecordDetail: 0
+  textTime: {fileID: 6868561505262251319}
+  textDistance: {fileID: 6868561505027724692}
+  textTimeDrove: {fileID: 6868561505232265312}
+  recordDetailControler: {fileID: 0}
+  accountUIControler: {fileID: 0}
 --- !u!1 &6868561505027724690
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,7 +140,7 @@ GameObject:
   - component: {fileID: 6868561505027724693}
   - component: {fileID: 6868561505027724692}
   m_Layer: 5
-  m_Name: Value
+  m_Name: Km
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -420,7 +439,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 386, y: 0}
+  m_AnchoredPosition: {x: 379.4, y: 0}
   m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6868561505232265313
