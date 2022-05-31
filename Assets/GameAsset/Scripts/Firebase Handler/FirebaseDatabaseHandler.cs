@@ -168,7 +168,7 @@ namespace FirebaseHandler
                 }
                 if (isUserExisted)
                 {
-                    string json = JsonUtility.ToJson(newValue);
+                    string json = JsonConvert.SerializeObject(newValue);
                     databaseClientUserRef.Child(valueKey).SetRawJsonValueAsync(json);
                     databaseCallback.Invoke("PostUserValue", "success", 0);
                 }
@@ -217,7 +217,7 @@ namespace FirebaseHandler
                 }
                 if (isUserExisted)
                 {
-                    string json = JsonUtility.ToJson(newValue);
+                    string json = JsonConvert.SerializeObject(newValue);
                     databaseClientUserRef.Child("clientsNFT").Child(NFTKey).SetRawJsonValueAsync(json);
                     databaseCallback.Invoke("PostUserNFT", "success", 0);
                 }
