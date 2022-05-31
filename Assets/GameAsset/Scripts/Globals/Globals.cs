@@ -38,6 +38,7 @@ namespace Global
         [StringValue("ManagerValue")] ManagerScene = 0,
         [StringValue("LoadingScene")] LoadingScene, [StringValue("LoginScene")] LoginScene,
         [StringValue("HomeScene")] HomeScene, [StringValue("DrivingScene")] DrivingScene,
-        [StringValue("AccountScene")] AccountScene, [StringValue("MyItemScene")] MyItemScene
+        [StringValue("AccountScene")] AccountScene, [StringValue("MyItemScene")] MyItemScene,
+        [StringValue("MyWalletScene")] MyWalletScene,[StringValue("SwapScene")] SwapScene
     }
 }

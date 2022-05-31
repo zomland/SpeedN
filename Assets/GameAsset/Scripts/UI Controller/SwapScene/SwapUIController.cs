@@ -10,11 +10,14 @@ public class SwapUIController : MonoBehaviour
     public Image[] icon;
     public TextMeshProUGUI[] nameCoin;
     public TextMeshProUGUI[] amountText;
-    public TMP_InputField[] input;
+    public TMP_InputField inputSend;
+    public TextMeshProUGUI amountGet;
+
+    [Header("PopUp")]
+    public GameObject warningPopup;
+    public GameObject confirmTransactionPopup;
 
     SwapSceneData swapSceneData;
-    float[] amount = {0,0} ;
- 
 
     void Start()
     {
@@ -23,11 +26,11 @@ public class SwapUIController : MonoBehaviour
 
     void Update()
     {
-        float.TryParse(input[0].text, out amount[0]);
-        float.TryParse(input[1].text, out amount[1]);
-        Debug.Log(amount[0]);
-        Debug.Log(amount[1]);
+        float.TryParse(inputSend.text, out swapSceneData.swapCoin[0].amount);
+        swapSceneData.ConvertCoinToCoin();
+        amountGet.text =  swapSceneData.swapCoin[1].amount.ToString();
     }
+
 
     public void DisplaySwapScene()
     {  
@@ -39,9 +42,24 @@ public class SwapUIController : MonoBehaviour
         }
     }
 
-    public void OnClickMaxButton(int index)
+
+    // On click Button
+    public void OnClickMaxButton()
     {
-        swapSceneData.swapCoin[index].amount =  ClientData.Instance.ClientUser.clientCoins[index].amount;
-        input[index].text =  swapSceneData.swapCoin[index].amount.ToString();
+        swapSceneData.swapCoin[0].amount =  ClientData.Instance.ClientUser.GetAmountCoin(swapSceneData.swapCoin[0].nameCoin);
+        inputSend.text =  swapSceneData.swapCoin[0].amount.ToString();
+    }
+
+    public void OnClickConfirmTransaction()
+    {
+        if(swapSceneData.swapCoin[0].amount > ClientData.Instance.ClientUser.GetAmountCoin(swapSceneData.swapCoin[0].nameCoin) )
+        {
+            warningPopup.gameObject.SetActive(true);
+        }
+        else
+        {
+            confirmTransactionPopup.gameObject.SetActive(true);
+            confirmTransactionPopup.GetComponent<SwapSceneUIConfirmTransaction>().DisplayUI(swapSceneData.swapCoin);
+        }
     }
 }

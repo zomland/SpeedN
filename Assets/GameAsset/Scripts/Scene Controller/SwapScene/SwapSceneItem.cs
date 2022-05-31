@@ -14,6 +14,7 @@ public class SwapSceneItem : MonoBehaviour
 
     string nameCoin;
     SwapSceneData swapSceneData;
+
     void Start()
     {
         swapSceneData = FindObjectOfType<SwapSceneData>();
