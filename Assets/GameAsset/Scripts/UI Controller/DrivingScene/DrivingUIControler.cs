@@ -35,7 +35,7 @@ public class DrivingUIControler : MonoBehaviour
         _currentVehicle = ClientData.Instance.ClientUser.currentVehicle;
         textVehicleName.text = _currentVehicle.Attrib.Name;
         EnergyMonitorControler.Initialize(new float[] { 0f, 1f });
-        SpeedMonitorControler.Initialize(new float[] { 0f, _currentVehicle.Attrib.LimitSpeed[1] });
+        SpeedMonitorControler.Initialize(new float[] { 0f, 2000f});
         StartCoroutine(CountDown());
     }
     IEnumerator CountDown()
