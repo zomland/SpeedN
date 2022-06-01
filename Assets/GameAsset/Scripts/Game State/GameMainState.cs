@@ -80,9 +80,9 @@ namespace Runtime
         private void OnLoadSceneMessage(Scenes sceneToLoad, Scenes sceneToUnload)
         {
             if (sceneToLoad == sceneToUnload) return;
-            
-            Scene toScene = SceneManager.GetSceneByBuildIndex((int) sceneToLoad);
-            Scene fromScene = SceneManager.GetSceneByBuildIndex((int) sceneToUnload);
+
+            Scene toScene = SceneManager.GetSceneByName(sceneToLoad.GetStringValue());
+            Scene fromScene = SceneManager.GetSceneByName(sceneToUnload.GetStringValue());
             if (fromScene.isLoaded)
             {
                 UnloadSceneAsync(fromScene.name).Forget();
