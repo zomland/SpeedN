@@ -32,4 +32,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameAsset/Scenes/SwapScene.unity
     guid: 6d9c5f8192c3d2248a1558bcf90db756
+  - enabled: 1
+    path: Assets/GameAsset/Scenes/ConnectMetamask.unity
+    guid: a6d334717f05cba4fa6e4ffbc9663b36
   m_configObjects: {}
