@@ -21,8 +21,7 @@ public class ClientUser
         //userName = String.Empty;
         userName = "Minh ne";
         userID = String.Empty;
-        // address = String.Empty;
-        address = "0x4fd54DdF44C41B60F0Fa267Dda04B73Bf373768B";
+        address = String.Empty;
 
         InitializeCoin(speedNDefault);
 

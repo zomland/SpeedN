@@ -39,6 +39,7 @@ namespace Global
         [StringValue("LoadingScene")] LoadingScene, [StringValue("LoginScene")] LoginScene,
         [StringValue("HomeScene")] HomeScene, [StringValue("DrivingScene")] DrivingScene,
         [StringValue("AccountScene")] AccountScene, [StringValue("MyItemScene")] MyItemScene,
-        [StringValue("MyWalletScene")] MyWalletScene,[StringValue("SwapScene")] SwapScene
+        [StringValue("MyWalletScene")] MyWalletScene,[StringValue("SwapScene")] SwapScene,
+        [StringValue("ConnectMetamask")] ConnectMetamask, [StringValue("Import")] Import
     }
 }
