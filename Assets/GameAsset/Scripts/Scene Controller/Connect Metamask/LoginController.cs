@@ -9,7 +9,7 @@ using TMPro;
 
 	public class LoginController     : MonoBehaviour
 	{
-		public Button _loginButton;
+		public Button connectButton;
 		public TextMeshProUGUI address;
         public GameObject switchChain;
 	#if !UNITY_WEBGL || UNITY_EDITOR
@@ -23,7 +23,7 @@ using TMPro;
 		#if UNITY_WEBGL && !UNITY_EDITOR
 			try
 			{
-				_loginButton.gameObject.SetActive(false);
+				connectButton.gameObject.SetActive(false);
 			}
 			catch (Exception)
 			{
@@ -59,7 +59,7 @@ using TMPro;
 		{
 			await UniTask.WaitUntil(() => _walletConnect.Session != null);
 
-			_loginButton.onClick.AddListener(GetLoginAction());
+			connectButton.onClick.AddListener(GetLoginAction());
 
 			SubscribeOnTransportEvents();
 		}
@@ -94,7 +94,7 @@ using TMPro;
 
 		private void UnsubscribeFromTransportEvents()
 		{
-			_loginButton.onClick.RemoveAllListeners();
+			connectButton.onClick.RemoveAllListeners();
 			_walletConnect.ConnectedEvent.RemoveListener(UpdateSceneState);
 
 			var walletConnectSession = _walletConnect.Session;
@@ -112,7 +112,7 @@ using TMPro;
 		private void UpdateLoginButtonState(object sender, AnkrSDK.WalletConnectSharp.Core.WalletConnectProtocol e)
 		{
 			UpdateSceneState();
-			_loginButton.interactable = e.TransportConnected;
+			connectButton.interactable = e.TransportConnected;
 		}
 
 		private void UpdateSceneState(AnkrSDK.WalletConnectSharp.Core.Models.WCSessionData _ = null)
@@ -126,7 +126,7 @@ using TMPro;
             if(activeSessionConnected && isConnected == false)
             {
                 switchChain.SetActive(activeSessionConnected);
-			    _loginButton.gameObject.SetActive(!activeSessionConnected);
+			    connectButton.gameObject.SetActive(!activeSessionConnected);
                 isConnected = true;
             }        
 		}

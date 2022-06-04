@@ -30,11 +30,12 @@ public class SignController : MonoBehaviour
     public string _message = "Minh";
     public TextMeshProUGUI addressText;
 	public Button signButton;
+	public GameObject myWalletButton;
+	public GameObject importButton;
 
     private IEthHandler _eth;
 
     string address;
-    string _signature;
 
     void Awake()
     {
@@ -46,10 +47,18 @@ public class SignController : MonoBehaviour
 	public async void sign()
 	{
 		var address = await _eth.GetDefaultAccount();
+		string _signature ="";
 		_signature = await _eth.Sign(_message, address);
-		var tmp = await SendSignature(_signature);
-        ClientData.Instance.ClientUser.address = tmp;
-        UpdateUILogs(ClientData.Instance.ClientUser.address);
+
+		if(_signature !="")
+		{
+			var tmp = await SendSignature(_signature);
+        	ClientData.Instance.ClientUser.address = tmp;
+        	UpdateUILogs(ClientData.Instance.ClientUser.address);
+			myWalletButton.SetActive(true);
+			importButton.SetActive(true);
+		}
+		
 	}
 
 	private async Task<string> SendSignature(string signature)
