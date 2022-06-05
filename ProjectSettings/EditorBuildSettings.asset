@@ -27,12 +27,15 @@ EditorBuildSettings:
     path: Assets/GameAsset/Scenes/AccountScene.unity
     guid: 966f58409b5c48f45a4ce1361e84398d
   - enabled: 1
+    path: Assets/GameAsset/Scenes/ConnectMetamask.unity
+    guid: a6d334717f05cba4fa6e4ffbc9663b36
+  - enabled: 1
     path: Assets/GameAsset/Scenes/MyWalletScene.unity
     guid: ac9fa1d151cbba14f809065636ccf795
   - enabled: 1
+    path: Assets/GameAsset/Scenes/Import.unity
+    guid: c8b4c396f0f61da449e06c0fc383cd2b
+  - enabled: 1
     path: Assets/GameAsset/Scenes/SwapScene.unity
     guid: 6d9c5f8192c3d2248a1558bcf90db756
-  - enabled: 1
-    path: Assets/GameAsset/Scenes/ConnectMetamask.unity
-    guid: a6d334717f05cba4fa6e4ffbc9663b36
   m_configObjects: {}
