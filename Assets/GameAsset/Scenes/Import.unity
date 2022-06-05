@@ -1347,9 +1347,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881be6d48943c35418cc187fc5b80ea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  addressOwner: 0x16E13eCAc9d039c3A47bD15D62bA5b4a4A1049d5
   importCoinButton: {fileID: 228925637}
   importNFTButton: {fileID: 158480319}
+  coinPopUp: {fileID: 1164357423}
+  NFTPopUp: {fileID: 1164357423}
 --- !u!114 &1044174184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1378,6 +1379,7 @@ GameObject:
   - component: {fileID: 1164357424}
   - component: {fileID: 1164357426}
   - component: {fileID: 1164357425}
+  - component: {fileID: 1164357427}
   m_Layer: 5
   m_Name: Import Coin
   m_TagString: Untagged
@@ -1450,6 +1452,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1164357423}
   m_CullTransparentMesh: 1
+--- !u!114 &1164357427
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164357423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8bfd9f2b8266734fae750053de61dbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  addressOwner: 0x16E13eCAc9d039c3A47bD15D62bA5b4a4A1049d5
+  confirmButton: {fileID: 2035744614}
 --- !u!1 &1580905460
 GameObject:
   m_ObjectHideFlags: 0
