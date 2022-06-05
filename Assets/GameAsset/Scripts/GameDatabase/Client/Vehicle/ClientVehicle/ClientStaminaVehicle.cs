@@ -15,17 +15,17 @@ public class ClientStaminaVehicle : ClientVehicle
     {
         return Attrib.Stamina / Attrib.StaminaMax;
     }
-    public override void UseEnergy(float meter)
+    public override void UseEnergy(float Km)
     {
         if (Attrib.Stamina > 0)
         {
-            Attrib.Stamina -= Attrib.StaminaPesMeter * meter;
+            Attrib.Stamina -= Attrib.StaminaPesKm * Km;
+            if (Attrib.Stamina < 0) Attrib.Stamina = 0f;
         }
         else
         {
             Debug.Log("Out of energy");
         }
-        if (Attrib.Stamina < 0) Attrib.Stamina = 0f;
     }
     public override void FillUpEnergy()
     {

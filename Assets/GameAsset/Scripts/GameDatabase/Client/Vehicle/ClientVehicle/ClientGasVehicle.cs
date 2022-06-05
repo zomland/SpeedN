@@ -15,17 +15,17 @@ public class ClientGasVehicle : ClientVehicle
 
         return Attrib.Gas / Attrib.GasMax;
     }
-    public override void UseEnergy(float meter)
+    public override void UseEnergy(float Km)
     {
-        if (Attrib.Gas > 0)
+        if (Attrib.Gas > 0f)
         {
-            Attrib.Gas -= Attrib.GasPerMeter * meter;
+            Attrib.Gas -= Attrib.GasPerKm * Km;
+            if (Attrib.Gas < 0) Attrib.Gas = 0f;
         }
         else
         {
             Debug.Log("Out of energy");
         }
-        if (Attrib.Gas < 0) Attrib.Gas = 0f;
     }
     public override void FillUpEnergy()
     {

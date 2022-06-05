@@ -7,7 +7,7 @@ public class CarAttribute : VehicleAttribute
 {
     public CarType Type;
     public CarAttribute(string _name, string _id, VehicleRarity _rarity, CarType _type
-        , float _gasMax, float _gasPerMeter, float _coinPerMeter)
+        , float _gasMax, float _gasPerKm, float _coinPerKm)
     {
         vehicleType = VehicleType.Car;
         Name = _name;
@@ -21,12 +21,12 @@ public class CarAttribute : VehicleAttribute
         Durability = 1f;
         Mint = 0;
         Lease = 0;
-        GasPerMeter = _gasPerMeter;
+        GasPerKm = _gasPerKm;
         GasMax = _gasMax;
         Gas = GasMax;
         Type = _type;
         LimitSpeed = new LimitsSpeed().Car[Type];
-        CoinPerMeter = _coinPerMeter;
+        CoinPerKm = _coinPerKm;
     }
 }
 

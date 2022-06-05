@@ -16,6 +16,8 @@ namespace Global
     public delegate void AuthCallback(FirebaseUser user, string message, AuthError errorId = AuthError.None);
 
     public delegate void DatabaseCallback(string nameProcedure, string message, int DatabaseErrorID = 0);
+
+    public delegate void GPSPermissionCallback(string permissionName);
     public enum FirebaseError { }
 
     public enum DatabaseErrorID

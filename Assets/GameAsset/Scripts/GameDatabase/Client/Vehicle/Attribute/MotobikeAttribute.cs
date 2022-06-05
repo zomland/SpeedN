@@ -8,7 +8,7 @@ public class MotobikeAttribute : VehicleAttribute
 
     public MotobikeType Type;
     public MotobikeAttribute(string _name, string _id, VehicleRarity _rarity, MotobikeType _type
-        , float _gasMax, float _gasPerMeter)
+        , float _gasMax, float _gasPerKm, float _coinPerKm)
     {
         vehicleType = VehicleType.Motobike;
         Name = _name;
@@ -22,11 +22,12 @@ public class MotobikeAttribute : VehicleAttribute
         Durability = 1f;
         Mint = 0;
         Lease = 0;
-        GasPerMeter=_gasPerMeter;
+        GasPerKm = _gasPerKm;
         GasMax = _gasMax;
         Gas = GasMax;
         Type = _type;
         LimitSpeed = new LimitsSpeed().Motobike[Type];
+        CoinPerKm = _coinPerKm;
     }
 }
 
