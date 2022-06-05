@@ -1396,7 +1396,7 @@ PrefabInstance:
     - target: {fileID: 2295962637372733322, guid: 7e2dbda53f6bc7747ba419dfd1c3bc9c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -300
+      value: -262
       objectReference: {fileID: 0}
     - target: {fileID: 2295962637372733322, guid: 7e2dbda53f6bc7747ba419dfd1c3bc9c,
         type: 3}
@@ -1932,7 +1932,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
   m_AnchoredPosition: {x: 0, y: 410}
-  m_SizeDelta: {x: 400, y: 100}
+  m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &783479399
 MonoBehaviour:
@@ -3167,7 +3167,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1426653730}
         m_TargetAssemblyTypeName: DrivingUIControler, Assembly-CSharp
-        m_MethodName: ResumeDriving
+        m_MethodName: StartDriving
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3273,8 +3273,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 211, y: 0}
-  m_SizeDelta: {x: 300, y: 130}
+  m_AnchoredPosition: {x: 287, y: 0}
+  m_SizeDelta: {x: 499, y: 130}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1214922640
 MonoBehaviour:
@@ -3309,7 +3309,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 00:00
+  m_Text: 00:00:00
 --- !u!222 &1214922641
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3318,6 +3318,49 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1214922638}
   m_CullTransparentMesh: 1
+--- !u!1 &1264224264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1264224266}
+  - component: {fileID: 1264224265}
+  m_Layer: 0
+  m_Name: Calculator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1264224265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264224264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f196e2d9be2b994eb83ee307273007d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1264224266
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264224264}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 710.69684, y: 817.6225, z: -1267.2644}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1404846473
 GameObject:
   m_ObjectHideFlags: 0
@@ -3517,14 +3560,17 @@ MonoBehaviour:
   textVehicleName: {fileID: 783479399}
   CountDownScene: {fileID: 1516896383}
   textCountdown: {fileID: 318658451}
-  textDistanceDriving: {fileID: 224748105}
+  textDistance: {fileID: 224748105}
   textNumCoin: {fileID: 558649650}
+  textLimitSpeed: {fileID: 722362154}
+  textTimeDrove: {fileID: 1214922640}
   imgGPSStatus: {fileID: 137561012}
   EnergyMonitorControler: {fileID: 597206469}
   SpeedMonitorControler: {fileID: 1766064987}
+  PopupGPSWarning: {fileID: 2038653649}
+  buttonGPSStart: {fileID: 2038653648}
   _movingRecordDetailControler: {fileID: 1178271875}
-  isShowRecord: 0
-  gpsController: {fileID: 1815308407}
+  drivingCalculator: {fileID: 1264224265}
 --- !u!1 &1465058162
 GameObject:
   m_ObjectHideFlags: 0
@@ -4388,7 +4434,7 @@ PrefabInstance:
     - target: {fileID: 2295962637372733322, guid: 7e2dbda53f6bc7747ba419dfd1c3bc9c,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 300
+      value: 259
       objectReference: {fileID: 0}
     - target: {fileID: 2295962637372733322, guid: 7e2dbda53f6bc7747ba419dfd1c3bc9c,
         type: 3}
@@ -4525,50 +4571,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 571ffcb6478d9c04886e78f08f4b84a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1815308404
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1815308406}
-  - component: {fileID: 1815308407}
-  m_Layer: 0
-  m_Name: GPS
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1815308406
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1815308404}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1815308407
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1815308404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cb829ff903f26524fa31d2c16a597077, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  popupGpsWarning: {fileID: 2038653649}
 --- !u!1 &1844795020 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7205811911859644108, guid: 85f1967cea02b0644ba39a9331da48fe,
@@ -4927,7 +4929,7 @@ PrefabInstance:
     - target: {fileID: 7205811910927568373, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -241
+      value: -186
       objectReference: {fileID: 0}
     - target: {fileID: 7205811910944377788, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
@@ -4997,7 +4999,7 @@ PrefabInstance:
     - target: {fileID: 7205811911531304297, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
       propertyPath: m_Text
-      value: GPS...
+      value: GPS Start
       objectReference: {fileID: 0}
     - target: {fileID: 7205811911790567677, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
@@ -5022,22 +5024,32 @@ PrefabInstance:
     - target: {fileID: 7205811911790567678, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -630
+      value: -510
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205811911859585603, guid: 85f1967cea02b0644ba39a9331da48fe,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7205811911859585603, guid: 85f1967cea02b0644ba39a9331da48fe,
+        type: 3}
+      propertyPath: m_Interactable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7205811911859585603, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 2038653648}
+      objectReference: {fileID: 1426653730}
     - target: {fileID: 7205811911859585603, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: CheckGPS
+      value: StartGPSAgain
       objectReference: {fileID: 0}
     - target: {fileID: 7205811911859585603, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: PopUpControler, Assembly-CSharp
+      value: DrivingUIControler, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 7205811911859585604, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
@@ -5077,7 +5089,7 @@ PrefabInstance:
     - target: {fileID: 7205811911859585605, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7205811911859644107, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
@@ -5219,14 +5231,14 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &2038653648 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6911885616929313639, guid: 85f1967cea02b0644ba39a9331da48fe,
+  m_CorrespondingSourceObject: {fileID: 7205811911859585603, guid: 85f1967cea02b0644ba39a9331da48fe,
     type: 3}
   m_PrefabInstance: {fileID: 2038653646}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2038653649}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7b18fac3f92cb14bb6c999f26b0b0c8, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2038653649 stripped

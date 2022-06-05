@@ -17,7 +17,6 @@ public class HomeUIControler : MonoBehaviour
 
     private void Awake()
     {
-        Debug.Log("home scene START");
         _currentVehicle = ClientData.Instance.ClientUser.currentVehicle;
         LoadEnergyMonitor();
         LoadNameVehicle();

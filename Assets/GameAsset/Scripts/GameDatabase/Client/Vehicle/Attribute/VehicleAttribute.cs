@@ -18,13 +18,13 @@ public class VehicleAttribute
     public float Durability = 10;
     public int Mint;
     public int Lease;
-    public float GasPerMeter;
+    public float GasPerKm;
     public float GasMax;
     public float Gas;
-    public float StaminaPesMeter;
+    public float StaminaPesKm;
     public float Stamina;
     public float StaminaMax;
-    public float CoinPerMeter;
+    public float CoinPerKm;
 }
 
 public enum VehicleRarity

@@ -47,7 +47,7 @@ public class ClientData : Singleton<ClientData>
         foreach (var child in speedNDefault.spriteVehicles)
         {
             CarAttribute carAttribute = new CarAttribute(child.name, i.ToString(), VehicleRarity.Common
-                , CarType.Urban, 2000f, 1f, 1f);
+                , CarType.Urban, 2000f, 100f, 1f);
             _clientUser.clientNFT.clientVehicles.Add(new ClientCar(carAttribute));
         }
     }

@@ -52,7 +52,7 @@ public class ClockMonitorControler : MonoBehaviour
             if (_value < minValue) value = minValue;
             else value = maxValue;
         }
-        ValueShowPercent = (_value - minValue) / (maxValue - minValue);
+        ValueShowPercent = (value - minValue) / (maxValue - minValue);
 
     }
 

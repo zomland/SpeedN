@@ -12,6 +12,7 @@ public class MovingRecordDetailControler : MonoBehaviour
     public Text textTime;
     public Text textNumCoinRecord;
     public Text textDistanceRecord;
+    public Text textUnitDistance;
     public Text textTimeDrove;
     public RawImage userAvatar;
 
@@ -53,7 +54,16 @@ public class MovingRecordDetailControler : MonoBehaviour
 
     void ShowDistance()
     {
-        textDistanceRecord.text = _movingRecordDetail.distance.ToString("0.0");
+        if (_movingRecordDetail.distance < 1)
+        {
+            textUnitDistance.text = "m";
+            textDistanceRecord.text = (_movingRecordDetail.distance * 1000).ToString("0.0");
+        }
+        else
+        {
+            textUnitDistance.text = "Km";
+            textDistanceRecord.text = (_movingRecordDetail.distance).ToString("0.0");
+        }
     }
 
     public void PostRecords()

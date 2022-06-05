@@ -270,14 +270,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   textMessageMovingRecord: {fileID: 329120417078565913}
   currentVehicleRawImg: {fileID: 2064510081778289893}
-  MovingRecordDetailScene: {fileID: 0}
   textUserName: {fileID: 329120417471318302}
   textTime: {fileID: 329120418258104648}
   textNumCoinRecord: {fileID: 329120417327282674}
   textDistanceRecord: {fileID: 329120418968564454}
+  textUnitDistance: {fileID: 329120417806936336}
   textTimeDrove: {fileID: 329120417780400126}
   userAvatar: {fileID: 329120418613494815}
-  textUnitDistanceRecord: {fileID: 329120417806936336}
 --- !u!1 &329120417078566375
 GameObject:
   m_ObjectHideFlags: 0

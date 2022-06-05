@@ -23,7 +23,7 @@ public class ClientVehicle
     {
         Attrib.Durability = 10f;
     }
-    public virtual void UseEnergy(float meter) { }
+    public virtual void UseEnergy(float Km) { }
     public virtual bool IsOutOfEnergy() { return true; }
     public virtual float EnergyPercent() { return 0f; }
     public virtual void FillUpEnergy() { }

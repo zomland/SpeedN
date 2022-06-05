@@ -4,27 +4,32 @@ using Base.MessageSystem;
 using Global;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Android;
 
 public class DrivingUIControler : MonoBehaviour
 {
-    [Header("Driving")]
+    [Header("DrivingUIElement")]
     public Text textVehicleName;
     public GameObject CountDownScene;
     public Text textCountdown;
-    public Text textDistanceDriving;
+    public Text textDistance;
     public Text textNumCoin;
+    public Text textLimitSpeed;
+    public Text textTimeDrove;
     public Image imgGPSStatus;
     public ClockMonitorControler EnergyMonitorControler;
     public ClockMonitorControler SpeedMonitorControler;
-    //--------------------------------
-
+    public GameObject PopupGPSWarning;
+    public Button buttonGPSStart;
+    //==============================================================
     [Header("MovingRecord")]
     public MovingRecordDetailControler _movingRecordDetailControler;
-    public bool isShowRecord = false;
-    //-------------------------
+    bool isShowRecord = false;
+    //==============================================================
+    [Header("Calculator")]
+    [SerializeField] private DrivingCalculator drivingCalculator;
+    //==============================================================
 
-    //[SerializeField] private GPSControler _GPSControler;
-    [SerializeField] private GPSController gpsController;
     ClientVehicle _currentVehicle;
     const float minDistanceToRecord = 0.005f;//Km
     const float minTimeDroveToRecord = 10f;//second
@@ -33,10 +38,13 @@ public class DrivingUIControler : MonoBehaviour
     void Start()
     {
         _currentVehicle = ClientData.Instance.ClientUser.currentVehicle;
+        float[] vehicleLimitSpeed = _currentVehicle.Attrib.LimitSpeed;
+        textLimitSpeed.text = vehicleLimitSpeed[0].ToString() + " - " + vehicleLimitSpeed[1].ToString() + " Km/h";
         textVehicleName.text = _currentVehicle.Attrib.Name;
         EnergyMonitorControler.Initialize(new float[] { 0f, 1f });
-        SpeedMonitorControler.Initialize(new float[] { 0f, 2000f});
+        SpeedMonitorControler.Initialize(new float[] { 0f, vehicleLimitSpeed[1] * 2 + 1000f });
         StartCoroutine(CountDown());
+        InvokeRepeating("ShowPopupGPSWarning", 2f, 3f);
     }
     IEnumerator CountDown()
     {
@@ -50,62 +58,64 @@ public class DrivingUIControler : MonoBehaviour
         textCountdown.text = "Start";
         yield return new WaitForSeconds(0.3f);
         CountDownScene.SetActive(false);
+        drivingCalculator.StartCalculate();
     }
 
-    #region Show Driving
+    #region ================================Show Driving=============================
     void ShowOnDriving()
     {
-        if (gpsController.IsLocationReady) imgGPSStatus.color = Color.green;
-        else imgGPSStatus.color = Color.red;
-        ShowDistance();
-        //textNumCoin.text = _GPSControler.GetNumCoin().ToString("0.0");
         if (!isShowRecord)
         {
+            if (GPSController.Instance.isGPSAccessed()) imgGPSStatus.color = Color.green;
+            else imgGPSStatus.color = Color.red;
+            _currentVehicle = ClientData.Instance.ClientUser.currentVehicle;
+            textTimeDrove.text = drivingCalculator.timeDroveString();
+            textDistance.text = drivingCalculator.Distance().ToString("0.0");
+            textNumCoin.text = drivingCalculator.numCoin().ToString("0.0");
             EnergyMonitorControler.SetValue(_currentVehicle.EnergyPercent());
-            SpeedMonitorControler.SetValue(gpsController.GetSpeed());
+            SpeedMonitorControler.SetValue(drivingCalculator.Speed());
         }
     }
-    void ShowDistance()
+    void ShowPopupGPSWarning()
     {
-        textDistanceDriving.text = gpsController.GetDistance().ToString("0.00");
-
+        PopupGPSWarning.SetActive(!GPSController.Instance.isGPSAccessed());
     }
-    #endregion
 
-    #region Show Record
+    #endregion================================Show Driving=============================
+
+    #region ==================================Show Record==============================
     public void ShowMovingRecord()
     {
-        // if (!isShowRecord)
-        // {
-        //     if (_GPSControler.GetTimeDrove() < minTimeDroveToRecord
-        //         & _GPSControler.GetDistance() > minDistanceToRecord)
-        //     {
-        //         BackToHome();
-        //     }
-        //     else
-        //     {
-        //         _movingRecordControler.CreateMovingRecord(_GPSControler.GetNumCoin()
-        //             , _currentVehicle.Attrib.Name, _GPSControler.GetDistance()
-        //                 , _GPSControler.GetTimeDroveString());
-        //
-        //         _movingRecordControler.DisplayMovingRecord();
-        //         _GPSControler.SetState("Stop");
-        //         isShowRecord = true;
-        //     }
-        // }
+        if (!isShowRecord)
+        {
+            if (drivingCalculator.GetTimeDrove() < minTimeDroveToRecord
+                | drivingCalculator.Distance() < minDistanceToRecord)
+            {
+                isShowRecord = true;
+                BackToHome();
+            }
+            else
+            {
+                drivingCalculator.PauseCalculate();
+                _movingRecordDetailControler.CreateMovingRecord(drivingCalculator.numCoin()
+                    , _currentVehicle.Attrib.Name, drivingCalculator.Distance()
+                        , drivingCalculator.timeDroveString(), drivingCalculator.GetTimeDrove());
+
+                _movingRecordDetailControler.DisplayMovingRecord();
+                isShowRecord = true;
+            }
+        }
     }
     void CheckShowMovingRecord()
     {
         if (_currentVehicle.IsOutOfEnergy() && !isShowRecord)
         {
             ShowMovingRecord();
-            //_GPSControler.SetState("Stop");
-            gpsController.DrivingState = DrivingState.Stop;
         }
     }
-    #endregion
+    #endregion ==================================Show Record==============================
 
-    #region Button click
+    #region =====================================Button click=============================
     public void GotoWallet()
     {
         Debug.LogWarning("Go to wallet");
@@ -113,14 +123,12 @@ public class DrivingUIControler : MonoBehaviour
     }
     public void PauseDriving()
     {
-        //_GPSControler.SetState("Pausing");
-        gpsController.DrivingState = DrivingState.Pausing;
+        drivingCalculator.PauseCalculate();
         Debug.LogWarning("Pausing");
     }
-    public void ResumeDriving()
+    public void StartDriving()
     {
-        //_GPSControler.SetState("Driving");
-        gpsController.DrivingState = DrivingState.Driving;
+        drivingCalculator.StartCalculate();
         Debug.LogWarning("Resume");
     }
     public void Reload()
@@ -131,11 +139,22 @@ public class DrivingUIControler : MonoBehaviour
     {
         Messenger.RaiseMessage(Message.LoadScene, Scenes.HomeScene, Scenes.DrivingScene);
     }
-    #endregion
+    public void StartGPSAgain()
+    {
+        GPSController.Instance.isGPSEnableByUser();
+        PopupGPSWarning.SetActive(false);
+        InvokeRepeating("ShowPopupGPSWarning", 10f, 3f);
+    }
+
+    #endregion =====================================Button click=============================
 
     void Update()
     {
         ShowOnDriving();
         CheckShowMovingRecord();
+        Debug.Log(GPSController.Instance.isGPSAccessed());
+        buttonGPSStart.interactable = GPSController.Instance.isGPSEnableByUser()
+            & Permission.HasUserAuthorizedPermission(Permission.FineLocation);
+        Debug.Log(ClientData.Instance.ClientUser.currentVehicle.Attrib.Gas);
     }
 }
