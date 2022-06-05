@@ -1347,6 +1347,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 881be6d48943c35418cc187fc5b80ea3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  addressOwner: 0x16E13eCAc9d039c3A47bD15D62bA5b4a4A1049d5
   importCoinButton: {fileID: 228925637}
   importNFTButton: {fileID: 158480319}
 --- !u!114 &1044174184
