@@ -7,21 +7,32 @@ using Newtonsoft.Json;
 
 public class AccountUIControler : MonoBehaviour
 {
-    public GameObject MainCv, ProfileCv, MovingRecordCv, MovingRecordDetailCv
-    , SettingCv, SettingNetworkCv, SettingLanguageCv, HelpAndSupportCv
-    , FAQDetailsCv, SupportCv, PopUpLogoutCv;
+    [Header("Canvas")]
+    public GameObject MainCv;
+    public GameObject ProfileCv;
+    public GameObject MovingRecordCv;
+    public GameObject MovingRecordDetailCv;
+    public GameObject SettingCv;
+    public GameObject SettingNetworkCv;
+    public GameObject SettingLanguageCv;
+    public GameObject HelpAndSupportCv;
+    public GameObject FAQDetailsCv;
+    public GameObject SupportCv;
+    public GameObject PopUpLogoutCv;
+
+    [Header("TickSigns")]
     public GameObject[] networkTickSigns;
     public GameObject[] languageTickSigns;
+
+    [Header("UI Element")]
     public RectTransform ViewportRectFAQ;
     public RectTransform ContentRectFAQ;
     public RectTransform ContentAnswerRect;
     public ScrollRect AnswerScrollRect;
     public MovingRecordOnAccountControler movingRecordOAControler;
     public GameObject ButtonsInfoRecord;
-
     public Text textTotalKm;
     public Text textTotalTime;
-
     public Text textTotalKmOnMain;
 
     Dictionary<string, GameObject> CanvasDictionary = new Dictionary<string, GameObject>();
@@ -236,21 +247,11 @@ public class AccountUIControler : MonoBehaviour
         }
     }
 
-    void ControlScrollRectButtonInfoRecord()
-    {
-        if (ButtonsInfoRecord.transform.childCount > 0)
-        {
-            Debug.Log("first" + ButtonsInfoRecord.transform.GetChild(0).position.y);
-            Debug.Log("last" + ButtonsInfoRecord.transform.GetChild(ButtonsInfoRecord.transform.childCount - 1).position.y);
-        }
-
-    }
 
 
 
     private void Update()
     {
         ControlScrollRectFAQ();
-        ControlScrollRectButtonInfoRecord();
     }
 }

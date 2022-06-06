@@ -14,17 +14,25 @@ public class ButtonToRecordDetailControler : MonoBehaviour
 
     public void DisplayButtonInfo()
     {
-        MovingRecordDetail _detail = ClientData.Instance.clientMovingRecord
-            .movingRecordDetails[indexRecordDetail];
-        textTime.text = _detail.time;
-        textDistance.text = _detail.distance.ToString();
-        textTimeDrove.text = _detail.timeDroveString;
+        if (indexRecordDetail >= 0)
+        {
+            MovingRecordDetail _detail = ClientData.Instance.clientMovingRecord
+                .movingRecordDetails[indexRecordDetail];
+            textTime.text = _detail.time;
+            textDistance.text = _detail.distance.ToString();
+            textTimeDrove.text = _detail.timeDroveString;
+        }
+
     }
 
     public void OnButtonDetail()
     {
-        recordDetailControler.LoadDataMovingRecord(indexRecordDetail);
-        recordDetailControler.DisplayMovingRecord();
-        accountUIControler.ActiveCanvas("MovingRecordDetail");
+        if (indexRecordDetail >= 0)
+        {
+            recordDetailControler.LoadDataMovingRecord(indexRecordDetail);
+            recordDetailControler.DisplayMovingRecord();
+            accountUIControler.ActiveCanvas("MovingRecordDetail");
+        }
     }
+
 }

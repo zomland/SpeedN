@@ -4,7 +4,9 @@ using Base.MessageSystem;
 using Global;
 using UnityEngine;
 using UnityEngine.UI;
+#if PLATFORM_ANDROID
 using UnityEngine.Android;
+#endif
 
 public class DrivingUIControler : MonoBehaviour
 {
@@ -153,8 +155,11 @@ public class DrivingUIControler : MonoBehaviour
         ShowOnDriving();
         CheckShowMovingRecord();
         Debug.Log(GPSController.Instance.isGPSAccessed());
+        #if UNITY_ANDROID
         buttonGPSStart.interactable = GPSController.Instance.isGPSEnableByUser()
             & Permission.HasUserAuthorizedPermission(Permission.FineLocation);
+        #elif UNITY_IOS
+        #endif
         Debug.Log(ClientData.Instance.ClientUser.currentVehicle.Attrib.Gas);
     }
 }

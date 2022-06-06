@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Base.Helper;
 using UnityEngine;
+#if PLATFORM_ANDROID
 using UnityEngine.Android;
+#endif
 using Base;
 
 public class GPSController : Singleton<GPSController>
@@ -16,11 +18,14 @@ public class GPSController : Singleton<GPSController>
 
     void CheckPermissionGPS()
     {
+        #if UNITY_ANDROID
         if (!Permission.HasUserAuthorizedPermission(Permission.CoarseLocation) |
             !Permission.HasUserAuthorizedPermission(Permission.FineLocation))
         {
             Permission.RequestUserPermissions(new string[] { Permission.CoarseLocation, Permission.FineLocation });
         }
+        #elif UNITY_IOS
+        #endif
     }
 
     public void StartGPS()
@@ -30,6 +35,7 @@ public class GPSController : Singleton<GPSController>
 
     IEnumerator LoadLocationService()
     {
+        #if UNITY_ANDROID
         int maxWait = 10;
         while (Permission.HasUserAuthorizedPermission(Permission.FineLocation) && maxWait > 0)
         {
@@ -37,6 +43,8 @@ public class GPSController : Singleton<GPSController>
             yield return new WaitForSeconds(1);
             maxWait--;
         }
+        #elif UNITY_IOS
+        #endif
 
         // Check if the user has location service enabled.
         if (!Input.location.isEnabledByUser)
