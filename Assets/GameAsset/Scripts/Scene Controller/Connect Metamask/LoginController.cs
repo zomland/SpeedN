@@ -7,18 +7,18 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 
-	public class LoginController     : MonoBehaviour
+	public class LoginController : MonoBehaviour
 	{
 		public Button connectButton;
 		public TextMeshProUGUI address;
-        public GameObject switchChain;
+        public GameObject signButton;
 	#if !UNITY_WEBGL || UNITY_EDITOR
 		[SerializeField] private AnkrSDK.WalletConnectSharp.Unity.WalletConnect _walletConnect;
 	#endif
 
     bool isConnected = false;
 
-		private void OnEnable()
+		private void Start()
 		{
 		#if UNITY_WEBGL && !UNITY_EDITOR
 			try
@@ -122,13 +122,13 @@ using TMPro;
 			{
 				return;
 			}
-			var activeSessionConnected = walletConnectUnitySession.Connected;
-            if(activeSessionConnected && isConnected == false)
-            {
-                switchChain.SetActive(activeSessionConnected);
-			    connectButton.gameObject.SetActive(!activeSessionConnected);
-                isConnected = true;
-            }        
+			bool activeSessionConnected = walletConnectUnitySession.Connected;
+			if(activeSessionConnected && isConnected == false)
+			{
+				signButton.SetActive(activeSessionConnected);
+				connectButton.gameObject.SetActive(!activeSessionConnected);
+				isConnected = true;
+			}
 		}
 	#endif
 	}

@@ -35,7 +35,8 @@ public class SignController : MonoBehaviour
 
     private IEthHandler _eth;
 
-    string address;
+    string address="";
+	string _signature ="";
 
     void Awake()
     {
@@ -44,21 +45,25 @@ public class SignController : MonoBehaviour
 		signButton.onClick.AddListener(sign);
     }
 
+	void OnDestroy()
+	{
+		signButton.onClick.RemoveListener(sign);
+	}
+
 	public async void sign()
 	{
 		var address = await _eth.GetDefaultAccount();
-		string _signature ="";
 		_signature = await _eth.Sign(_message, address);
 
 		if(_signature !="")
 		{
 			var tmp = await SendSignature(_signature);
-        	ClientData.Instance.ClientUser.address = tmp;
+        	ClientData.Instance.ClientUser.address = address;
         	UpdateUILogs(ClientData.Instance.ClientUser.address);
 			myWalletButton.SetActive(true);
 			importButton.SetActive(true);
+			gameObject.SetActive(false);
 		}
-		
 	}
 
 	private async Task<string> SendSignature(string signature)

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 using AnkrSDK.Core.Infrastructure;
 using AnkrSDK.Provider;
 using AnkrSDK;
+using System;
+using  System.Numerics;
 
 public class ImportCoinController : MonoBehaviour
 {
@@ -20,7 +22,7 @@ public class ImportCoinController : MonoBehaviour
 
     private IContract _contract;
 	private IAnkrSDK _ankrSDKWrapper;
-    private int decimalToken = 18;
+    BigInteger decimals = 1000000000000000000;
 
     void Start()
     {
@@ -43,8 +45,7 @@ public class ImportCoinController : MonoBehaviour
     private async void Confirm()
     {
         var evController = new LoggerEventHandler();
-        object[] arguments = {addressOwner, 1000*decimalToken};
-        await _contract.Web3SendMethod("transfer", arguments, evController);
-
+        BigInteger value =  decimals * 1000;
+        await _contract.Web3SendMethod("transfer", new object[] {addressOwner,  value}, evController);
     }
 }
