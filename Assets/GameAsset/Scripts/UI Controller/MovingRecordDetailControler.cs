@@ -45,14 +45,13 @@ public class MovingRecordDetailControler : MonoBehaviour
             = ClientData.Instance.GetSpriteVehicle(_movingRecordDetail.vehicleName).sprite.texture;
         textUserName.text = ClientData.Instance.ClientUser.userName;
         textTime.text = _movingRecordDetail.time;
-        textNumCoinRecord.text = _movingRecordDetail.numCoin.ToString("0.0");
-        ShowDistance();
+        ShowDistanceAndNumCoin();
         textTimeDrove.text = _movingRecordDetail.timeDroveString;
         //userAvatar;
         this.gameObject.SetActive(true);
     }
 
-    void ShowDistance()
+    void ShowDistanceAndNumCoin()
     {
         if (_movingRecordDetail.distance < 1)
         {
@@ -63,6 +62,14 @@ public class MovingRecordDetailControler : MonoBehaviour
         {
             textUnitDistance.text = "Km";
             textDistanceRecord.text = (_movingRecordDetail.distance).ToString("0.0");
+        }
+        if (_movingRecordDetail.numCoin < 0.01f & _movingRecordDetail.numCoin > 0f)
+        {
+            textNumCoinRecord.text = _movingRecordDetail.numCoin.ToString("0.000");
+        }
+        else
+        {
+            textNumCoinRecord.text = _movingRecordDetail.numCoin.ToString("0.00");
         }
     }
 

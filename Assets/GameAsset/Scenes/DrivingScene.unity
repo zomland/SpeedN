@@ -3561,6 +3561,7 @@ MonoBehaviour:
   CountDownScene: {fileID: 1516896383}
   textCountdown: {fileID: 318658451}
   textDistance: {fileID: 224748105}
+  textUnitDistance: {fileID: 713622147}
   textNumCoin: {fileID: 558649650}
   textLimitSpeed: {fileID: 722362154}
   textTimeDrove: {fileID: 1214922640}

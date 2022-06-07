@@ -19,7 +19,7 @@ public class ButtonToRecordDetailControler : MonoBehaviour
             MovingRecordDetail _detail = ClientData.Instance.clientMovingRecord
                 .movingRecordDetails[indexRecordDetail];
             textTime.text = _detail.time;
-            textDistance.text = _detail.distance.ToString();
+            textDistance.text = _detail.distance.ToString() + " km";
             textTimeDrove.text = _detail.timeDroveString;
         }
 

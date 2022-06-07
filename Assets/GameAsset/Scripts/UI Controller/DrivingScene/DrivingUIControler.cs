@@ -15,6 +15,7 @@ public class DrivingUIControler : MonoBehaviour
     public GameObject CountDownScene;
     public Text textCountdown;
     public Text textDistance;
+    public Text textUnitDistance;
     public Text textNumCoin;
     public Text textLimitSpeed;
     public Text textTimeDrove;
@@ -72,12 +73,35 @@ public class DrivingUIControler : MonoBehaviour
             else imgGPSStatus.color = Color.red;
             _currentVehicle = ClientData.Instance.ClientUser.currentVehicle;
             textTimeDrove.text = drivingCalculator.timeDroveString();
-            textDistance.text = drivingCalculator.Distance().ToString("0.0");
-            textNumCoin.text = drivingCalculator.numCoin().ToString("0.0");
+            ShowDistanceAndNumCoin();
             EnergyMonitorControler.SetValue(_currentVehicle.EnergyPercent());
             SpeedMonitorControler.SetValue(drivingCalculator.Speed());
         }
     }
+    void ShowDistanceAndNumCoin()
+    {
+        float _distance = drivingCalculator.Distance();
+        float _numCoin = drivingCalculator.numCoin();
+        if (_distance < 1)
+        {
+            textUnitDistance.text = "m";
+            textDistance.text = (_distance * 1000).ToString("0.0");
+        }
+        else
+        {
+            textUnitDistance.text = "km";
+            textDistance.text = _distance.ToString("0.0");
+        }
+        if (_numCoin < 0.01f & _numCoin > 0f)
+        {
+            textNumCoin.text = _numCoin.ToString("0.0000");
+        }
+        else
+        {
+            textNumCoin.text = _numCoin.ToString("0.00");
+        }
+    }
+
     void ShowPopupGPSWarning()
     {
         PopupGPSWarning.SetActive(!GPSController.Instance.isGPSAccessed());
@@ -155,11 +179,11 @@ public class DrivingUIControler : MonoBehaviour
         ShowOnDriving();
         CheckShowMovingRecord();
         Debug.Log(GPSController.Instance.isGPSAccessed());
-        #if UNITY_ANDROID
+#if UNITY_ANDROID
         buttonGPSStart.interactable = GPSController.Instance.isGPSEnableByUser()
             & Permission.HasUserAuthorizedPermission(Permission.FineLocation);
-        #elif UNITY_IOS
-        #endif
+#elif UNITY_IOS
+#endif
         Debug.Log(ClientData.Instance.ClientUser.currentVehicle.Attrib.Gas);
     }
 }
