@@ -184,6 +184,5 @@ public class DrivingUIControler : MonoBehaviour
             & Permission.HasUserAuthorizedPermission(Permission.FineLocation);
 #elif UNITY_IOS
 #endif
-        Debug.Log(ClientData.Instance.ClientUser.currentVehicle.Attrib.Gas);
     }
 }

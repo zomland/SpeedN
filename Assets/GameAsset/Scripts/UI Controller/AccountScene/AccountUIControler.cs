@@ -41,6 +41,8 @@ public class AccountUIControler : MonoBehaviour
     int optLanguage = 0;
     bool isMute = false;
     float maxHeightOfContentRect;
+    const int secondsPerHour = 3600;
+    const int secondPerMin = 60;
 
     string currentLanguage;
     string currentNetwork;
@@ -74,12 +76,36 @@ public class AccountUIControler : MonoBehaviour
     {
         if (ClientData.Instance != null)
         {
-            string totalKmString = ClientData.Instance.clientMovingRecord.totalKm.ToString("0.0") + " Km";
+            //km
+            string totalKmString;
+            if (ClientData.Instance.clientMovingRecord.totalKm < 0.01)
+            {
+                totalKmString = (ClientData.Instance.clientMovingRecord.totalKm * 1000).ToString("0.00");
+                totalKmString += " m";
+            }
+            else
+            {
+                totalKmString = ClientData.Instance.clientMovingRecord.totalKm.ToString("0.00");
+                totalKmString += " km";
+            }
             textTotalKmOnMain.text = totalKmString;
             textTotalKm.text = totalKmString;
-            textTotalTime.text = ClientData.Instance.clientMovingRecord.totalTime.ToString("0.00") + " Hour";
-        }
 
+            //time
+            string totalTimeString;
+            if (ClientData.Instance.clientMovingRecord.totalTime / secondsPerHour < 1f)
+            {
+                totalTimeString = (ClientData.Instance.clientMovingRecord.totalTime / secondPerMin)
+                    .ToString("0.00");
+                totalTimeString += " mins";
+            }
+            else
+            {
+                totalTimeString = ClientData.Instance.clientMovingRecord.totalTime.ToString("0.00");
+                totalTimeString += " hours";
+            }
+            textTotalTime.text = totalTimeString;
+        }
     }
 
     public void ActiveCanvas(string name)

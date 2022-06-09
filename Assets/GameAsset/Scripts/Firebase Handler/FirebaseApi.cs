@@ -97,7 +97,7 @@ namespace FirebaseHandler
         {
             float _totalKm = ClientData.Instance.clientMovingRecord.totalKm;
             float _totalTime = ClientData.Instance.clientMovingRecord.totalTime;
-            _databaseHandler.AddAMovingRecord(_totalTime,_totalKm,_movingRecord, ClientData.Instance.clientMovingRecord
+            _databaseHandler.AddAMovingRecord(_totalTime, _totalKm, _movingRecord, ClientData.Instance.clientMovingRecord
                 , callback).Forget();
             await UniTask.Yield();
         }
@@ -111,8 +111,7 @@ namespace FirebaseHandler
 
         public async UniTaskVoid InitialSetUpClient(DatabaseCallback callbackUser, DatabaseCallback callbackMovingRecord)
         {
-            _databaseHandler.InitialSetUpClient(ClientData.Instance.ClientUser
-                , ClientData.Instance.clientMovingRecord, callbackUser, callbackMovingRecord);
+            _databaseHandler.InitialSetUpClient(ClientData.Instance.ClientUser, callbackUser, callbackMovingRecord);
             await UniTask.Yield();
         }
 

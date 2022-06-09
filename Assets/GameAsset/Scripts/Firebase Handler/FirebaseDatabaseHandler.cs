@@ -31,11 +31,11 @@ namespace FirebaseHandler
             SetUpGeneralEvents();
         }
 
-        public void InitialSetUpClient(ClientUser user, ClientMovingRecord clientMovingRecord
+        public void InitialSetUpClient(ClientUser user
             , DatabaseCallback callbackUser, DatabaseCallback callbackMovingRecord)
         {
             InitialSetUpUser(user, callbackUser).Forget();
-            InitialSetUpMovingRecord(user, clientMovingRecord, callbackMovingRecord).Forget();
+            InitialSetUpMovingRecord(user, callbackMovingRecord).Forget();
         }
 
         void SetUpGeneralReferences()
@@ -297,7 +297,7 @@ namespace FirebaseHandler
         #endregion User method
 
         #region MovingRecord method
-        public async UniTaskVoid InitialSetUpMovingRecord(ClientUser user, ClientMovingRecord clientMovingRecord
+        public async UniTaskVoid InitialSetUpMovingRecord(ClientUser user
             , DatabaseCallback databaseCallback)
         {
             await databaseMovingRecordsRef
@@ -322,18 +322,21 @@ namespace FirebaseHandler
                     {
                         isExisted = true;
                         string JsonData = JsonConvert.SerializeObject(clientSnapshot.GetValue(true));
-                        clientMovingRecord.AddMovingRecordDetail(null);
-                        JsonUtility.FromJsonOverwrite(JsonData, clientMovingRecord);
-                        //_movingRecordManager = JsonUtility.FromJson<MovingRecordManager>(JsonData);
+                        ClientData.Instance.clientMovingRecord = JsonConvert.DeserializeObject<ClientMovingRecord>(JsonData);
                         SetUpMovingRecordRef(user.userKey);
+                        ClientData.Instance.clientMovingRecord.DeleteExpiredRecord();
+                        JsonData = JsonConvert.SerializeObject
+                            (ClientData.Instance.clientMovingRecord.movingRecordDetails);
+                        databaseClientMovingRecordRef.Child("movingRecordDetails")
+                            .SetRawJsonValueAsync(JsonData);
                         databaseCallback.Invoke("InitialSetUpMovingRecord", "user existed : get data", 0);
                     }
                 }
                 if (!isExisted)
                 {
-                    clientMovingRecord.AddMovingRecordDetail(null);
+                    ClientData.Instance.clientMovingRecord.AddMovingRecordDetail(new MovingRecordDetail());
                     databaseMovingRecordsRef.Child(user.userKey)
-                        .SetRawJsonValueAsync(clientMovingRecord.GetStringJsonData());
+                        .SetRawJsonValueAsync(ClientData.Instance.clientMovingRecord.GetStringJsonData());
                     SetUpMovingRecordRef(user.userKey);
                     databaseCallback.Invoke("InitialSetUpMovingRecord", "new user : Add data", 0);
                 }
@@ -358,8 +361,7 @@ namespace FirebaseHandler
                     databaseClientMovingRecordRef.Child("totalTime").SetValueAsync(_totalTime);
                     databaseClientMovingRecordRef.Child("totalKm").SetValueAsync(_totalKm);
                     databaseClientMovingRecordRef.Child("movingRecordDetails")
-                        .Child((clientMovingRecord.AmountRecord() - 1).ToString())
-                        .SetRawJsonValueAsync(json);
+                        .Child(_movingRecordDetail.key).SetRawJsonValueAsync(json);
                     databaseCallback.Invoke("AddMovingRecord", "Add success", 0);
                 }
             });
