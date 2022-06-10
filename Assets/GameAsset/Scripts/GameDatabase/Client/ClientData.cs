@@ -1,5 +1,6 @@
 using Base;
 using UnityEngine;
+using Base.Audio;
 
 public class ClientData : Singleton<ClientData>
 {
@@ -36,11 +37,6 @@ public class ClientData : Singleton<ClientData>
         return null;
     }
 
-    public void GetMovingRecords()
-    {
-
-    }
-
     private void AddVehicle()
     {
         int i = 100;
@@ -50,5 +46,35 @@ public class ClientData : Singleton<ClientData>
                 , CarType.Urban, 2000f, 100f, 1f);
             _clientUser.clientNFT.clientVehicles.Add(new ClientCar(carAttribute));
         }
+    }
+
+    public AudioClip GetAudioClip(Audio.AudioType type, string AudioClipID)
+    {
+        switch (type)
+        {
+            case Audio.AudioType.Music:
+                foreach (AudioClipBase child in speedNDefault.musicAudioClips)
+                {
+                    if (child.ID == AudioClipID) return child.clip;
+                }
+                break;
+            case Audio.AudioType.Sound:
+                foreach (AudioClipBase child in speedNDefault.soundAudioClips)
+                {
+                    if (child.ID == AudioClipID) return child.clip;
+                }
+                break;
+            case Audio.AudioType.UISound:
+                foreach (AudioClipBase child in speedNDefault.UISoundAudioClips)
+                {
+                    if (child.ID == AudioClipID) return child.clip;
+                }
+                break;
+            default:
+                Debug.Log("Exception AudioType");
+                return null;
+        }
+        Debug.Log("Exception GetAudio: Check Type or ClipID");
+        return null;
     }
 }

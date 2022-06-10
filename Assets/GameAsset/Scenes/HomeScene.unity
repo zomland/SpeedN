@@ -1685,6 +1685,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+      - m_Target: {fileID: 956713455}
+        m_TargetAssemblyTypeName: HomeUIControler, Assembly-CSharp
+        m_MethodName: OnButtonClick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1076553617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3938,6 +3950,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2138255538}
   - component: {fileID: 2138255537}
+  - component: {fileID: 2138255536}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3945,6 +3958,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!81 &2138255536
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138255535}
+  m_Enabled: 1
 --- !u!20 &2138255537
 Camera:
   m_ObjectHideFlags: 0

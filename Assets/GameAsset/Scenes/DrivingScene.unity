@@ -2426,6 +2426,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1007525320}
   - component: {fileID: 1007525319}
+  - component: {fileID: 1007525318}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2433,6 +2434,14 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!81 &1007525318
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1007525317}
+  m_Enabled: 1
 --- !u!20 &1007525319
 Camera:
   m_ObjectHideFlags: 0
@@ -5218,6 +5227,11 @@ PrefabInstance:
       value: PopupGPSWarning
       objectReference: {fileID: 0}
     - target: {fileID: 7205811911859644108, guid: 85f1967cea02b0644ba39a9331da48fe,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7434759985631337645, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
       propertyPath: m_IsActive
       value: 0

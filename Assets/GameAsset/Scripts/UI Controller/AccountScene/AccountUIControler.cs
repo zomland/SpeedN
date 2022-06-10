@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using Newtonsoft.Json;
+using Base.Audio;
 
 public class AccountUIControler : MonoBehaviour
 {
@@ -15,14 +16,11 @@ public class AccountUIControler : MonoBehaviour
     public GameObject SettingCv;
     public GameObject SettingNetworkCv;
     public GameObject SettingLanguageCv;
+    public GameObject SettingSoundCv;
     public GameObject HelpAndSupportCv;
     public GameObject FAQDetailsCv;
     public GameObject SupportCv;
     public GameObject PopUpLogoutCv;
-
-    [Header("TickSigns")]
-    public GameObject[] networkTickSigns;
-    public GameObject[] languageTickSigns;
 
     [Header("UI Element")]
     public RectTransform ViewportRectFAQ;
@@ -35,11 +33,14 @@ public class AccountUIControler : MonoBehaviour
     public Text textTotalTime;
     public Text textTotalKmOnMain;
 
+    [Header("TickSigns")]
+    public GameObject[] networkTickSigns;
+    public GameObject[] languageTickSigns;
+
     Dictionary<string, GameObject> CanvasDictionary = new Dictionary<string, GameObject>();
     Dictionary<string, GameObject[]> TickSignDictionary = new Dictionary<string, GameObject[]>();
     int optNetwork = 0;
     int optLanguage = 0;
-    bool isMute = false;
     float maxHeightOfContentRect;
     const int secondsPerHour = 3600;
     const int secondPerMin = 60;
@@ -47,13 +48,14 @@ public class AccountUIControler : MonoBehaviour
     string currentLanguage;
     string currentNetwork;
     string currentState = "Main";
+    SettingSound settingSound;
 
 
 
     private void Start()
     {
         maxHeightOfContentRect = ContentAnswerRect.rect.height - ViewportRectFAQ.rect.height;
-
+        //Canvas
         CanvasDictionary["Main"] = MainCv;
         CanvasDictionary["Profile"] = ProfileCv;
         CanvasDictionary["MovingRecord"] = MovingRecordCv;
@@ -61,13 +63,16 @@ public class AccountUIControler : MonoBehaviour
         CanvasDictionary["Setting"] = SettingCv;
         CanvasDictionary["SettingNetwork"] = SettingNetworkCv;
         CanvasDictionary["SettingLanguage"] = SettingLanguageCv;
+        CanvasDictionary["SettingSound"] = SettingSoundCv;
         CanvasDictionary["HelpAndSupport"] = HelpAndSupportCv;
         CanvasDictionary["FAQDetails"] = FAQDetailsCv;
         CanvasDictionary["Support"] = SupportCv;
         CanvasDictionary["PopUpLogout"] = PopUpLogoutCv;
-
+        //TIckSign
         TickSignDictionary["Network"] = networkTickSigns;
         TickSignDictionary["Language"] = languageTickSigns;
+        //Setting Sound
+        settingSound = SettingSoundCv.GetComponent<SettingSound>();
 
         ShowTotalOnMovingRecordState();
     }
@@ -125,6 +130,8 @@ public class AccountUIControler : MonoBehaviour
                 element.Value.SetActive(false);
             }
         }
+        if (name == "SettingSound") settingSound.onSettingSound = true;
+        else settingSound.onSettingSound = false;
         CanvasDictionary[name].SetActive(true);
     }
 
@@ -150,19 +157,6 @@ public class AccountUIControler : MonoBehaviour
     public void ShareRecord()
     {
         Debug.Log("Share Record");
-    }
-
-    public void ChangeSoundSetting()
-    {
-        isMute = !isMute;
-        if (isMute)
-        {
-            Debug.LogWarning("Sound is mute");
-        }
-        else
-        {
-            Debug.LogWarning("Sound is on");
-        }
     }
 
     public void ChangeTickSign(string key, int opt)

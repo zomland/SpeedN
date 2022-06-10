@@ -5,6 +5,7 @@ using Global;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using Base.Audio;
 
 public class HomeUIControler : MonoBehaviour
 {
@@ -24,14 +25,14 @@ public class HomeUIControler : MonoBehaviour
     }
     void Start()
     {
-
+        SoundManager.PlayMusic(ClientData.Instance.GetAudioClip(Audio.AudioType.Music, "music001"), 0.3f, true, true);
     }
 
     void LoadImageVehicle()
     {
         if (_currentVehicle != null)
         {
-            currentVehicleRawImg.texture 
+            currentVehicleRawImg.texture
                 = ClientData.Instance.GetSpriteVehicle(_currentVehicle.Attrib.Name).sprite.texture;
         }
     }
@@ -81,6 +82,11 @@ public class HomeUIControler : MonoBehaviour
         {
             SceneTransferClick(Scenes.HomeScene, Scenes.DrivingScene);
         }
+    }
+
+    public void OnButtonClick()
+    {
+        SoundManager.PlayUISound(ClientData.Instance.GetAudioClip(Audio.AudioType.UISound, "buttonClick01"));
     }
 
     #endregion
