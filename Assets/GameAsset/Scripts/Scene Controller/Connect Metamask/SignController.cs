@@ -25,13 +25,14 @@ public class SignController : MonoBehaviour
 		public string Address;
 	}
 
-    private const string URL = "http://root@eth-01.dccn.ankr.com:8080/account/verification/address";
+	private const string ProviderURL = "https://rinkeby.infura.io/v3/fe82f5256d5044ffa63d449cf6a0b107";
         
     public string _message = "Minh";
     public TextMeshProUGUI addressText;
 	public Button signButton;
 	public GameObject myWalletButton;
 	public GameObject importButton;
+	public GameObject importCoin;
 
     private IEthHandler _eth;
 
@@ -40,7 +41,7 @@ public class SignController : MonoBehaviour
 
     void Awake()
     {
-        var ankrSDK = AnkrSDKFactory.GetAnkrSDKInstance(ERC20ContractInformation.HttpProviderURL);
+        var ankrSDK = AnkrSDKFactory.GetAnkrSDKInstance(ProviderURL);
 		_eth = ankrSDK.Eth;
 		signButton.onClick.AddListener(sign);
     }
@@ -57,28 +58,13 @@ public class SignController : MonoBehaviour
 
 		if(_signature !="")
 		{
-			var tmp = await SendSignature(_signature);
         	ClientData.Instance.ClientUser.address = address;
         	UpdateUILogs(ClientData.Instance.ClientUser.address);
-			myWalletButton.SetActive(true);
-			importButton.SetActive(true);
+			// myWalletButton.SetActive(true);
+			// importButton.SetActive(true);
+			importCoin.SetActive(true);
 			gameObject.SetActive(false);
 		}
-	}
-
-	private async Task<string> SendSignature(string signature)
-	{
-		var requestPayload = new RequestPayload
-		{
-			Message = _message,
-			Signature = signature
-		};
-
-		var payload = JsonConvert.SerializeObject(requestPayload);
-
-		var result = await AnkrSDKHelper.GetUnityWebRequestFromJSON(URL, payload).SendWebRequest();
-		var data = JsonConvert.DeserializeObject<RequestAnswer>(result.downloadHandler.text);
-		return data.Address;
 	}
 		
 	private void UpdateUILogs(string log)
@@ -86,3 +72,4 @@ public class SignController : MonoBehaviour
 		addressText.text = log;
 	}
 }
+ 

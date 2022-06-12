@@ -12,6 +12,7 @@ using TMPro;
 		public Button connectButton;
 		public TextMeshProUGUI address;
         public GameObject signButton;
+		public GameObject coinPrefab;
 	#if !UNITY_WEBGL || UNITY_EDITOR
 		[SerializeField] private AnkrSDK.WalletConnectSharp.Unity.WalletConnect _walletConnect;
 	#endif
@@ -125,10 +126,17 @@ using TMPro;
 			bool activeSessionConnected = walletConnectUnitySession.Connected;
 			if(activeSessionConnected && isConnected == false)
 			{
-				signButton.SetActive(activeSessionConnected);
+				//signButton.SetActive(activeSessionConnected);
+				coinPrefab.SetActive(activeSessionConnected);
 				connectButton.gameObject.SetActive(!activeSessionConnected);
+				coinPrefab.GetComponent<ImportCoinController>().SetSmartContract();
 				isConnected = true;
 			}
 		}
 	#endif
+
+	public void OnConnected ()
+	{
+		address.text =  "1";
+	}
 	}

@@ -60,10 +60,10 @@ MonoBehaviour:
   _autoSaveAndResume: 1
   _connectOnAwake: 0
   _connectOnStart: 1
-  _createNewSessionOnSessionDisconnect: 0
+  _createNewSessionOnSessionDisconnect: 1
   _connectSessionRetryCount: 3
   _customBridgeUrl: https://testbridge.yartu.io/
-  _chainId: 97
+  _chainId: 4
   _appData:
     _description: Wallet
     _url: https://www.ankr.com/

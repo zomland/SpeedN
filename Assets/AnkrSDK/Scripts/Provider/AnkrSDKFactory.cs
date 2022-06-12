@@ -30,7 +30,6 @@ namespace AnkrSDK.Provider
 			var eth = new Mobile.EthHandler(web3Provider);
 			var disconnectHandler = new Mobile.MobileDisconnectHandler();
 		#endif
-
 			return new AnkrSDKWrapper(web3Provider, contractFunctions, eth, disconnectHandler);
 		}
 	}
