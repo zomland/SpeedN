@@ -7,32 +7,32 @@ using System;
 public class ClientNFT
 {
     public List<ClientVehicle> clientVehicles;
-    public List<ClientGem> clientGems;
-    public List<ClientBlueprint> clientBlueprints;
+    // public List<ClientGem> clientGems;
+    // public List<ClientBlueprint> clientBlueprints;
 
     public ClientNFT()
     {
         clientVehicles = new List<ClientVehicle>();
 
-        clientGems = new List<ClientGem>();
-        clientGems.Add(null);   
-        
-        clientBlueprints = new List<ClientBlueprint>();
-        clientBlueprints.Add(null);
+        // clientGems = new List<ClientGem>();
+        // clientGems.Add(null);   
+        //
+        // clientBlueprints = new List<ClientBlueprint>();
+        // clientBlueprints.Add(null);
     }
 
 
 }
 
 [System.Serializable]
-public class BaseNFT
+public abstract class BaseNFT
 {
-    public int tokenID;
-    public string ownerAddress;
-
-    public BaseNFT()
-    {
-        tokenID = -1;
-        ownerAddress = String.Empty;
-    }
+    public int TokenId;
+    public string OwnerAddress;
+    public int Level;
+    public NftRarity NftRarity;
+    public float Stamina;
+    public float Durability;
 }
+
+public enum NftRarity {Common, Uncommon, Rare, Legendary}
