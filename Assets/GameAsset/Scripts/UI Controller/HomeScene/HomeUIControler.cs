@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Base.Audio;
+using Translation;
 
 public class HomeUIControler : MonoBehaviour
 {
@@ -25,6 +26,7 @@ public class HomeUIControler : MonoBehaviour
     }
     void Start()
     {
+        Translator.Translate("HomeScene");
         SoundManager.PlayMusic(ClientData.Instance.GetAudioClip(Audio.AudioType.Music, "music001"), 0.3f, true, true);
     }
 

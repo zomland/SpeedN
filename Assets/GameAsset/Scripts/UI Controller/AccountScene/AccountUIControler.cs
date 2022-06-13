@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using System;
 using Newtonsoft.Json;
 using Base.Audio;
+using Translation;
 
 public class AccountUIControler : MonoBehaviour
 {
@@ -75,6 +76,7 @@ public class AccountUIControler : MonoBehaviour
         settingSound = SettingSoundCv.GetComponent<SettingSound>();
 
         ShowTotalOnMovingRecordState();
+        ChangeOptLanguage((int)Translator.CurrentLanguage);
     }
 
     void ShowTotalOnMovingRecordState()
@@ -178,8 +180,7 @@ public class AccountUIControler : MonoBehaviour
 
     public void ChangeOptLanguage(int opt)
     {
-        optLanguage = opt;
-        Debug.Log("Change option language to " + opt.ToString());
+        Translator.CurrentLanguage = (Language)opt;
         ChangeTickSign("Language", opt);
     }
 
