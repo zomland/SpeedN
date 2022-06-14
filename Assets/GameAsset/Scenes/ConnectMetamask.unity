@@ -1323,6 +1323,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Import Coin
       objectReference: {fileID: 0}
+    - target: {fileID: 5297988890776149203, guid: c0310facdd3199b468c6c1c0c83c1f10,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0310facdd3199b468c6c1c0c83c1f10, type: 3}
 --- !u!1 &1199311694 stripped

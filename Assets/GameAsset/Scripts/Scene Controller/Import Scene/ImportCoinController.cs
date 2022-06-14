@@ -73,6 +73,23 @@ public class ImportCoinController : MonoBehaviour
 			amount.text = balance.ToString() ;
 		}
 
+    public  async void Transfer1 ()
+    {
+        var gasEstimation = await _contract.EstimateGas("transfer", new object[]{addressRecieve , decimals * 100 });
+        amount.text =  gasEstimation.ToString();
+        var receipt =  await _contract.CallMethod("transfer", new object[]{addressRecieve , decimals * 100 },"250000",gasEstimation.ToString());
+        var trx = await _eth.GetTransaction(receipt);
+
+        amount.text = trx.Nonce.ToString();
+    }
+
+    public  async void Transfer2 ()
+    {
+        var receipt =  await _contract.CallMethod("transfer", new object[]{addressRecieve , decimals * 100 },"250000","300000");
+        var trx = await _eth.GetTransaction(receipt);
+
+        amount.text = trx.Nonce.ToString();
+    }
     public  UniTask<string> transferToken()
     {
         return _contract.CallMethod("transfer", new object[]{addressRecieve , decimals * 100 }).AsUniTask();
@@ -80,11 +97,11 @@ public class ImportCoinController : MonoBehaviour
 
     public void Confirm()
     {
-        var result = transferToken();
+       Transfer1();
     }
 
     public void Confirm2()
     {
-       var result  =  GetBalance();
+        Transfer2();
     }
 }
