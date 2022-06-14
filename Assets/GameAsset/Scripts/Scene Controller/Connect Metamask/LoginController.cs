@@ -126,10 +126,8 @@ using TMPro;
 			bool activeSessionConnected = walletConnectUnitySession.Connected;
 			if(activeSessionConnected && isConnected == false)
 			{
-				//signButton.SetActive(activeSessionConnected);
-				coinPrefab.SetActive(activeSessionConnected);
+				signButton.SetActive(activeSessionConnected);			
 				connectButton.gameObject.SetActive(!activeSessionConnected);
-				coinPrefab.GetComponent<ImportCoinController>().SetSmartContract();
 				isConnected = true;
 			}
 		}

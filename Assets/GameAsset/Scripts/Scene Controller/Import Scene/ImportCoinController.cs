@@ -25,6 +25,7 @@ public class ImportCoinController : MonoBehaviour
     public Button confirmButton2;
 
     public TextMeshProUGUI amount;
+    public TextMeshProUGUI amount1;
 
 
     private IContract _contract;
@@ -76,8 +77,7 @@ public class ImportCoinController : MonoBehaviour
     public  async void Transfer1 ()
     {
         var gasEstimation = await _contract.EstimateGas("transfer", new object[]{addressRecieve , decimals * 100 });
-        amount.text =  gasEstimation.ToString();
-        var receipt =  await _contract.CallMethod("transfer", new object[]{addressRecieve , decimals * 100 },"250000",gasEstimation.ToString());
+        var receipt =  await _contract.CallMethod("transfer", new object[]{addressRecieve , decimals * 100 },"1000000","3000000");
         var trx = await _eth.GetTransaction(receipt);
 
         amount.text = trx.Nonce.ToString();
@@ -85,10 +85,14 @@ public class ImportCoinController : MonoBehaviour
 
     public  async void Transfer2 ()
     {
-        var receipt =  await _contract.CallMethod("transfer", new object[]{addressRecieve , decimals * 100 },"250000","300000");
+        var gasEstimation = await _contract.EstimateGas("transfer", new object[]{addressRecieve , decimals * 100 });
+        
+        var receipt =  await _contract.CallMethod("transfer", new object[]{addressRecieve , decimals * 100 },gasEstimation.ToString(),"6000000","8");
+        amount.text  = receipt;
         var trx = await _eth.GetTransaction(receipt);
 
         amount.text = trx.Nonce.ToString();
+
     }
     public  UniTask<string> transferToken()
     {
