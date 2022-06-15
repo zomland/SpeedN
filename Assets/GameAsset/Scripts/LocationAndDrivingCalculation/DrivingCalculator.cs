@@ -66,6 +66,7 @@ public class DrivingCalculator : MonoBehaviour
             speed = deltaDistance / timeStep * secondsPerHour;
             SetPosition();
             UseEnergyVehicle(deltaDistance);
+            DecreaseDurabilityVehicle(deltaDistance);
             if (deltaDistance > minDeltaDistance)
             {
                 return deltaDistance;
@@ -80,10 +81,14 @@ public class DrivingCalculator : MonoBehaviour
     }
     #endregion ========================Calculation Distance=================
 
-    #region ===========================Calculate Energy & Coin==============
+    #region ===========================Calculate Energy & Coin & Durability==============
     void UseEnergyVehicle(float _deltaDistance)
     {
         ClientData.Instance.ClientUser.currentVehicle.UseEnergy(_deltaDistance);
+    }
+    void DecreaseDurabilityVehicle(float _deltaDistance)
+    {
+        ClientData.Instance.ClientUser.currentVehicle.DecreaseDurability(_deltaDistance);
     }
     #endregion ========================Calculate Energy & Coin==============
 

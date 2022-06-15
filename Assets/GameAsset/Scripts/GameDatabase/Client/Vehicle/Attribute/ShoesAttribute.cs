@@ -7,7 +7,7 @@ public class ShoesAttribute : VehicleAttribute
 {
     public ShoesType Type;
     public ShoesAttribute(string _name, string _id, VehicleRarity _rarity, ShoesType _type
-        , float _staminaMax, float _staminaPerKm,float _coinPerKm)
+        , float _staminaMax, float _staminaPerKm, float _coinPerKm)
     {
         vehicleType = VehicleType.Shoes;
         Name = _name;
@@ -22,8 +22,10 @@ public class ShoesAttribute : VehicleAttribute
         Mint = 0;
         Lease = 0;
         Type = _type;
+        DurabilityMax = 500f;
+        Durability = DurabilityMax;
         LimitSpeed = new LimitsSpeed().Shoes[Type];
-        StaminaPesKm= _staminaPerKm;
+        StaminaPesKm = _staminaPerKm;
         StaminaMax = _staminaMax;
         Stamina = StaminaMax;
         CoinPerKm = _coinPerKm;

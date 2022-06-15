@@ -26,6 +26,8 @@ public class MotobikeAttribute : VehicleAttribute
         GasMax = _gasMax;
         Gas = GasMax;
         Type = _type;
+        DurabilityMax = 500f;
+        Durability = DurabilityMax;
         LimitSpeed = new LimitsSpeed().Motobike[Type];
         CoinPerKm = _coinPerKm;
     }

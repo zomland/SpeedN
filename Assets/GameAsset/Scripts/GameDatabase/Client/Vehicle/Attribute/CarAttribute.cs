@@ -25,6 +25,8 @@ public class CarAttribute : VehicleAttribute
         GasMax = _gasMax;
         Gas = GasMax;
         Type = _type;
+        DurabilityMax = 500f;
+        Durability = DurabilityMax;
         LimitSpeed = new LimitsSpeed().Car[Type];
         CoinPerKm = _coinPerKm;
     }

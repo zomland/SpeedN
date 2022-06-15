@@ -218,7 +218,7 @@ namespace FirebaseHandler
                 if (isUserExisted)
                 {
                     string json = JsonConvert.SerializeObject(newValue);
-                    databaseClientUserRef.Child("clientsNFT").Child(NFTKey).SetRawJsonValueAsync(json);
+                    databaseClientUserRef.Child("clientNFT").Child(NFTKey).SetRawJsonValueAsync(json);
                     databaseCallback.Invoke("PostUserNFT", "success", 0);
                 }
                 else

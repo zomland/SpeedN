@@ -53,7 +53,11 @@ public class ClockMonitorControler : MonoBehaviour
             else value = maxValue;
         }
         ValueShowPercent = (value - minValue) / (maxValue - minValue);
+    }
 
+    public void ResetMonitor()
+    {
+        ValueCurrentPercent = 0f;
     }
 
     public void UpdateValuePercent()

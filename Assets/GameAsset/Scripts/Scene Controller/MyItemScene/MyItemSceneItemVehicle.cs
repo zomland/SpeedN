@@ -24,12 +24,14 @@ public class MyItemSceneItemVehicle : MonoBehaviour
         myItemSceneUIController = FindObjectOfType<MyItemSceneUIController>();
         myItemSceneController = FindObjectOfType<MyItemSceneController>();
         myItemSceneUI_2Controller= FindObjectOfType<MyItemSceneUI_2Controller>();
+
+        myItemSceneUI_2Controller.EnergyMonitorControler.Initialize(new float[]{0f,1f});
+        myItemSceneUI_2Controller.DurabilityMonitorControler.Initialize(new float[]{0f,1f});
     }
 
     public void SetProperties(ClientVehicle vehicle )
     {
         this.vehicle = vehicle;
-
         spriteVehicle.sprite = ClientData.Instance.GetSpriteVehicle(vehicle.Attrib.Name).sprite;
         nameVehicleText.text = vehicle.Attrib.Name;
         tagText.text = vehicle.Attrib.ID;

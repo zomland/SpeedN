@@ -22,6 +22,8 @@ public class BicycleAttribute : VehicleAttribute
         Mint = 0;
         Lease = 0;
         Type = _type;
+        DurabilityMax = 500f;
+        Durability = DurabilityMax;
         LimitSpeed = new LimitsSpeed().Bicycle[Type];
         StaminaPesKm = _staminaPerKm;
         StaminaMax = _staminaMax;

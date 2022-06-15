@@ -15,7 +15,9 @@ public class VehicleAttribute
     public float Luck;
     public float Comfort;
     public float Resilience;
-    public float Durability = 10;
+    public float DurabilityMax;
+    public float Durability;
+    public float DurabilityReducePerKm = 1f;
     public int Mint;
     public int Lease;
     public float GasPerKm;

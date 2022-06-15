@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Base.MessageSystem;
 using Global;
 using UnityEngine;
+using FirebaseHandler;
 using UnityEngine.UI;
 #if PLATFORM_ANDROID
 using UnityEngine.Android;
@@ -128,6 +129,8 @@ public class DrivingUIControler : MonoBehaviour
                         , drivingCalculator.timeDroveString(), drivingCalculator.GetTimeDrove());
 
                 _movingRecordDetailControler.DisplayMovingRecord();
+                ClientData.Instance.ClientUser.EarnCoin("BNB", drivingCalculator.numCoin());
+                FirebaseApi.Instance.PostUser(callbackPostUserAfterDriving).Forget();
                 isShowRecord = true;
             }
         }
@@ -173,6 +176,11 @@ public class DrivingUIControler : MonoBehaviour
     }
 
     #endregion =====================================Button click=============================
+
+    void callbackPostUserAfterDriving(string a, string b, int c)
+    {
+
+    }
 
     void Update()
     {

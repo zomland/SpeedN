@@ -103,4 +103,18 @@ public class ClientUser
             }
         }
     }
+
+    public void EarnCoin(string nameCoin, float amount)
+    {
+        Debug.Log("Earn Coin: " + nameCoin+" | " + amount );
+    }
+
+    public void UseCoin(string nameCoin, float amount)
+    {
+        Debug.Log("Use Coin: " + nameCoin+" | " + amount );
+    }
+    public bool isEnoughCoin(string nameCoin, float amount)
+    {
+        return true;
+    }
 }
