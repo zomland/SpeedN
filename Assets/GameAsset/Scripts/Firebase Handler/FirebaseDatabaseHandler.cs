@@ -191,7 +191,7 @@ namespace FirebaseHandler
                     NFTKey = "clientBlueprints";
                     break;
                 case TypeNFT.Vehicle:
-                    NFTKey = "clientVehicles";
+                    NFTKey = "vehicleControllers";
                     break;
             }
             await databaseClientUserRef
@@ -219,11 +219,11 @@ namespace FirebaseHandler
                 {
                     string json = JsonConvert.SerializeObject(newValue);
                     databaseClientUserRef.Child("clientNFT").Child(NFTKey).SetRawJsonValueAsync(json);
-                    databaseCallback.Invoke("PostUserNFT", "success", 0);
+                    databaseCallback.Invoke("PostUserNFT: " + NFTKey, "success", 0);
                 }
                 else
                 {
-                    databaseCallback.Invoke("PostUserNFT", "User not existed", 0);
+                    databaseCallback.Invoke("PostUserNFT: " + NFTKey, "User not existed", 0);
                 }
             });
         }
