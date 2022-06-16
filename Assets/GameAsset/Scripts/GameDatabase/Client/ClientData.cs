@@ -2,6 +2,7 @@ using Base;
 using UnityEngine;
 using Base.Audio;
 
+
 public class ClientData : Singleton<ClientData>
 {
     public ClientUser _clientUser;
@@ -42,9 +43,10 @@ public class ClientData : Singleton<ClientData>
         int i = 100;
         foreach (var child in speedNDefault.spriteVehicles)
         {
-            CarAttribute carAttribute = new CarAttribute(child.name, i.ToString(), VehicleRarity.Common
-                , CarType.Urban, 2000f, 100f, 1f);
-            _clientUser.clientNFT.clientVehicles.Add(new ClientCar(carAttribute));
+            VehicleData vehicleData = new VehicleData(child.name, i.ToString(), ClientUser.userID, NftRarity.Common, LimitsSpeed.LimitSpeed(VehicleType.Car, CarSpeedType.Urban.ToString()), VehicleType.Car
+                , 500f, 1f, 500f, 1f, 0.1f);
+            _clientUser.clientNFT.vehicleControllers.Add(new VehicleController(vehicleData));
+            i+=10;
         }
     }
 

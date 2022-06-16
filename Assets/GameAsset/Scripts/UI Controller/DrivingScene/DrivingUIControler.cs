@@ -34,17 +34,17 @@ public class DrivingUIControler : MonoBehaviour
     [SerializeField] private DrivingCalculator drivingCalculator;
     //==============================================================
 
-    ClientVehicle _currentVehicle;
+    VehicleController _currentVehicleController;
     const float minDistanceToRecord = 0.005f;//Km
     const float minTimeDroveToRecord = 10f;//second
 
 
     void Start()
     {
-        _currentVehicle = ClientData.Instance.ClientUser.currentVehicle;
-        float[] vehicleLimitSpeed = _currentVehicle.Attrib.LimitSpeed;
+        _currentVehicleController = ClientData.Instance.ClientUser.currentVehicleController;
+        float[] vehicleLimitSpeed = _currentVehicleController.data.LimitSpeed;
         textLimitSpeed.text = vehicleLimitSpeed[0].ToString() + " - " + vehicleLimitSpeed[1].ToString() + " Km/h";
-        textVehicleName.text = _currentVehicle.Attrib.Name;
+        textVehicleName.text = _currentVehicleController.data.name;
         EnergyMonitorControler.Initialize(new float[] { 0f, 1f });
         SpeedMonitorControler.Initialize(new float[] { 0f, vehicleLimitSpeed[1] * 2 + 1000f });
         StartCoroutine(CountDown());
@@ -72,10 +72,10 @@ public class DrivingUIControler : MonoBehaviour
         {
             if (GPSController.Instance.isGPSAccessed()) imgGPSStatus.color = Color.green;
             else imgGPSStatus.color = Color.red;
-            _currentVehicle = ClientData.Instance.ClientUser.currentVehicle;
+            _currentVehicleController = ClientData.Instance.ClientUser.currentVehicleController;
             textTimeDrove.text = drivingCalculator.timeDroveString();
             ShowDistanceAndNumCoin();
-            EnergyMonitorControler.SetValue(_currentVehicle.EnergyPercent());
+            EnergyMonitorControler.SetValue(_currentVehicleController.EnergyPercent());
             SpeedMonitorControler.SetValue(drivingCalculator.Speed());
         }
     }
@@ -125,7 +125,7 @@ public class DrivingUIControler : MonoBehaviour
             {
                 drivingCalculator.PauseCalculate();
                 _movingRecordDetailControler.CreateMovingRecord(drivingCalculator.numCoin()
-                    , _currentVehicle.Attrib.Name, drivingCalculator.Distance()
+                    , _currentVehicleController.data.name, drivingCalculator.Distance()
                         , drivingCalculator.timeDroveString(), drivingCalculator.GetTimeDrove());
 
                 _movingRecordDetailControler.DisplayMovingRecord();
@@ -137,7 +137,7 @@ public class DrivingUIControler : MonoBehaviour
     }
     void CheckShowMovingRecord()
     {
-        if (_currentVehicle.IsOutOfEnergy() && !isShowRecord)
+        if (_currentVehicleController.IsOutOfEnergy() && !isShowRecord)
         {
             ShowMovingRecord();
         }

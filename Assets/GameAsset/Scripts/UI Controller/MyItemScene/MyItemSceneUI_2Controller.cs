@@ -29,24 +29,24 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
     public Button ButtonConfirmFillUp;
     public Button ButtonConfirmRepair;
 
-    ClientVehicle vehicle;
+    VehicleController vehicleController;
     float FeeEnergy;
     float FeeRepair;
     float TaxEnergy;
     float TaxRepair;
 
-    public void DisplayUI(ClientVehicle _vehicle)
+    public void DisplayUI(VehicleController _vehicleController)
     {
-        vehicle = _vehicle;
-        spriteVehicle.sprite = ClientData.Instance.GetSpriteVehicle(vehicle.Attrib.Name).sprite;
-        vehicleIDText.text = vehicle.Attrib.ID;
-        nameText.text = vehicle.Attrib.Name;
-        EnergyMonitorControler.SetValue(vehicle.EnergyPercent());
-        DurabilityMonitorControler.SetValue(vehicle.DurabilityPercent());
-        levelText.text = vehicle.Attrib.Level.ToString();
-        if (vehicle.EnergyPercent() == 1) ButtonFillUp.interactable = false;
+        vehicleController = _vehicleController;
+        spriteVehicle.sprite = ClientData.Instance.GetSpriteVehicle(vehicleController.data.name).sprite;
+        vehicleIDText.text = vehicleController.data.TokenId;
+        nameText.text = vehicleController.data.name;
+        EnergyMonitorControler.SetValue(vehicleController.EnergyPercent());
+        DurabilityMonitorControler.SetValue(vehicleController.DurabilityPercent());
+        levelText.text = vehicleController.data.Level.ToString();
+        if (vehicleController.EnergyPercent() == 1) ButtonFillUp.interactable = false;
         else ButtonFillUp.interactable = true;
-        if (vehicle.DurabilityPercent() == 1) ButtonRepair.interactable = false;
+        if (vehicleController.DurabilityPercent() == 1) ButtonRepair.interactable = false;
         else ButtonRepair.interactable = true;
         LoadFillUpPopUp();
         LoadRepairPopUp();
@@ -60,10 +60,10 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
 
     public void LoadFillUpPopUp()
     {
-        spriteVehicleOnFillUpPopUp.texture = ClientData.Instance.GetSpriteVehicle(vehicle.Attrib.Name).sprite.texture;
+        spriteVehicleOnFillUpPopUp.texture = ClientData.Instance.GetSpriteVehicle(vehicleController.data.name).sprite.texture;
         string data;
         string UnitFee = " BNB";
-        FeeEnergy = (1 - vehicle.EnergyPercent()) * FeeMenu.FeePerEnergy;
+        FeeEnergy = (1 - vehicleController.EnergyPercent()) * FeeMenu.FeePerEnergy;
         TaxEnergy = FeeEnergy * FeeMenu.TaxPercent;
         data = "Fee Energy :   " + FeeEnergy.ToString("0.00") + UnitFee + "\n";
         data += "Tax fee:       " + TaxEnergy.ToString("0.00") + UnitFee;
@@ -80,10 +80,10 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
 
     public void LoadRepairPopUp()
     {
-        spriteVehicleOnRepairPopUp.texture = ClientData.Instance.GetSpriteVehicle(vehicle.Attrib.Name).sprite.texture;
+        spriteVehicleOnRepairPopUp.texture = ClientData.Instance.GetSpriteVehicle(vehicleController.data.name).sprite.texture;
         string data;
         string UnitFee = " BNB";
-        FeeRepair = (1 - vehicle.DurabilityPercent()) * FeeMenu.FeePerDurability;
+        FeeRepair = (1 - vehicleController.DurabilityPercent()) * FeeMenu.FeePerDurability;
         TaxRepair = FeeRepair * FeeMenu.TaxPercent;
         data = "Fee Repair :   " + FeeRepair.ToString("0.00") + UnitFee + "\n";
         data += "Tax fee:       " + TaxRepair.ToString("0.00") + UnitFee;
@@ -99,24 +99,24 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
 
     public void FillUpEnergyVehicle()
     {
-        vehicle.FillUpEnergy();
-        EnergyMonitorControler.SetValue(vehicle.EnergyPercent());
+        vehicleController.FillUpEnergy();
+        EnergyMonitorControler.SetValue(vehicleController.EnergyPercent());
         ClientData.Instance.ClientUser.UseCoin("BNB", FeeEnergy + TaxEnergy);
         List<ClientCoin> newClientCoin = ClientData.Instance.ClientUser.clientCoins;
         FirebaseApi.Instance.PostUserValue("clientCoins", newClientCoin, callbackFillUp).Forget();
-        List<ClientVehicle> newClientVehicles = ClientData.Instance.ClientUser.clientNFT.clientVehicles;
+        List<VehicleController> newClientVehicles = ClientData.Instance.ClientUser.clientNFT.vehicleControllers;
         FirebaseApi.Instance.PostUserNFT(newClientVehicles,TypeNFT.Vehicle,callbackFillUp).Forget();
     }
 
     public void RepairVehicle()
     {
-        vehicle.Repair();
-        DurabilityMonitorControler.SetValue(vehicle.DurabilityPercent());
+        vehicleController.Repair();
+        DurabilityMonitorControler.SetValue(vehicleController.DurabilityPercent());
         ClientData.Instance.ClientUser.UseCoin("BNB", FeeRepair + TaxRepair);
         ClientData.Instance.ClientUser.UseCoin("BNB", FeeEnergy + TaxEnergy);
         List<ClientCoin> newClientCoin = ClientData.Instance.ClientUser.clientCoins;
         FirebaseApi.Instance.PostUserValue("clientCoins", newClientCoin, callbackRepair).Forget();
-        List<ClientVehicle> newClientVehicles = ClientData.Instance.ClientUser.clientNFT.clientVehicles;
+        List<VehicleController> newClientVehicles = ClientData.Instance.ClientUser.clientNFT.vehicleControllers;
         FirebaseApi.Instance.PostUserNFT(newClientVehicles,TypeNFT.Vehicle,callbackFillUp).Forget();
     }
 

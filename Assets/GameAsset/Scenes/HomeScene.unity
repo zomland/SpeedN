@@ -5223,7 +5223,7 @@ PrefabInstance:
     - target: {fileID: 1527955045870965807, guid: cad4ef0c88eab974d917264ce2b894a6,
         type: 3}
       propertyPath: TextElements.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1527955045870965807, guid: cad4ef0c88eab974d917264ce2b894a6,
         type: 3}

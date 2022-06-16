@@ -6,13 +6,13 @@ using System;
 [System.Serializable]
 public class ClientNFT
 {
-    public List<ClientVehicle> clientVehicles;
+    public List<VehicleController> vehicleControllers;
     // public List<ClientGem> clientGems;
     // public List<ClientBlueprint> clientBlueprints;
 
     public ClientNFT()
     {
-        clientVehicles = new List<ClientVehicle>();
+        vehicleControllers = new List<VehicleController>();
 
         // clientGems = new List<ClientGem>();
         // clientGems.Add(null);   
@@ -27,12 +27,11 @@ public class ClientNFT
 [System.Serializable]
 public abstract class BaseNFT
 {
-    public int TokenId;
+    public string name;
+    public string TokenId;
     public string OwnerAddress;
     public int Level;
     public NftRarity NftRarity;
-    public float Stamina;
-    public float Durability;
 }
 
-public enum NftRarity {Common, Uncommon, Rare, Legendary}
+public enum NftRarity { Common, Uncommon, Rare, Epic, Legendary }
