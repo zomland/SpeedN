@@ -5,7 +5,8 @@ using UnityEngine;
 [System.Serializable]
 public class VehicleData : BaseNFT
 {
-    public float[] LimitSpeed;
+    public float minSpeed;
+    public float maxSpeed;
     public float Efficiency;
     public VehicleType vehicleType;
     public float Luck;
@@ -31,7 +32,8 @@ public class VehicleData : BaseNFT
         OwnerAddress = _ownerAddress;
         Level = 0;
         NftRarity = _NftRarity;
-        LimitSpeed = _limitSpeed;
+        minSpeed = _limitSpeed[0];
+        maxSpeed = _limitSpeed[1];
         Efficiency = 1f;
         vehicleType = _vehicleType;
         Luck = 1f;

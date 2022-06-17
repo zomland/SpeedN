@@ -42,7 +42,7 @@ public class DrivingUIControler : MonoBehaviour
     void Start()
     {
         _currentVehicleController = ClientData.Instance.ClientUser.currentVehicleController;
-        float[] vehicleLimitSpeed = _currentVehicleController.data.LimitSpeed;
+        float[] vehicleLimitSpeed = new float[] { _currentVehicleController.data.minSpeed, _currentVehicleController.data.maxSpeed };
         textLimitSpeed.text = vehicleLimitSpeed[0].ToString() + " - " + vehicleLimitSpeed[1].ToString() + " Km/h";
         textVehicleName.text = _currentVehicleController.data.name;
         EnergyMonitorControler.Initialize(new float[] { 0f, 1f });

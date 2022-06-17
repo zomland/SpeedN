@@ -7,11 +7,7 @@ public class VehicleController
 {
     public VehicleData data;
     public VehicleController(VehicleData _data) { data = _data; }
-    public void LevelUp()
-    {
-        data.Level++;
-        Debug.Log("Level Up");
-    }
+    
     public void DecreaseDurability(float Km)
     {
         if (data.Durability > 0f)

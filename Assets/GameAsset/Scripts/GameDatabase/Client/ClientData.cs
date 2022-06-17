@@ -1,6 +1,12 @@
 using Base;
 using UnityEngine;
 using Base.Audio;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using Base.Helper;
+using System;
+using Newtonsoft.Json;
 
 
 public class ClientData : Singleton<ClientData>
@@ -40,13 +46,14 @@ public class ClientData : Singleton<ClientData>
 
     private void AddVehicle()
     {
-        int i = 100;
-        foreach (var child in speedNDefault.spriteVehicles)
+        List<Dictionary<string, object>> VehicleDataDicts
+            = CSVControler.DataFromCSV("Assets/GameAsset/Scripts/GameDatabase/Client/Vehicle/Data/VehicleDatabase.csv");
+        foreach (var child in VehicleDataDicts)
         {
-            VehicleData vehicleData = new VehicleData(child.name, i.ToString(), ClientUser.userID, NftRarity.Common, LimitsSpeed.LimitSpeed(VehicleType.Car, CarSpeedType.Urban.ToString()), VehicleType.Car
-                , 500f, 1f, 500f, 1f, 0.1f);
+            string Json = JsonConvert.SerializeObject(child);
+            VehicleData vehicleData = new VehicleData();
+            vehicleData = JsonConvert.DeserializeObject<VehicleData>(Json);
             _clientUser.clientNFT.vehicleControllers.Add(new VehicleController(vehicleData));
-            i+=10;
         }
     }
 
