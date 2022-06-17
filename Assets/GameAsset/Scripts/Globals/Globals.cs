@@ -35,13 +35,21 @@ namespace Global
 
     public enum Message { LoadScene }
 
+    public struct FeeMenu
+    {
+        public const float FeePerEnergy = 1f;
+        public const float FeePerDurability = 1f;
+        public const float TaxPercent = 0.01f;
+    }
+
+
     public enum Scenes
     {
         [StringValue("ManagerValue")] ManagerScene = 0,
         [StringValue("LoadingScene")] LoadingScene, [StringValue("LoginScene")] LoginScene,
         [StringValue("HomeScene")] HomeScene, [StringValue("DrivingScene")] DrivingScene,
         [StringValue("AccountScene")] AccountScene, [StringValue("MyItemScene")] MyItemScene,
-        [StringValue("MyWalletScene")] MyWalletScene,[StringValue("SwapScene")] SwapScene,
+        [StringValue("MyWalletScene")] MyWalletScene, [StringValue("SwapScene")] SwapScene,
         [StringValue("ConnectMetamask")] ConnectMetamask, [StringValue("Import")] Import
     }
 }

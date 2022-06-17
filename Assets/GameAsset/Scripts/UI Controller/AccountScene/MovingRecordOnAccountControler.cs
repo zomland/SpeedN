@@ -21,63 +21,68 @@ public class MovingRecordOnAccountControler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        lastPage = ClientData.Instance.clientMovingRecord.AmountRecord() / MaxRecordCanShow;
-        if (ClientData.Instance.clientMovingRecord.AmountRecord() % MaxRecordCanShow > 0)
+        int _amountRecord = ClientData.Instance.clientMovingRecord.AmountRecord() - 1;
+        lastPage = _amountRecord / MaxRecordCanShow;
+        if (_amountRecord % MaxRecordCanShow > 0)
             lastPage++;
         LoadButtonsRecordDetails((int)LoadButtonBehaviour.Initialize);
     }
 
     void ProcessPagination()
     {
+        int _amountRecord = ClientData.Instance.clientMovingRecord.AmountRecord();
+
         // buttons
-        if (ButtonsCtrl[0].indexRecordDetail <= 0) buttonBack.interactable = false;
+        if (ButtonsCtrl[0].indexRecordDetail >= _amountRecord - 1) buttonBack.interactable = false;
         else buttonBack.interactable = true;
 
-        if (ButtonsCtrl[ButtonsCtrl.Length - 1].indexRecordDetail
-            >= ClientData.Instance.clientMovingRecord.AmountRecord() - 1
+        if (ButtonsCtrl[ButtonsCtrl.Length - 1].indexRecordDetail <= 1
             | ButtonsCtrl[ButtonsCtrl.Length - 1].indexRecordDetail == -1)
             buttonForward.interactable = false;
         else buttonForward.interactable = true;
 
         //textPage
-        int currentPage = ButtonsCtrl[0].indexRecordDetail / MaxRecordCanShow + 1;
+        int currentPage = (_amountRecord - ButtonsCtrl[0].indexRecordDetail)
+            / MaxRecordCanShow + 1;
         textPage.text = currentPage.ToString() + "/" + lastPage.ToString();
     }
 
     public void LoadButtonsRecordDetails(int otpLoadButtonBehaviour)
     {
-        int firstIndex = 0;
+        int _amountRecord = ClientData.Instance.clientMovingRecord.AmountRecord();
+        int firstIndex = -777;
         switch (otpLoadButtonBehaviour)
         {
             case (int)LoadButtonBehaviour.Initialize:
-                firstIndex = 0;
+                firstIndex = _amountRecord - 1;
                 break;
             case (int)LoadButtonBehaviour.GoBack:
-                if (ButtonsCtrl[0].indexRecordDetail != 0) firstIndex = ButtonsCtrl[0].indexRecordDetail - MaxRecordCanShow;
+                if (ButtonsCtrl[0].indexRecordDetail != _amountRecord - 1)
+                    firstIndex = ButtonsCtrl[0].indexRecordDetail + MaxRecordCanShow;
                 break;
             case (int)LoadButtonBehaviour.GoForward:
-                if (ButtonsCtrl[0].indexRecordDetail + MaxRecordCanShow <= ClientData.Instance.clientMovingRecord
-                    .AmountRecord()) firstIndex = ButtonsCtrl[0].indexRecordDetail + MaxRecordCanShow;
+                if (ButtonsCtrl[0].indexRecordDetail - MaxRecordCanShow >= 1)
+                    firstIndex = ButtonsCtrl[0].indexRecordDetail - MaxRecordCanShow;
                 break;
             default:
-                firstIndex = 0;
                 Debug.LogError("LoadButtonsRecordDetails: Exception");
                 break;
         }
-        for (int index = 0; index < MaxRecordCanShow; index++)
-        {
-            if (firstIndex + index < ClientData.Instance.clientMovingRecord.AmountRecord())
+        if (firstIndex != -777)
+            for (int index = 0; index < MaxRecordCanShow; index++)
             {
-                ButtonsCtrl[index].indexRecordDetail = firstIndex + index;
-                ButtonsCtrl[index].DisplayButtonInfo();
-                ButtonsCtrl[index].gameObject.SetActive(true);
+                if (firstIndex - index >= 1)
+                {
+                    ButtonsCtrl[index].indexRecordDetail = firstIndex - index;
+                    ButtonsCtrl[index].DisplayButtonInfo();
+                    ButtonsCtrl[index].gameObject.SetActive(true);
+                }
+                else
+                {
+                    ButtonsCtrl[index].indexRecordDetail = -1;
+                    ButtonsCtrl[index].gameObject.SetActive(false);
+                }
             }
-            else
-            {
-                ButtonsCtrl[index].indexRecordDetail = -1;
-                ButtonsCtrl[index].gameObject.SetActive(false);
-            }
-        }
         ProcessPagination();
     }
 

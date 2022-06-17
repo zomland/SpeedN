@@ -59,9 +59,9 @@ namespace FirebaseHandler
             _authHandler.SignOut();
         }
 
-        public async UniTaskVoid PostUser(ClientUser user, DatabaseCallback callback)
+        public async UniTaskVoid PostUser(DatabaseCallback callback)
         {
-            _databaseHandler.PostUser(user, callback).Forget();
+            _databaseHandler.PostUser(ClientData.Instance.ClientUser, callback).Forget();
 
             await UniTask.Yield();
         }
@@ -97,7 +97,7 @@ namespace FirebaseHandler
         {
             float _totalKm = ClientData.Instance.clientMovingRecord.totalKm;
             float _totalTime = ClientData.Instance.clientMovingRecord.totalTime;
-            _databaseHandler.AddAMovingRecord(_totalTime,_totalKm,_movingRecord, ClientData.Instance.clientMovingRecord
+            _databaseHandler.AddAMovingRecord(_totalTime, _totalKm, _movingRecord, ClientData.Instance.clientMovingRecord
                 , callback).Forget();
             await UniTask.Yield();
         }
@@ -111,8 +111,13 @@ namespace FirebaseHandler
 
         public async UniTaskVoid InitialSetUpClient(DatabaseCallback callbackUser, DatabaseCallback callbackMovingRecord)
         {
-            _databaseHandler.InitialSetUpClient(ClientData.Instance.ClientUser
-                , ClientData.Instance.clientMovingRecord, callbackUser, callbackMovingRecord);
+            _databaseHandler.InitialSetUpClient(ClientData.Instance.ClientUser, callbackUser, callbackMovingRecord);
+            await UniTask.Yield();
+        }
+
+        public async UniTaskVoid PostUserNFT(System.Object newValue, TypeNFT type, DatabaseCallback callback)
+        {
+            _databaseHandler.PostUserNFT(ClientData.Instance.ClientUser, type, newValue, callback).Forget();
             await UniTask.Yield();
         }
 

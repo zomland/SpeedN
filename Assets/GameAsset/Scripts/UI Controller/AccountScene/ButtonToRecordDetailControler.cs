@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class ButtonToRecordDetailControler : MonoBehaviour
 {
@@ -17,9 +18,9 @@ public class ButtonToRecordDetailControler : MonoBehaviour
         if (indexRecordDetail >= 0)
         {
             MovingRecordDetail _detail = ClientData.Instance.clientMovingRecord
-                .movingRecordDetails[indexRecordDetail];
+                .movingRecordDetails.ElementAt(indexRecordDetail).Value;
             textTime.text = _detail.time;
-            textDistance.text = _detail.distance.ToString();
+            textDistance.text = _detail.distance.ToString() + " km";
             textTimeDrove.text = _detail.timeDroveString;
         }
 

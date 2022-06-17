@@ -40,11 +40,13 @@ namespace FirebaseHandler
                 GoogleSignInConfiguration configuration = new GoogleSignInConfiguration()
                 {
                     WebClientId = WebClientId,
-                    RequestIdToken = true
+                    RequestIdToken = true,
+                    RequestEmail = true,
                 };
                 GoogleSignIn.Configuration = configuration;
                 GoogleSignIn.Configuration.UseGameSignIn = false;
                 GoogleSignIn.Configuration.RequestIdToken = true;
+                GoogleSignIn.Configuration.RequestEmail = true;
             }
 
             _isAutoCheck = false;

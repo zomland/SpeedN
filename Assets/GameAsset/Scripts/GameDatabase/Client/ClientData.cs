@@ -1,5 +1,13 @@
 using Base;
 using UnityEngine;
+using Base.Audio;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using Base.Helper;
+using System;
+using Newtonsoft.Json;
+
 
 public class ClientData : Singleton<ClientData>
 {
@@ -36,19 +44,46 @@ public class ClientData : Singleton<ClientData>
         return null;
     }
 
-    public void GetMovingRecords()
-    {
-
-    }
-
     private void AddVehicle()
     {
-        int i = 100;
-        foreach (var child in speedNDefault.spriteVehicles)
+        List<Dictionary<string, object>> VehicleDataDicts
+            = CSVControler.DataFromCSV("Assets/GameAsset/Scripts/GameDatabase/Client/Vehicle/Data/VehicleDatabase.csv");
+        foreach (var child in VehicleDataDicts)
         {
-            CarAttribute carAttribute = new CarAttribute(child.name, i.ToString(), VehicleRarity.Common
-                , CarType.Urban, 2000f, 100f, 1f);
-            _clientUser.clientNFT.clientVehicles.Add(new ClientCar(carAttribute));
+            string Json = JsonConvert.SerializeObject(child);
+            VehicleData vehicleData = new VehicleData();
+            vehicleData = JsonConvert.DeserializeObject<VehicleData>(Json);
+            _clientUser.clientNFT.vehicleControllers.Add(new VehicleController(vehicleData));
         }
+    }
+
+    public AudioClip GetAudioClip(Audio.AudioType type, string AudioClipID)
+    {
+        switch (type)
+        {
+            case Audio.AudioType.Music:
+                foreach (AudioClipBase child in speedNDefault.musicAudioClips)
+                {
+                    if (child.ID == AudioClipID) return child.clip;
+                }
+                break;
+            case Audio.AudioType.Sound:
+                foreach (AudioClipBase child in speedNDefault.soundAudioClips)
+                {
+                    if (child.ID == AudioClipID) return child.clip;
+                }
+                break;
+            case Audio.AudioType.UISound:
+                foreach (AudioClipBase child in speedNDefault.UISoundAudioClips)
+                {
+                    if (child.ID == AudioClipID) return child.clip;
+                }
+                break;
+            default:
+                Debug.Log("Exception AudioType");
+                return null;
+        }
+        Debug.Log("Exception GetAudio: Check Type or ClipID");
+        return null;
     }
 }

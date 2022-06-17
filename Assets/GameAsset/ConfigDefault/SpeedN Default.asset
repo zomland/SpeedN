@@ -32,3 +32,12 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 0bb58ed377bd37e4fbd20a87dd6ce053, type: 3}
   - name: Dong Vehicle
     sprite: {fileID: 21300000, guid: eb0033b16bd3017428a4f52f454aed2e, type: 3}
+  musicAudioClips:
+  - name: HitTheGas
+    ID: music001
+    clip: {fileID: 8300000, guid: 73b9425f5cd4bff4680a904a5d596d3a, type: 3}
+  soundAudioClips: []
+  UISoundAudioClips:
+  - name: ButtonClick01
+    ID: buttonClick01
+    clip: {fileID: 8300000, guid: a07a70fef9ef67d43a455b0569302d10, type: 3}

@@ -13,7 +13,7 @@ public class ClientUser
     public string userKey;
     public List<ClientCoin> clientCoins;
     public ClientNFT clientNFT;
-    public ClientVehicle currentVehicle;
+    public VehicleController currentVehicleController;
 
     public ClientUser(SpeedNDefault speedNDefault)
     {
@@ -41,7 +41,7 @@ public class ClientUser
     }
     public void InitialVehicle()
     {
-        currentVehicle = clientNFT.clientVehicles[0];
+        currentVehicleController = clientNFT.vehicleControllers[0];
     }
     public void CreateUserKey()
     {
@@ -89,18 +89,32 @@ public class ClientUser
         return 0;
     }
 
-    public void SwapCoin(string send , string get , float amountSend, float amountGet)
+    public void SwapCoin(string send, string get, float amountSend, float amountGet)
     {
-        foreach(var child in clientCoins)
+        foreach (var child in clientCoins)
         {
-            if(child.nameCoin == send)
+            if (child.nameCoin == send)
             {
                 child.amount -= amountSend;
             }
-            else if(child.nameCoin == get)
+            else if (child.nameCoin == get)
             {
                 child.amount += amountGet;
             }
         }
+    }
+
+    public void EarnCoin(string nameCoin, float amount)
+    {
+        Debug.Log("Earn Coin: " + nameCoin + " | " + amount);
+    }
+
+    public void UseCoin(string nameCoin, float amount)
+    {
+        Debug.Log("Use Coin: " + nameCoin + " | " + amount);
+    }
+    public bool isEnoughCoin(string nameCoin, float amount)
+    {
+        return true;
     }
 }

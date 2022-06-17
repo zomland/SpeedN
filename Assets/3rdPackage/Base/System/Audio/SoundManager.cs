@@ -49,7 +49,7 @@ namespace Base.Audio
         /// Global UI sounds volume
         /// </summary>
         public static float GlobalUISoundsVolume { get; set; }
-        
+
         /// <summary>
         /// Global mute for all sound
         /// </summary>
@@ -64,7 +64,7 @@ namespace Base.Audio
 
         private static bool initialized = false;
 
-        private static SoundManager Instance
+        public static SoundManager Instance
         {
             get
             {
@@ -81,7 +81,7 @@ namespace Base.Audio
             }
         }
 
-        static SoundManager()
+        private void Awake()
         {
             Instance.Init();
         }
@@ -251,7 +251,7 @@ namespace Base.Audio
         /// <returns>True if the audio is restored, false if the audio was not in the audio pool.</returns>
         public static bool RestoreAudioFromPool(Audio.AudioType audioType, int audioID)
         {
-            if(audioPool.ContainsKey(audioID))
+            if (audioPool.ContainsKey(audioID))
             {
                 Dictionary<int, Audio> audioDict = GetAudioTypeDictionary(audioType);
                 audioDict.Add(audioID, audioPool[audioID]);
@@ -410,19 +410,19 @@ namespace Base.Audio
             foreach (int key in keys)
             {
                 Audio audio = null;
-				if (audioDict.ContainsKey(key))
-				{
-					audio = audioDict[key];
-				}
-				else if(audioPool.ContainsKey(key))
-				{
-					audio = audioPool[key];
-				}
-				if (audio == null)
-				{
-					return null;
-				}
-				if (audio.Clip == audioClip && audio.Type == audioType)
+                if (audioDict.ContainsKey(key))
+                {
+                    audio = audioDict[key];
+                }
+                else if (audioPool.ContainsKey(key))
+                {
+                    audio = audioPool[key];
+                }
+                if (audio == null)
+                {
+                    return null;
+                }
+                if (audio.Clip == audioClip && audio.Type == audioType)
                 {
                     return audio;
                 }
@@ -580,7 +580,7 @@ namespace Base.Audio
             if (ignoreDuplicateAudio)
             {
                 Audio duplicateAudio = GetAudio(audioType, true, clip);
-                if(duplicateAudio != null)
+                if (duplicateAudio != null)
                 {
                     return duplicateAudio.AudioID;
                 }
@@ -923,5 +923,24 @@ namespace Base.Audio
         }
 
         #endregion
+
+        #region SetVolume
+        public static void SetVolumeMusic(float volume)
+        {
+            GlobalMusicVolume = volume;
+        }
+        public static void SetVolumeSound(float volume)
+        {
+            GlobalSoundsVolume = volume;
+        }
+        public static void SetVolumeUISound(float volume)
+        {
+            GlobalUISoundsVolume = volume;
+        }
+        public static void SetVolumeGlobal(float volume)
+        {
+            GlobalVolume = volume;
+        }
+        # endregion SetVolume
     }
 }
