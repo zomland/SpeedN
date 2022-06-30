@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SwapSceneData : MonoBehaviour
 {
-    public List<ClientCoin> swapCoin = new List<ClientCoin>();
+    public List<Coin> swapCoin = new List<Coin>();
     SwapUIController swapUIController;
 
     void Start()
@@ -17,7 +17,7 @@ public class SwapSceneData : MonoBehaviour
     {
         for(int i = 0 ;i< 2 ;i++)
         {
-            ClientCoin tmp =  new ClientCoin(ClientData.Instance.ClientUser.clientCoins[i].nameCoin,0);
+            Coin tmp =  new Coin(ClientData.Instance.ClientCoin.Coins[i].nameCoin,0);
             swapCoin.Add(tmp);
         }
         swapUIController.DisplaySwapScene();

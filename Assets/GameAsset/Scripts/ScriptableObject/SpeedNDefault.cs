@@ -9,10 +9,14 @@ public class SpeedNDefault : ScriptableObject
 
     [Header("Icon")]
     public List<SpriteIcon> spriteIcons;
-    [Header("Vehicle")]
-    public List<SpriteVehicle> spriteVehicles;
 
-    [Header("Audio Clip")]
+    [Header("spriteModelVehicles")]
+    public List<SpriteModelVehicle> spriteModelVehicles;
+
+    [Header("ModelVehicle")]
+    public List<ModelVehicleBaseStats> modelVehicleBaseStats;
+
+    [Header("AudioClip")]
     public List<musicAudioClip> musicAudioClips;
     public List<soundAudioClip> soundAudioClips;
     public List<UISoundAudioClip> UISoundAudioClips;

@@ -5,9 +5,9 @@ using Global;
 using UnityEngine;
 using FirebaseHandler;
 using UnityEngine.UI;
-#if PLATFORM_ANDROID
+//#if PLATFORM_ANDROID
 using UnityEngine.Android;
-#endif
+//#endif
 
 public class DrivingUIControler : MonoBehaviour
 {
@@ -34,17 +34,17 @@ public class DrivingUIControler : MonoBehaviour
     [SerializeField] private DrivingCalculator drivingCalculator;
     //==============================================================
 
-    VehicleController _currentVehicleController;
+    Vehicle _currentVehicle;
     const float minDistanceToRecord = 0.005f;//Km
     const float minTimeDroveToRecord = 10f;//second
 
 
     void Start()
     {
-        _currentVehicleController = ClientData.Instance.ClientUser.currentVehicleController;
-        float[] vehicleLimitSpeed = new float[] { _currentVehicleController.data.minSpeed, _currentVehicleController.data.maxSpeed };
+        _currentVehicle = ClientData.Instance.ClientVehicle.currentVehicle;
+        float[] vehicleLimitSpeed = new float[] { 0f, 1000f };
         textLimitSpeed.text = vehicleLimitSpeed[0].ToString() + " - " + vehicleLimitSpeed[1].ToString() + " Km/h";
-        textVehicleName.text = _currentVehicleController.data.name;
+        textVehicleName.text = _currentVehicle.Data.NameItem;
         EnergyMonitorControler.Initialize(new float[] { 0f, 1f });
         SpeedMonitorControler.Initialize(new float[] { 0f, vehicleLimitSpeed[1] * 2 + 1000f });
         StartCoroutine(CountDown());
@@ -72,10 +72,9 @@ public class DrivingUIControler : MonoBehaviour
         {
             if (GPSController.Instance.isGPSAccessed()) imgGPSStatus.color = Color.green;
             else imgGPSStatus.color = Color.red;
-            _currentVehicleController = ClientData.Instance.ClientUser.currentVehicleController;
             textTimeDrove.text = drivingCalculator.timeDroveString();
             ShowDistanceAndNumCoin();
-            EnergyMonitorControler.SetValue(_currentVehicleController.EnergyPercent());
+            EnergyMonitorControler.SetValue(_currentVehicle.EnergyPercent());
             SpeedMonitorControler.SetValue(drivingCalculator.Speed());
         }
     }
@@ -105,7 +104,7 @@ public class DrivingUIControler : MonoBehaviour
 
     void ShowPopupGPSWarning()
     {
-        PopupGPSWarning.SetActive(!GPSController.Instance.isGPSAccessed());
+        //PopupGPSWarning.SetActive(!GPSController.Instance.isGPSAccessed());
     }
 
     #endregion================================Show Driving=============================
@@ -125,19 +124,19 @@ public class DrivingUIControler : MonoBehaviour
             {
                 drivingCalculator.PauseCalculate();
                 _movingRecordDetailControler.CreateMovingRecord(drivingCalculator.numCoin()
-                    , _currentVehicleController.data.name, drivingCalculator.Distance()
+                    , _currentVehicle.Data.NameItem, _currentVehicle.Data.ItemID, drivingCalculator.Distance()
                         , drivingCalculator.timeDroveString(), drivingCalculator.GetTimeDrove());
 
                 _movingRecordDetailControler.DisplayMovingRecord();
-                ClientData.Instance.ClientUser.EarnCoin("BNB", drivingCalculator.numCoin());
-                FirebaseApi.Instance.PostUser(callbackPostUserAfterDriving).Forget();
+                ClientData.Instance.ClientCoin.EarnCoin("BNB", drivingCalculator.numCoin());
+                DatabaseHandler.SaveUserData(SaveUserCallback);
                 isShowRecord = true;
             }
         }
     }
     void CheckShowMovingRecord()
     {
-        if (_currentVehicleController.IsOutOfEnergy() && !isShowRecord)
+        if (_currentVehicle.IsOutOfEnergy() && !isShowRecord)
         {
             ShowMovingRecord();
         }
@@ -170,16 +169,19 @@ public class DrivingUIControler : MonoBehaviour
     }
     public void StartGPSAgain()
     {
-        GPSController.Instance.isGPSEnableByUser();
-        PopupGPSWarning.SetActive(false);
-        InvokeRepeating("ShowPopupGPSWarning", 10f, 3f);
+        if (GPSController.Instance.isGPSEnableByUser())
+        {
+            PopupGPSWarning.SetActive(false);
+            InvokeRepeating("ShowPopupGPSWarning", 10f, 3f);
+        }
+
     }
 
     #endregion =====================================Button click=============================
 
-    void callbackPostUserAfterDriving(string a, string b, int c)
+    public static void SaveUserCallback(string message)
     {
-
+        Debug.Log("SaveUserCallbackOnDrivingUIControler: " + message);
     }
 
     void Update()
@@ -187,10 +189,10 @@ public class DrivingUIControler : MonoBehaviour
         ShowOnDriving();
         CheckShowMovingRecord();
         Debug.Log(GPSController.Instance.isGPSAccessed());
-#if UNITY_ANDROID
-        buttonGPSStart.interactable = GPSController.Instance.isGPSEnableByUser()
-            & Permission.HasUserAuthorizedPermission(Permission.FineLocation);
-#elif UNITY_IOS
-#endif
+        /*#if UNITY_ANDROID
+                buttonGPSStart.interactable = GPSController.Instance.isGPSEnableByUser()
+                    & Permission.HasUserAuthorizedPermission(Permission.FineLocation);
+        #elif UNITY_IOS
+        #endif*/
     }
 }

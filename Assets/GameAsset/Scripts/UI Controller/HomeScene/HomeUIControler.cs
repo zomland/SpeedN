@@ -15,11 +15,11 @@ public class HomeUIControler : MonoBehaviour
     public GameObject PopupOutOfEnergy;
     public RawImage currentVehicleRawImg;
     public Text nameVehicleText;
-    VehicleController _currentVehicleController;
+    Vehicle _currentVehicle;
 
     private void Awake()
     {
-        _currentVehicleController = ClientData.Instance.ClientUser.currentVehicleController;
+        _currentVehicle = ClientData.Instance.ClientVehicle.currentVehicle;
         LoadEnergyMonitor();
         LoadNameVehicle();
         LoadImageVehicle();
@@ -32,27 +32,27 @@ public class HomeUIControler : MonoBehaviour
 
     void LoadImageVehicle()
     {
-        if (_currentVehicleController != null)
+        if (_currentVehicle != null)
         {
             currentVehicleRawImg.texture
-                = ClientData.Instance.GetSpriteVehicle(_currentVehicleController.data.name).sprite.texture;
+                = ClientData.Instance.GetSpriteModelVehicle(_currentVehicle.Data.ModelID).sprite.texture;
         }
     }
 
     void LoadNameVehicle()
     {
-        if (_currentVehicleController != null)
+        if (_currentVehicle != null)
         {
-            nameVehicleText.text = _currentVehicleController.data.name;
+            nameVehicleText.text = _currentVehicle.Data.NameItem;
         }
     }
 
     void LoadEnergyMonitor()
     {
-        if (_currentVehicleController!= null)
+        if (_currentVehicle != null)
         {
             EnergyMonitorControler.Initialize(new float[] { 0f, 1f });
-            EnergyMonitorControler.SetValue(_currentVehicleController.EnergyPercent());
+            EnergyMonitorControler.SetValue(_currentVehicle.EnergyPercent());
         }
     }
 
@@ -76,7 +76,7 @@ public class HomeUIControler : MonoBehaviour
 
     public void ClickToDrivingScene()
     {
-        if (_currentVehicleController.IsOutOfEnergy())
+        if (_currentVehicle.IsOutOfEnergy())
         {
             PopupOutOfEnergy.SetActive(true);
         }

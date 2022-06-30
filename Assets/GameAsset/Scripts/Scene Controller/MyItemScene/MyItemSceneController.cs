@@ -17,7 +17,7 @@ public class MyItemSceneController : MonoBehaviour
 
     private void CreateItemCar()
     {
-        foreach(var child in ClientData.Instance.ClientUser.clientNFT.vehicleControllers)
+        foreach(var child in ClientData.Instance.ClientVehicle.Vehicles)
         {
             var item = Instantiate(carItem,whereToSpawn.transform.position, Quaternion.identity,listCarItems.transform);
             item.SetProperties(child);

@@ -1,6 +1,0 @@
-name,Level,TokenId,OwnerAddress,NftRarity,minSpeed,maxSpeed,Efficiency,vehicleType,Luck,Comfort,Resilience,DurabilityMax,Durability,DurabilityReducePerKm,Mint,Lease,Energy,EnergyMax,EnergyPerKm,CoinPerKm
-string,int,string,string,int,float,float,float,int,float,float,float,float,float,float,int,int,float,float,float,float
-Phong Vehicle,1,vhc001,us001,1,0,1000,1,1,1,1,1,500,500,1,1,1,500,500,1,1
-Hung Vehicle,1,vhc002,us002,1,0,1000,1,1,1,1,1,500,500,1,1,1,500,500,1,1
-Minh Vehicle,1,vhc003,us003,1,0,1000,1,1,1,1,1,500,500,1,1,1,500,500,1,1
-Dong Vehicle,1,vhc004,us004,1,0,1000,1,1,1,1,1,500,500,1,1,1,500,500,1,1

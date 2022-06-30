@@ -7,14 +7,17 @@ using System.Linq;
 [System.Serializable]
 public class ClientMovingRecord
 {
-    public float totalTime;
-    public float totalKm;
     public Dictionary<string, MovingRecordDetail> movingRecordDetails = new Dictionary<string, MovingRecordDetail>();
     public ClientMovingRecord() { }
 
+    public void LoadMovingRecords(Dictionary<string, MovingRecordDetail> _movingRecordDetails)
+    {
+        movingRecordDetails = _movingRecordDetails;
+    }
+
     public void AddMovingRecordDetail(MovingRecordDetail _detail)
     {
-        movingRecordDetails.Add(_detail.key, _detail);
+        movingRecordDetails.Add(_detail.RecordID, _detail);
     }
 
     public void DeleteExpiredRecord()
@@ -24,8 +27,8 @@ public class ClientMovingRecord
         for (int index = 0; index < movingRecordDetails.Count; index++)
         {
             MovingRecordDetail _detail = movingRecordDetails.ElementAt(index).Value;
-            if (System.DateTimeOffset.Now.ToUnixTimeSeconds() - _detail.timeStamp > secondsPerMonth
-            & _detail.key != "0000000")
+            if (System.DateTimeOffset.Now.ToUnixTimeSeconds() - _detail.TimeStamp > secondsPerMonth
+            & _detail.RecordID != "0000000")
             {
                 movingRecordDetails.Remove(movingRecordDetails.ElementAt(index).Key);
                 index--;

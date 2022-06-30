@@ -10,7 +10,7 @@ public class MyWalletController : MonoBehaviour
     public Transform whereToSpawn;
 
     int totalTypeCoin;
-     List<ClientCoin> sortedList = new List<ClientCoin>();
+     List<Coin> sortedList = new List<Coin>();
     
     void Start(){
         totalTypeCoin= ClientData.Instance.speedNDefault.spriteIcons.Count;
@@ -19,7 +19,7 @@ public class MyWalletController : MonoBehaviour
     }
 
     private void SortAmountCoin(){
-        sortedList = ClientData.Instance.ClientUser.clientCoins.OrderByDescending(coin=>coin.amount).ToList();
+        sortedList = ClientData.Instance.ClientCoin.Coins.OrderByDescending(coin=>coin.amount).ToList();
     }
 
     private void CreateListCoin(){

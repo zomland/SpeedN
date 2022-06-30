@@ -3,29 +3,29 @@ using System.Collections;
 using System.Collections.Generic;
 using Base.Helper;
 using UnityEngine;
-#if PLATFORM_ANDROID
+//#if PLATFORM_ANDROID
 using UnityEngine.Android;
-#endif
+//#endif
 using Base;
 
 public class GPSController : Singleton<GPSController>
 {
     void Start()
     {
-        InvokeRepeating("CheckPermissionGPS", 0f, 10f);
+        //InvokeRepeating("CheckPermissionGPS", 0f, 10f);
         StartGPS();
     }
 
     void CheckPermissionGPS()
     {
-        #if UNITY_ANDROID
+        //#if UNITY_ANDROID
         if (!Permission.HasUserAuthorizedPermission(Permission.CoarseLocation) |
             !Permission.HasUserAuthorizedPermission(Permission.FineLocation))
         {
             Permission.RequestUserPermissions(new string[] { Permission.CoarseLocation, Permission.FineLocation });
         }
-        #elif UNITY_IOS
-        #endif
+        //#elif UNITY_IOS
+        //#endif
     }
 
     public void StartGPS()
@@ -35,16 +35,21 @@ public class GPSController : Singleton<GPSController>
 
     IEnumerator LoadLocationService()
     {
-        #if UNITY_ANDROID
+        //#if UNITY_ANDROID
         int maxWait = 10;
-        while (Permission.HasUserAuthorizedPermission(Permission.FineLocation) && maxWait > 0)
+        /*while (!Permission.HasUserAuthorizedPermission(Permission.FineLocation) && maxWait > 0)
         {
             Debug.Log("permit " + Permission.HasUserAuthorizedPermission(Permission.FineLocation));
             yield return new WaitForSeconds(1);
             maxWait--;
         }
-        #elif UNITY_IOS
-        #endif
+        if (maxWait < 1)
+        {
+            print("Timed out");
+            yield break;
+        }
+        //#elif UNITY_IOS
+        //#endif*/
 
         // Check if the user has location service enabled.
         if (!Input.location.isEnabledByUser)
@@ -55,8 +60,8 @@ public class GPSController : Singleton<GPSController>
         Debug.Log("StartGPS");
 
         // Waits until the location service initializes
-        maxWait = 20;
-        while (Input.location.status == LocationServiceStatus.Initializing)
+        maxWait = 10;
+        while (Input.location.status == LocationServiceStatus.Initializing && maxWait > 0)
         {
             yield return new WaitForSeconds(1);
             maxWait--;

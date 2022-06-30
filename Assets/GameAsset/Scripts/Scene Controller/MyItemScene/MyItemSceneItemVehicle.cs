@@ -11,41 +11,47 @@ public class MyItemSceneItemVehicle : MonoBehaviour
     public Image spriteVehicle;
     public TextMeshProUGUI nameVehicleText;
     public TextMeshProUGUI tagText;
-    public TextMeshProUGUI levelText;
 
 
     MyItemSceneUIController myItemSceneUIController;
     MyItemSceneController myItemSceneController;
     MyItemSceneUI_2Controller myItemSceneUI_2Controller;
-    VehicleController vehicleController;
+    Vehicle vehicle;
 
     void Start()
     {
         myItemSceneUIController = FindObjectOfType<MyItemSceneUIController>();
         myItemSceneController = FindObjectOfType<MyItemSceneController>();
-        myItemSceneUI_2Controller= FindObjectOfType<MyItemSceneUI_2Controller>();
+        myItemSceneUI_2Controller = FindObjectOfType<MyItemSceneUI_2Controller>();
 
-        myItemSceneUI_2Controller.EnergyMonitorControler.Initialize(new float[]{0f,1f});
-        myItemSceneUI_2Controller.DurabilityMonitorControler.Initialize(new float[]{0f,1f});
+        myItemSceneUI_2Controller.EnergyMonitorControler.Initialize(new float[] { 0f, 1f });
+        myItemSceneUI_2Controller.DurabilityMonitorControler.Initialize(new float[] { 0f, 1f });
     }
 
-    public void SetProperties(VehicleController _vehicleController )
+    public void SetProperties(Vehicle _vehicle)
     {
-        vehicleController=_vehicleController;
-        spriteVehicle.sprite = ClientData.Instance.GetSpriteVehicle(vehicleController.data.name).sprite;
-        nameVehicleText.text = vehicleController.data.name;
-        tagText.text = vehicleController.data.TokenId;
-        levelText.text = vehicleController.data.Level.ToString();
+        vehicle = _vehicle;
+        spriteVehicle.sprite = ClientData.Instance.GetSpriteModelVehicle(vehicle.Data.ModelID).sprite;
+        nameVehicleText.text = vehicle.Data.NameItem;
+        tagText.text = vehicle.Data.ItemID;
     }
 
-    public void OnClickButton(){    
+    public void OnClickButton()
+    {
         myItemSceneUIController.OnClickVehicleItem();
-        myItemSceneUI_2Controller.DisplayUI(vehicleController);
+        myItemSceneUI_2Controller.DisplayUI(vehicle);
     }
 
     public void ChooseClick()
     {
-        ClientData.Instance.ClientUser.currentVehicleController = vehicleController;
+        ClientData.Instance.ClientVehicle.currentVehicle = vehicle;
+        ClientData.Instance.ClientUser.currentVehicleID = vehicle.Data.ItemID;
+        DatabaseHandler.SaveUserData(OnChangeCurrentVehicle);
         Messenger.RaiseMessage(Message.LoadScene, Scenes.HomeScene, Scenes.MyItemScene);
+    }
+
+    void OnChangeCurrentVehicle(string message)
+    {
+        Debug.Log(this.name + "OnChangeCurrentVehicle:Save:");
     }
 }

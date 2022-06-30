@@ -11,13 +11,13 @@ public class MyWalletItem : MonoBehaviour
     public TextMeshProUGUI amountCoinText;
     
     MyWalletUIController myWalletUIController;
-    ClientCoin coin;
+    Coin coin;
 
     void Start(){
         myWalletUIController = FindObjectOfType<MyWalletUIController>();
     }
 
-    public void SetProperties(ClientCoin coin)
+    public void SetProperties(Coin coin)
     {
         this.coin = coin;
         this.nameCoinText.text = coin.nameCoin;

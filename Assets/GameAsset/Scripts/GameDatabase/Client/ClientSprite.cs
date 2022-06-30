@@ -9,17 +9,17 @@ public class SpriteIcon : SpriteBase{
 }
 
 [System.Serializable]
-public class SpriteVehicle : SpriteBase{
-    public SpriteVehicle(){}
+public class SpriteModelVehicle : SpriteBase{
+    public SpriteModelVehicle(){}
 }
 
 [System.Serializable]
 public class SpriteBase{
-    public string name;
+    public string spriteID;
     public Sprite sprite;
 
     public SpriteBase(){
-        name = String.Empty;
+        spriteID = String.Empty;
         sprite = null;
     }
 }

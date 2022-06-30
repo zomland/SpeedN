@@ -17,11 +17,11 @@ public class ButtonToRecordDetailControler : MonoBehaviour
     {
         if (indexRecordDetail >= 0)
         {
-            MovingRecordDetail _detail = ClientData.Instance.clientMovingRecord
+            MovingRecordDetail _detail = ClientData.Instance.ClientMovingRecord
                 .movingRecordDetails.ElementAt(indexRecordDetail).Value;
-            textTime.text = _detail.time;
-            textDistance.text = _detail.distance.ToString() + " km";
-            textTimeDrove.text = _detail.timeDroveString;
+            textTime.text = _detail.Time;
+            textDistance.text = _detail.Distance.ToString() + " km";
+            textTimeDrove.text = _detail.TimeDroveString;
         }
 
     }

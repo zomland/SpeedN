@@ -322,11 +322,11 @@ namespace FirebaseHandler
                     {
                         isExisted = true;
                         string JsonData = JsonConvert.SerializeObject(clientSnapshot.GetValue(true));
-                        ClientData.Instance.clientMovingRecord = JsonConvert.DeserializeObject<ClientMovingRecord>(JsonData);
+                        ClientData.Instance.ClientMovingRecord = JsonConvert.DeserializeObject<ClientMovingRecord>(JsonData);
                         SetUpMovingRecordRef(user.userKey);
-                        ClientData.Instance.clientMovingRecord.DeleteExpiredRecord();
+                        ClientData.Instance.ClientMovingRecord.DeleteExpiredRecord();
                         JsonData = JsonConvert.SerializeObject
-                            (ClientData.Instance.clientMovingRecord.movingRecordDetails);
+                            (ClientData.Instance.ClientMovingRecord.movingRecordDetails);
                         databaseClientMovingRecordRef.Child("movingRecordDetails")
                             .SetRawJsonValueAsync(JsonData);
                         databaseCallback.Invoke("InitialSetUpMovingRecord", "user existed : get data", 0);
@@ -334,9 +334,9 @@ namespace FirebaseHandler
                 }
                 if (!isExisted)
                 {
-                    ClientData.Instance.clientMovingRecord.AddMovingRecordDetail(new MovingRecordDetail());
+                    ClientData.Instance.ClientMovingRecord.AddMovingRecordDetail(new MovingRecordDetail());
                     databaseMovingRecordsRef.Child(user.userKey)
-                        .SetRawJsonValueAsync(ClientData.Instance.clientMovingRecord.GetStringJsonData());
+                        .SetRawJsonValueAsync(ClientData.Instance.ClientMovingRecord.GetStringJsonData());
                     SetUpMovingRecordRef(user.userKey);
                     databaseCallback.Invoke("InitialSetUpMovingRecord", "new user : Add data", 0);
                 }
@@ -361,7 +361,7 @@ namespace FirebaseHandler
                     databaseClientMovingRecordRef.Child("totalTime").SetValueAsync(_totalTime);
                     databaseClientMovingRecordRef.Child("totalKm").SetValueAsync(_totalKm);
                     databaseClientMovingRecordRef.Child("movingRecordDetails")
-                        .Child(_movingRecordDetail.key).SetRawJsonValueAsync(json);
+                        .Child(_movingRecordDetail.RecordID).SetRawJsonValueAsync(json);
                     databaseCallback.Invoke("AddMovingRecord", "Add success", 0);
                 }
             });

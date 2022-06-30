@@ -38,7 +38,7 @@ public class SwapUIController : MonoBehaviour
         {
             icon[i].sprite = ClientData.Instance.GetSpriteIcon(swapSceneData.swapCoin[i].nameCoin).sprite;
             nameCoin[i].text =  swapSceneData.swapCoin[i].nameCoin;
-            amountText[i].text = ClientData.Instance.ClientUser.GetAmountCoin(swapSceneData.swapCoin[i].nameCoin).ToString();
+            amountText[i].text = ClientData.Instance.ClientCoin.GetAmountCoin(swapSceneData.swapCoin[i].nameCoin).ToString();
         }
     }
 
@@ -46,13 +46,13 @@ public class SwapUIController : MonoBehaviour
     // On click Button
     public void OnClickMaxButton()
     {
-        swapSceneData.swapCoin[0].amount =  ClientData.Instance.ClientUser.GetAmountCoin(swapSceneData.swapCoin[0].nameCoin);
+        swapSceneData.swapCoin[0].amount =  ClientData.Instance.ClientCoin.GetAmountCoin(swapSceneData.swapCoin[0].nameCoin);
         inputSend.text =  swapSceneData.swapCoin[0].amount.ToString();
     }
 
     public void OnClickConfirmTransaction()
     {
-        if(swapSceneData.swapCoin[0].amount > ClientData.Instance.ClientUser.GetAmountCoin(swapSceneData.swapCoin[0].nameCoin) )
+        if(swapSceneData.swapCoin[0].amount > ClientData.Instance.ClientCoin.GetAmountCoin(swapSceneData.swapCoin[0].nameCoin) )
         {
             warningPopup.gameObject.SetActive(true);
         }

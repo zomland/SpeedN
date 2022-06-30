@@ -95,9 +95,9 @@ namespace FirebaseHandler
 
         public async UniTaskVoid AddAMovingRecord(MovingRecordDetail _movingRecord, DatabaseCallback callback)
         {
-            float _totalKm = ClientData.Instance.clientMovingRecord.totalKm;
-            float _totalTime = ClientData.Instance.clientMovingRecord.totalTime;
-            _databaseHandler.AddAMovingRecord(_totalTime, _totalKm, _movingRecord, ClientData.Instance.clientMovingRecord
+            float _totalKm = ClientData.Instance.ClientUser.totalKm;
+            float _totalTime = ClientData.Instance.ClientUser.totalTime;
+            _databaseHandler.AddAMovingRecord(_totalTime, _totalKm, _movingRecord, ClientData.Instance.ClientMovingRecord
                 , callback).Forget();
             await UniTask.Yield();
         }
@@ -105,7 +105,7 @@ namespace FirebaseHandler
         public async UniTaskVoid GetMovingRecords(DatabaseCallback callback)
         {
             _databaseHandler.GetMovingRecordsData(ClientData.Instance.ClientUser
-                , ClientData.Instance.clientMovingRecord, callback).Forget();
+                , ClientData.Instance.ClientMovingRecord, callback).Forget();
             await UniTask.Yield();
         }
 

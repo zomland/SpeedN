@@ -21,7 +21,8 @@ public class MovingRecordOnAccountControler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        int _amountRecord = ClientData.Instance.clientMovingRecord.AmountRecord() - 1;
+        Debug.LogError(ClientData.Instance.ClientMovingRecord.AmountRecord());
+        int _amountRecord = ClientData.Instance.ClientMovingRecord.AmountRecord();
         lastPage = _amountRecord / MaxRecordCanShow;
         if (_amountRecord % MaxRecordCanShow > 0)
             lastPage++;
@@ -30,7 +31,7 @@ public class MovingRecordOnAccountControler : MonoBehaviour
 
     void ProcessPagination()
     {
-        int _amountRecord = ClientData.Instance.clientMovingRecord.AmountRecord();
+        int _amountRecord = ClientData.Instance.ClientMovingRecord.AmountRecord();
 
         // buttons
         if (ButtonsCtrl[0].indexRecordDetail >= _amountRecord - 1) buttonBack.interactable = false;
@@ -49,7 +50,7 @@ public class MovingRecordOnAccountControler : MonoBehaviour
 
     public void LoadButtonsRecordDetails(int otpLoadButtonBehaviour)
     {
-        int _amountRecord = ClientData.Instance.clientMovingRecord.AmountRecord();
+        int _amountRecord = ClientData.Instance.ClientMovingRecord.AmountRecord();
         int firstIndex = -777;
         switch (otpLoadButtonBehaviour)
         {
@@ -71,7 +72,7 @@ public class MovingRecordOnAccountControler : MonoBehaviour
         if (firstIndex != -777)
             for (int index = 0; index < MaxRecordCanShow; index++)
             {
-                if (firstIndex - index >= 1)
+                if (firstIndex - index >= 0)
                 {
                     ButtonsCtrl[index].indexRecordDetail = firstIndex - index;
                     ButtonsCtrl[index].DisplayButtonInfo();

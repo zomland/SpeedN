@@ -13,31 +13,110 @@ MonoBehaviour:
   m_Name: SpeedN Default
   m_EditorClassIdentifier: 
   spriteIcons:
-  - name: BNB
+  - spriteID: BNB
     sprite: {fileID: 21300000, guid: 566739880dbcf6c42acca076b6d4ba64, type: 3}
-  - name: SpeedG
-    sprite: {fileID: 21300000, guid: fdcdc857e1ac02c42a74c0d54112dba0, type: 3}
-  - name: SpeedM
+  - spriteID: SpeedN
     sprite: {fileID: 21300000, guid: b590d26e55861de4297d095be78c640b, type: 3}
-  - name: SpeedC
-    sprite: {fileID: 21300000, guid: fdcdc857e1ac02c42a74c0d54112dba0, type: 3}
-  - name: SpeedN
-    sprite: {fileID: 21300000, guid: b590d26e55861de4297d095be78c640b, type: 3}
-  spriteVehicles:
-  - name: Phong Vehicle
-    sprite: {fileID: 21300000, guid: 16fac6b879d6a9c4c828d213655075c0, type: 3}
-  - name: Minh Vehicle
-    sprite: {fileID: 21300000, guid: 1c331ab402c838043a13236b01bc3544, type: 3}
-  - name: Hung Vehicle
-    sprite: {fileID: 21300000, guid: 0bb58ed377bd37e4fbd20a87dd6ce053, type: 3}
-  - name: Dong Vehicle
+  - spriteID: SpeedM
+    sprite: {fileID: 21300000, guid: 5be7e61675c64804b84fbb0a0af31a1c, type: 3}
+  - spriteID: SpeedI
+    sprite: {fileID: 21300000, guid: c8c11ed9ae4210c468430d93be0c9eea, type: 3}
+  - spriteID: SpeedP
+    sprite: {fileID: 21300000, guid: 9e8eb8427c7ef2e4da1fb1b65131af98, type: 3}
+  spriteModelVehicles:
+  - spriteID: HD001
     sprite: {fileID: 21300000, guid: eb0033b16bd3017428a4f52f454aed2e, type: 3}
+  - spriteID: MB001
+    sprite: {fileID: 21300000, guid: 16fac6b879d6a9c4c828d213655075c0, type: 3}
+  - spriteID: SP001
+    sprite: {fileID: 21300000, guid: 0bb58ed377bd37e4fbd20a87dd6ce053, type: 3}
+  - spriteID: SP002
+    sprite: {fileID: 21300000, guid: 1c331ab402c838043a13236b01bc3544, type: 3}
+  modelVehicleBaseStats:
+  - NftType: 0
+    NftRarity: 0
+    ModelID: IC000
+    ModelName: InitialCar000
+    Efficiency: 1
+    Resilience: 0.1
+    EnergyMax: 200
+    EnergyPerMinute: 1
+    DurabilityMax: 200
+    DurabilityPerMinute: 1
+    MaxENERZIPerEnergy: 5
+    MinOptimalSpeed: 20
+    MaxOptimalSpeed: 50
+  - NftType: 0
+    NftRarity: 0
+    ModelID: TL001
+    ModelName: Tesla001
+    Efficiency: 1
+    Resilience: 0.1
+    EnergyMax: 200
+    EnergyPerMinute: 1
+    DurabilityMax: 200
+    DurabilityPerMinute: 1
+    MaxENERZIPerEnergy: 5
+    MinOptimalSpeed: 20
+    MaxOptimalSpeed: 50
+  - NftType: 0
+    NftRarity: 1
+    ModelID: MB001
+    ModelName: MercedesBenz001
+    Efficiency: 1
+    Resilience: 0.2
+    EnergyMax: 300
+    EnergyPerMinute: 1
+    DurabilityMax: 300
+    DurabilityPerMinute: 1
+    MaxENERZIPerEnergy: 5
+    MinOptimalSpeed: 20
+    MaxOptimalSpeed: 50
+  - NftType: 0
+    NftRarity: 2
+    ModelID: HD001
+    ModelName: Honda001
+    Efficiency: 1
+    Resilience: 0.3
+    EnergyMax: 350
+    EnergyPerMinute: 1
+    DurabilityMax: 350
+    DurabilityPerMinute: 1
+    MaxENERZIPerEnergy: 5
+    MinOptimalSpeed: 20
+    MaxOptimalSpeed: 50
+  - NftType: 0
+    NftRarity: 3
+    ModelID: SP001
+    ModelName: SuperCar001
+    Efficiency: 1
+    Resilience: 0.5
+    EnergyMax: 400
+    EnergyPerMinute: 1
+    DurabilityMax: 400
+    DurabilityPerMinute: 1
+    MaxENERZIPerEnergy: 5
+    MinOptimalSpeed: 20
+    MaxOptimalSpeed: 50
+  - NftType: 0
+    NftRarity: 3
+    ModelID: SP002
+    ModelName: SuperCar002
+    Efficiency: 1
+    Resilience: 0.5
+    EnergyMax: 400
+    EnergyPerMinute: 1
+    DurabilityMax: 400
+    DurabilityPerMinute: 1
+    MaxENERZIPerEnergy: 5
+    MinOptimalSpeed: 20
+    MaxOptimalSpeed: 50
   musicAudioClips:
-  - name: HitTheGas
+  - name: HItTheGas96
     ID: music001
     clip: {fileID: 8300000, guid: 73b9425f5cd4bff4680a904a5d596d3a, type: 3}
   soundAudioClips: []
   UISoundAudioClips:
-  - name: ButtonClick01
+  - name: ButtonClick001s
     ID: buttonClick01
     clip: {fileID: 8300000, guid: a07a70fef9ef67d43a455b0569302d10, type: 3}

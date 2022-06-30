@@ -85,14 +85,14 @@ public class AccountUIControler : MonoBehaviour
         {
             //km
             string totalKmString;
-            if (ClientData.Instance.clientMovingRecord.totalKm < 0.01)
+            if (ClientData.Instance.ClientUser.totalKm < 0.01)
             {
-                totalKmString = (ClientData.Instance.clientMovingRecord.totalKm * 1000).ToString("0.00");
+                totalKmString = (ClientData.Instance.ClientUser.totalKm * 1000).ToString("0.00");
                 totalKmString += " m";
             }
             else
             {
-                totalKmString = ClientData.Instance.clientMovingRecord.totalKm.ToString("0.00");
+                totalKmString = ClientData.Instance.ClientUser.totalKm.ToString("0.00");
                 totalKmString += " km";
             }
             textTotalKmOnMain.text = totalKmString;
@@ -100,15 +100,15 @@ public class AccountUIControler : MonoBehaviour
 
             //time
             string totalTimeString;
-            if (ClientData.Instance.clientMovingRecord.totalTime / secondsPerHour < 1f)
+            if (ClientData.Instance.ClientUser.totalTime / secondsPerHour < 1f)
             {
-                totalTimeString = (ClientData.Instance.clientMovingRecord.totalTime / secondPerMin)
+                totalTimeString = (ClientData.Instance.ClientUser.totalTime / secondPerMin)
                     .ToString("0.00");
                 totalTimeString += " mins";
             }
             else
             {
-                totalTimeString = ClientData.Instance.clientMovingRecord.totalTime.ToString("0.00");
+                totalTimeString = ClientData.Instance.ClientUser.totalTime.ToString("0.00");
                 totalTimeString += " hours";
             }
             textTotalTime.text = totalTimeString;

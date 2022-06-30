@@ -1,34 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 [System.Serializable]
 public class MovingRecordDetail
 {
-    public string time;
-    public float numCoin;
-    public string vehicleName;
-    public string vehicleID;
-    public float distance;
-    public string timeDroveString;
-    public string key = "0000000";
-    public long timeStamp;
+    public string Time = "null";
+    public float NumCoin;
+    public string VehicleName = "null";
+    public string VehicleID = "null";
+    public float Distance;
+    public string TimeDroveString = "null";
+    public string RecordID = "null";
+    public long TimeStamp;
 
     public MovingRecordDetail() { }
-    public MovingRecordDetail(string _time, float _numCoin, string _vehicleName, float _distance
+    public MovingRecordDetail(string _time, float _numCoin, string _vehicleName, string _vehicleID, float _distance
         , string _timeDroveString, long _timeStamp)
     {
-        time = _time;
-        numCoin = _numCoin;
-        vehicleName = _vehicleName;
-        distance = _distance;
-        timeDroveString = _timeDroveString;
-        timeStamp = _timeStamp;
-        key = timeStamp.ToString("0");
+        Time = _time;
+        NumCoin = _numCoin;
+        VehicleName = _vehicleName;
+        VehicleID = _vehicleID;
+        Distance = _distance;
+        TimeDroveString = _timeDroveString;
+        TimeStamp = _timeStamp;
+        RecordID = TimeStamp.ToString("0");
     }
 
     public string GetStringJsonData()
     {
-        return JsonUtility.ToJson(this);
+        return JsonConvert.SerializeObject(this);
     }
 }

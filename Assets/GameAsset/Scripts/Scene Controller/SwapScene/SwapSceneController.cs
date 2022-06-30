@@ -21,7 +21,7 @@ public class SwapSceneController : MonoBehaviour
         isSpawn[index] = true;
         if(index == 0)
         {      
-            foreach(var child in ClientData.Instance.ClientUser.clientCoins)
+            foreach(var child in ClientData.Instance.ClientCoin.Coins)
             {
                 var item = Instantiate(itemSend,whereSpawn[index].transform.position , Quaternion.identity, list[index].transform);
                 item.SetProperties(child.nameCoin);
@@ -29,7 +29,7 @@ public class SwapSceneController : MonoBehaviour
         }
         else if(index ==1)
         {
-            foreach(var child in ClientData.Instance.ClientUser.clientCoins)
+            foreach(var child in ClientData.Instance.ClientCoin.Coins)
             {
                 var item = Instantiate(itemGet,whereSpawn[index].transform.position , Quaternion.identity, list[index].transform);
                 item.SetProperties(child.nameCoin);

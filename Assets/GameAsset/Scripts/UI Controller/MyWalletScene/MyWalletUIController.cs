@@ -12,8 +12,8 @@ public class MyWalletUIController : MonoBehaviour
 
     void Start(){
         userNameText.text = ClientData.Instance.ClientUser.userName;
-        amountCoinText.text = ClientData.Instance.ClientUser.clientCoins[0].amount.ToString();
-        typeCoinText.text = ClientData.Instance.ClientUser.clientCoins[0].nameCoin;
+        amountCoinText.text = ClientData.Instance.ClientCoin.Coins[0].amount.ToString();
+        typeCoinText.text = ClientData.Instance.ClientCoin.Coins[0].nameCoin;
         DisplayAddress();
     }
 
@@ -35,7 +35,7 @@ public class MyWalletUIController : MonoBehaviour
         addressText.text = s;
     }
 
-    public void DisplayCoin(ClientCoin coin){
+    public void DisplayCoin(Coin coin){
         amountCoinText.text = coin.amount.ToString();
         typeCoinText.text = coin.nameCoin;
     }
