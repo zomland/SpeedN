@@ -24,7 +24,7 @@ namespace Runtime.UIHandler
 
         private void OnDestroy()
         {
-            _button.onClick.RemoveListener(ButtonClick);
+            //_button.onClick.RemoveListener(ButtonClick);
         }
 
         public void ButtonClick()

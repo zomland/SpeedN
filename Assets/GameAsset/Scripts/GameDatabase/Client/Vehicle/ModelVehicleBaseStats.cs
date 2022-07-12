@@ -6,18 +6,13 @@ using Newtonsoft.Json;
 [System.Serializable]
 public class ModelVehicleBaseStats : NFTBaseStats
 {
-    public NFTRarity NftRarity;
     public string ModelID;
     public string ModelName;
     public float Efficiency;
-    public float Resilience;
     public float EnergyMax;
     public float EnergyPerMinute;
     public float DurabilityMax;
     public float DurabilityPerMinute;
-    public float MaxENERZIPerEnergy;
-    public float MinOptimalSpeed;
-    public float MaxOptimalSpeed;
     public ModelVehicleBaseStats() { }
     public ModelVehicleBaseStats(string _ModelID)
     {

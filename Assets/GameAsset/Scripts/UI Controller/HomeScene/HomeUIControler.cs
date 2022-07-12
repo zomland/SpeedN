@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Base.MessageSystem;
@@ -6,15 +7,18 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Base.Audio;
+using TMPro;
 using Translation;
 
 public class HomeUIControler : MonoBehaviour
 {
-
     public ClockMonitorControler EnergyMonitorControler;
     public GameObject PopupOutOfEnergy;
     public RawImage currentVehicleRawImg;
     public Text nameVehicleText;
+    [SerializeField] private TextMeshProUGUI durabilityText;
+    [SerializeField] private TextMeshProUGUI efficiencyText;
+    [SerializeField] private TextMeshProUGUI energyText;
     Vehicle _currentVehicle;
 
     private void Awake()
@@ -23,6 +27,15 @@ public class HomeUIControler : MonoBehaviour
         LoadEnergyMonitor();
         LoadNameVehicle();
         LoadImageVehicle();
+
+        durabilityText.text = $"Durability: \n{_currentVehicle.BaseStats.DurabilityMax}";
+        efficiencyText.text = $"Efficiency: \n{_currentVehicle.BaseStats.Efficiency}";
+        string energyTxt = String.Empty;
+        if (_currentVehicle.BaseStats.NftType == NFTType.Bicycle) energyTxt = "Stamina:";
+        else if (_currentVehicle.BaseStats.NftType == NFTType.Shoes) energyTxt = "Stamina:";
+        else if (_currentVehicle.BaseStats.NftType == NFTType.Car) energyTxt = "Gas:";
+
+        energyText.text = $"{energyTxt} \n{_currentVehicle.BaseStats.EnergyMax}";
     }
     void Start()
     {

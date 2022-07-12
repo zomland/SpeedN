@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,6 +12,10 @@ public class MyItemSceneItemVehicle : MonoBehaviour
     public Image spriteVehicle;
     public TextMeshProUGUI nameVehicleText;
     public TextMeshProUGUI tagText;
+
+    [SerializeField] private Text durabilityText;
+    [SerializeField] private Text efficiencyText;
+    [SerializeField] private Text energyText;
 
 
     MyItemSceneUIController myItemSceneUIController;
@@ -26,6 +31,15 @@ public class MyItemSceneItemVehicle : MonoBehaviour
 
         myItemSceneUI_2Controller.EnergyMonitorControler.Initialize(new float[] { 0f, 1f });
         myItemSceneUI_2Controller.DurabilityMonitorControler.Initialize(new float[] { 0f, 1f });
+        
+        durabilityText.text = $"Durability: \n{vehicle.BaseStats.DurabilityMax}";
+        efficiencyText.text = $"Efficiency: \n{vehicle.BaseStats.Efficiency}";
+        string energyTxt = String.Empty;
+        if (vehicle.BaseStats.NftType == NFTType.Bicycle) energyTxt = "Stamina:";
+        else if (vehicle.BaseStats.NftType == NFTType.Shoes) energyTxt = "Stamina:";
+        else if (vehicle.BaseStats.NftType == NFTType.Car) energyTxt = "Gas:";
+
+        energyText.text = $"{energyTxt} \n{vehicle.BaseStats.EnergyMax}";
     }
 
     public void SetProperties(Vehicle _vehicle)
