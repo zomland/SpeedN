@@ -49,29 +49,29 @@ public static class DatabaseHandler
 
     public static void LoadMovingRecords(DatabaseHandlerCallback callback, DatabaseHandlerFallback fallback)
     {
-        Dictionary<string, MovingRecordDetail> movingRecordDetails = new Dictionary<string, MovingRecordDetail>();
+        Dictionary<string, MovingRecord> movingRecords = new Dictionary<string, MovingRecord>();
         List<string> MovingRecordDetailsJson = CSVControler.ListJsonDataFromCSV(pathDict[TypePath.MovingRecord]);
 
         if (MovingRecordDetailsJson != null)
         {
             foreach (string json in MovingRecordDetailsJson)
             {
-                MovingRecordDetail movingRecordDetail = JsonConvert.DeserializeObject<MovingRecordDetail>(json);
-                movingRecordDetails.Add(movingRecordDetail.RecordID, movingRecordDetail);
+                MovingRecord movingRecordDetail = JsonConvert.DeserializeObject<MovingRecord>(json);
+                movingRecords.Add(movingRecordDetail.RecordID, movingRecordDetail);
             }
-            ClientData.Instance.ClientMovingRecord.LoadMovingRecords(movingRecordDetails);
+            ClientData.Instance.ClientUser.clientMovingRecord.LoadMovingRecords(movingRecords);
             callback.Invoke("success");
         }
         else
         {
-            CSVControler.CreateCSV(pathDict[TypePath.MovingRecord], new MovingRecordDetail().GetStringJsonData());
+            CSVControler.CreateCSV(pathDict[TypePath.MovingRecord], new MovingRecord().GetStringJsonData());
             fallback.Invoke("failed");
         }
     }
 
-    public static void SaveAMovingRecord(MovingRecordDetail movingRecordDetail, DatabaseHandlerCallback callback)
+    public static void SaveAMovingRecord(MovingRecord movingRecord, DatabaseHandlerCallback callback)
     {
-        string json = movingRecordDetail.GetStringJsonData();
+        string json = movingRecord.GetStringJsonData();
         CSVControler.AppendALineToCsv(pathDict[TypePath.MovingRecord], json);
         callback.Invoke("success");
     }
@@ -83,14 +83,14 @@ public static class DatabaseHandler
         {
             foreach (string child in ListVehicleDataJson)
             {
-                VehicleData vehicleData = JsonConvert.DeserializeObject<VehicleData>(child);
-                ClientData.Instance.ClientVehicle.Vehicles.Add(new Vehicle(vehicleData));
+                Vehicle vehicle = JsonConvert.DeserializeObject<Vehicle>(child);
+                ClientData.Instance.ClientUser.clientVehicle.Vehicles.Add(vehicle);
             }
             callback.Invoke("success");
         }
         else
         {
-            CSVControler.CreateCSV(pathDict[TypePath.Vehicle], new VehicleData().GetStringJsonData());
+            CSVControler.CreateCSV(pathDict[TypePath.Vehicle], new Vehicle().GetStringJsonData());
             fallback.Invoke("failed");
         }
     }
@@ -98,9 +98,9 @@ public static class DatabaseHandler
     public static void SaveVehicleData(DatabaseHandlerCallback callback)
     {
         List<string> content = new List<string>();
-        foreach (Vehicle child in ClientData.Instance.ClientVehicle.Vehicles)
+        foreach (Vehicle child in ClientData.Instance.ClientUser.clientVehicle.Vehicles)
         {
-            content.Add(child.Data.GetStringJsonData());
+            content.Add(child.GetStringJsonData());
         }
         CSVControler.OverWriteCSV(pathDict[TypePath.Vehicle], content.ToArray());
         callback.Invoke("success");
@@ -126,7 +126,7 @@ public static class DatabaseHandler
 
     public static void LoadClientCoin(DatabaseHandlerCallback callback, DatabaseHandlerFallback fallback)
     {
-        List<string> ListCoinDataJson = CSVControler.ListJsonDataFromCSV(pathDict[TypePath.Coin]);
+        /*List<string> ListCoinDataJson = CSVControler.ListJsonDataFromCSV(pathDict[TypePath.Coin]);
         if (ListCoinDataJson != null)
         {
             foreach (string child in ListCoinDataJson)
@@ -140,18 +140,18 @@ public static class DatabaseHandler
         {
             CSVControler.CreateCSV(pathDict[TypePath.Coin], new Coin().GetStringJsonData());
             fallback.Invoke("failed");
-        }
+        }*/
     }
 
     public static void SaveClientCoin(DatabaseHandlerCallback callback)
     {
-        List<string> content = new List<string>();
+        /*List<string> content = new List<string>();
         foreach (Coin child in ClientData.Instance.ClientCoin.Coins)
         {
             content.Add(child.GetStringJsonData());
         }
         CSVControler.OverWriteCSV(pathDict[TypePath.Coin], content.ToArray());
-        callback.Invoke("success");
+        callback.Invoke("success");*/
     }
 }
 

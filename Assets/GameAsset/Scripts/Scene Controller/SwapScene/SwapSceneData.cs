@@ -15,12 +15,12 @@ public class SwapSceneData : MonoBehaviour
 
     public void InitSwap()
     {
-        for(int i = 0 ;i< 2 ;i++)
-        {
-            Coin tmp =  new Coin(ClientData.Instance.ClientCoin.Coins[i].nameCoin,0);
-            swapCoin.Add(tmp);
-        }
-        swapUIController.DisplaySwapScene();
+        // for(int i = 0 ;i< 2 ;i++)
+        // {
+        //     Coin tmp =  new Coin(ClientData.Instance.ClientCoin.Coins[i].nameCoin,0);
+        //     swapCoin.Add(tmp);
+        // }
+        // swapUIController.DisplaySwapScene();
     }
 
     public void ChangeSwapCoin(int index, string nameCoin)

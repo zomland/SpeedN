@@ -6,7 +6,7 @@ using FirebaseHandler;
 using System.Linq;
 using System;
 
-public class MovingRecordDetailControler : MonoBehaviour
+public class MovingRecordControler : MonoBehaviour
 {
     public Text textMessageMovingRecord;
     public RawImage currentVehicleRawImg;
@@ -18,60 +18,60 @@ public class MovingRecordDetailControler : MonoBehaviour
     public Text textTimeDrove;
     public RawImage userAvatar;
 
-    MovingRecordDetail _movingRecordDetail;
+    MovingRecord _movingRecord;
 
     public void CreateMovingRecord(float _numCoin, string _vehicleName, string _vehicleID, float _distance
         , string _timeDroveString, float _timeDrove)
     {
         string _timeCreate = System.DateTime.Now.ToString();
         long _timeStamp = System.DateTimeOffset.Now.ToUnixTimeSeconds();
-        _movingRecordDetail = new MovingRecordDetail(_timeCreate, _numCoin, _vehicleName, _vehicleID, _distance, _timeDroveString, _timeStamp);
+        _movingRecord = new MovingRecord(_timeCreate, _numCoin, _vehicleName, _vehicleID, _distance, _timeDroveString, _timeStamp);
         ClientData.Instance.ClientUser.totalKm += _distance;
         ClientData.Instance.ClientUser.totalTime += _timeDrove;
-        ClientData.Instance.ClientMovingRecord.AddMovingRecordDetail(_movingRecordDetail);
-        DatabaseHandler.SaveAMovingRecord(_movingRecordDetail, SaveMovingRecordCallback);
+        ClientData.Instance.ClientUser.clientMovingRecord.AddMovingRecordDetail(_movingRecord);
+        DatabaseHandler.SaveAMovingRecord(_movingRecord, SaveMovingRecordCallback);
     }
 
     public void LoadDataMovingRecord(int index)
     {
-        _movingRecordDetail
-            = ClientData.Instance.ClientMovingRecord.movingRecordDetails.ElementAt(index).Value;
+        _movingRecord
+            = ClientData.Instance.ClientUser.clientMovingRecord.movingRecords.ElementAt(index).Value;
     }
     public void DisplayMovingRecord()
     {
-        textMessageMovingRecord.text = "Using vehicle: " + _movingRecordDetail.VehicleName;
+        textMessageMovingRecord.text = "Using vehicle: " + _movingRecord.VehicleName;
 
-        string ModelVehicleID = ClientData.Instance.ClientVehicle.GetModelID(_movingRecordDetail.VehicleID);
-        Debug.LogWarning(ModelVehicleID + "+" + _movingRecordDetail.VehicleID);
+        string ModelVehicleID = ClientData.Instance.ClientUser.clientVehicle.GetModelID(_movingRecord.VehicleID);
+        Debug.LogWarning(ModelVehicleID + "+" + _movingRecord.VehicleID);
         currentVehicleRawImg.texture
             = ClientData.Instance.GetSpriteModelVehicle(ModelVehicleID).sprite.texture;
         textUserName.text = ClientData.Instance.ClientUser.userName;
-        textTime.text = _movingRecordDetail.Time;
+        textTime.text = _movingRecord.Time;
         ShowDistanceAndNumCoin();
-        textTimeDrove.text = _movingRecordDetail.TimeDroveString;
+        textTimeDrove.text = _movingRecord.TimeDroveString;
         //userAvatar;
         this.gameObject.SetActive(true);
     }
 
     void ShowDistanceAndNumCoin()
     {
-        if (_movingRecordDetail.Distance < 1)
+        if (_movingRecord.Distance < 1)
         {
             textUnitDistance.text = "m";
-            textDistanceRecord.text = (_movingRecordDetail.Distance * 1000).ToString("0.0");
+            textDistanceRecord.text = (_movingRecord.Distance * 1000).ToString("0.0");
         }
         else
         {
             textUnitDistance.text = "Km";
-            textDistanceRecord.text = (_movingRecordDetail.Distance).ToString("0.0");
+            textDistanceRecord.text = (_movingRecord.Distance).ToString("0.0");
         }
-        if (_movingRecordDetail.NumCoin < 0.01f & _movingRecordDetail.NumCoin > 0f)
+        if (_movingRecord.NumCoin < 0.01f & _movingRecord.NumCoin > 0f)
         {
-            textNumCoinRecord.text = _movingRecordDetail.NumCoin.ToString("0.000");
+            textNumCoinRecord.text = _movingRecord.NumCoin.ToString("0.000");
         }
         else
         {
-            textNumCoinRecord.text = _movingRecordDetail.NumCoin.ToString("0.00");
+            textNumCoinRecord.text = _movingRecord.NumCoin.ToString("0.00");
         }
     }
 

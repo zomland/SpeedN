@@ -10,15 +10,15 @@ public class ButtonToRecordDetailControler : MonoBehaviour
     public Text textTime;
     public Text textDistance;
     public Text textTimeDrove;
-    public MovingRecordDetailControler recordDetailControler;
+    public MovingRecordControler recordControler;
     public AccountUIControler accountUIControler;
 
     public void DisplayButtonInfo()
     {
         if (indexRecordDetail >= 0)
         {
-            MovingRecordDetail _detail = ClientData.Instance.ClientMovingRecord
-                .movingRecordDetails.ElementAt(indexRecordDetail).Value;
+            MovingRecord _detail = ClientData.Instance.ClientUser.clientMovingRecord
+                .movingRecords.ElementAt(indexRecordDetail).Value;
             textTime.text = _detail.Time;
             textDistance.text = _detail.Distance.ToString() + " km";
             textTimeDrove.text = _detail.TimeDroveString;
@@ -30,8 +30,8 @@ public class ButtonToRecordDetailControler : MonoBehaviour
     {
         if (indexRecordDetail >= 0)
         {
-            recordDetailControler.LoadDataMovingRecord(indexRecordDetail);
-            recordDetailControler.DisplayMovingRecord();
+            recordControler.LoadDataMovingRecord(indexRecordDetail);
+            recordControler.DisplayMovingRecord();
             accountUIControler.ActiveCanvas("MovingRecordDetail");
         }
     }

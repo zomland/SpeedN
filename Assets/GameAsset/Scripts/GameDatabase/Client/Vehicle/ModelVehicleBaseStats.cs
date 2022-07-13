@@ -4,8 +4,9 @@ using UnityEngine;
 using Newtonsoft.Json;
 
 [System.Serializable]
-public class ModelVehicleBaseStats : NFTBaseStats
+public class ModelVehicleBaseStats
 {
+    public NFTType NftType;
     public string ModelID;
     public string ModelName;
     public float Efficiency;
@@ -30,13 +31,13 @@ public class ModelVehicleBaseStats : NFTBaseStats
 
 public static class ModelVehicle
 {
-    public static Dictionary<string, ModelVehicleBaseStats> StatsDict
+    public static Dictionary<string, ModelVehicleBaseStats> ModelsDict
         = new Dictionary<string, ModelVehicleBaseStats>();
 
 
     public static void AddModelStat(ModelVehicleBaseStats _modelStats)
     {
-        StatsDict.Add(_modelStats.ModelID, _modelStats);
+        ModelsDict.Add(_modelStats.ModelID, _modelStats);
     }
 
 }

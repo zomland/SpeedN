@@ -19,10 +19,10 @@ public class MyWalletItem : MonoBehaviour
 
     public void SetProperties(Coin coin)
     {
-        this.coin = coin;
-        this.nameCoinText.text = coin.nameCoin;
-        this.icon.sprite = ClientData.Instance.GetSpriteIcon(coin.nameCoin).sprite;
-        this.amountCoinText.text = coin.amount.ToString();
+        // this.coin = coin;
+        // this.nameCoinText.text = coin.nameCoin;
+        // this.icon.sprite = ClientData.Instance.GetSpriteIcon(coin.nameCoin).sprite;
+        // this.amountCoinText.text = coin.amount.ToString();
     }
 
     public void OnClickItemCoin(){

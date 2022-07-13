@@ -11,30 +11,26 @@ using Newtonsoft.Json;
 
 public class ClientData : Singleton<ClientData>
 {
-    public ClientUser ClientUser;
-    public ClientVehicle ClientVehicle;
-    public ClientCoin ClientCoin;
-    public ClientMovingRecord ClientMovingRecord;
+    public ClientUser ClientUser = new ClientUser();
     [field: SerializeField] public SpeedNDefault speedNDefault { get; private set; }
 
     void Awake()
     {
-        ClientUser = new ClientUser();
-        ClientCoin = new ClientCoin();
-        ClientVehicle = new ClientVehicle();
-        ClientMovingRecord = new ClientMovingRecord();
     }
 
     #region =====================================LoadData================================================
     public void InitialLoadData()
     {
-        LoadClientCoin();
         LoadModelVehicleBaseStats();
-        LoadClientVehicleData();
         LoadUserData();
-        ClientVehicle.InitialLoad(ClientUser.currentVehicleID);
-        DatabaseHandler.LoadMovingRecords(LoadClientMovingRecordCallback, LoadClientMovingRecordFallback);
+        LoadClientVehicle();
 
+    }
+
+    void LoadClientVehicle()
+    {
+        ClientUser.clientVehicle.CreateFromLocal(speedNDefault);
+        ClientUser.clientVehicle.InitialLoad(ClientUser.currentVehicleID);
     }
 
     void LoadModelVehicleBaseStats()
@@ -47,47 +43,12 @@ public class ClientData : Singleton<ClientData>
 
     void LoadUserData()
     {
-        DatabaseHandler.LoadUserData(LoadClientUserDataCallback, LoadClientUserDataFallback);
-        if (ClientUser.currentVehicleID == "null")
-        {
-            DatabaseHandler.SaveUserData(SaveClientUserCallback);
-        }
-    }
 
-    void LoadClientVehicleData()
-    {
-        DatabaseHandler.LoadVehicleData(LoadClientVehicleDataCallback
-            , LoadClientVehicleDataFallback);
-        if (ClientVehicle.Vehicles.Count == 0)
-        {
-            ClientVehicle.CreateFromLocal(speedNDefault);
-            DatabaseHandler.SaveVehicleData(SaveClientVehicleDataCallback);
-        }
-    }
-
-    void LoadClientCoin()
-    {
-        DatabaseHandler.LoadClientCoin(LoadClientCoinCallback
-            , LoadClientCoinFallback);
-        if (ClientCoin.Coins.Count == 0)
-        {
-            int numCoin = 777;
-            ClientCoin.CreateFromLocal(speedNDefault, numCoin);
-            DatabaseHandler.SaveClientCoin(SaveClientCoinCallback);
-        }
     }
 
     #endregion =====================================LoadData==============================================
 
     #region =====================================Sprite===================================================
-    public SpriteIcon GetSpriteIcon(string _spriteID)
-    {
-        foreach (var child in speedNDefault.spriteIcons)
-        {
-            if (child.spriteID == _spriteID) return child;
-        }
-        return null;
-    }
 
     //Vehicle Sprite
     public SpriteModelVehicle GetSpriteModelVehicle(string _spriteID)
@@ -185,7 +146,7 @@ public class ClientData : Singleton<ClientData>
 
     void SaveClientUserCallback(string message)
     {
-         Debug.Log("SaveClientUserDataCallback: " + message);
+        Debug.Log("SaveClientUserDataCallback: " + message);
     }
     #endregion =====================================Load&SaveCallback=====================================
 

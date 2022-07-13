@@ -85,11 +85,11 @@ public class DrivingCalculator : MonoBehaviour
     #region ===========================Calculate Energy & Coin & Durability==============
     void UseEnergyVehicle(float _deltaDistance)
     {
-        ClientData.Instance.ClientVehicle.currentVehicle.UseEnergy(_deltaDistance);
+        ClientData.Instance.ClientUser.clientVehicle.currentVehicle.UseEnergy(_deltaDistance);
     }
     void DecreaseDurabilityVehicle(float _deltaDistance)
     {
-        ClientData.Instance.ClientVehicle.currentVehicle.DecreaseDurability(_deltaDistance);
+        ClientData.Instance.ClientUser.clientVehicle.currentVehicle.DecreaseDurability(_deltaDistance);
     }
     #endregion ========================Calculate Energy & Coin==============
 

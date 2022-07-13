@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Newtonsoft.Json;
 
 [System.Serializable]
 public class ClientVehicle
@@ -14,8 +15,7 @@ public class ClientVehicle
         foreach (var child in speedNDefault.spriteModelVehicles)
         {
             string _itemID = UnityEngine.Random.Range(1000, 9999).ToString("0000");
-            VehicleData vehicleData = new VehicleData(child.spriteID, _itemID);
-            Vehicles.Add(new Vehicle(vehicleData));
+            Vehicles.Add(new Vehicle(child.spriteID, _itemID));
         }
     }
 
@@ -25,7 +25,7 @@ public class ClientVehicle
         {
             foreach (var vehicle in Vehicles)
             {
-                if (vehicle.Data.ItemID == _currentVehicleID) currentVehicle = vehicle;
+                if (vehicle.ItemID == _currentVehicleID) currentVehicle = vehicle;
             }
         }
         else
@@ -39,40 +39,46 @@ public class ClientVehicle
     public string GetModelID(string _itemID)
     {
         foreach (var child in Vehicles)
-            if (child.Data.ItemID == _itemID) return child.BaseStats.ModelID;
+            if (child.ItemID == _itemID) return child.ModelID;
         return null;
     }
-
 }
 
 [System.Serializable]
-public class Vehicle
+public class Vehicle : NFTBaseStats
 {
+    public float Durability;
+    public float Energy;
 
-    public ModelVehicleBaseStats BaseStats;
-    public VehicleData Data;
+    public Vehicle() { }
 
-    public Vehicle(VehicleData _data)
+    public Vehicle(string _modelID, string _itemID)
     {
-        BaseStats = ModelVehicle.StatsDict[_data.ModelID];
-        Data = _data;
-        Data.NameItem = BaseStats.ModelName;
+        ModelID = _modelID;
+        ItemID = _itemID;
+        NameItem = ModelStats().ModelName;
         InitialLoad();
     }
 
     public void InitialLoad()
     {
-        Data.Energy = BaseStats.EnergyMax;
-        Data.Durability = BaseStats.DurabilityMax;
-        Data.NameItem = BaseStats.ModelName;
+        ModelVehicleBaseStats modelStat=ModelStats();
+        Energy = modelStat.EnergyMax;
+        Durability = modelStat.DurabilityMax;
+        NameItem = modelStat.ModelName;
+    }
+
+    public ModelVehicleBaseStats ModelStats()
+    {
+        return ModelVehicle.ModelsDict[ModelID];
     }
 
     public void DecreaseDurability(float _minute)
     {
-        if (Data.Durability > 0f)
+        if (Durability > 0f)
         {
-            Data.Durability -= BaseStats.DurabilityPerMinute * _minute;
-            if (Data.Durability < 0) Data.Durability = 0f;
+            Durability -= ModelStats().DurabilityPerMinute * _minute;
+            if (Durability < 0) Durability = 0f;
         }
         else
         {
@@ -82,18 +88,18 @@ public class Vehicle
 
     public float DurabilityPercent()
     {
-        return Data.Durability / BaseStats.DurabilityMax;
+        return Durability / ModelStats().DurabilityMax;
     }
     public void Repair()
     {
-        Data.Durability = BaseStats.DurabilityMax;
+        Durability = ModelStats().DurabilityMax;
     }
     public void UseEnergy(float _minute)
     {
-        if (Data.Energy > 0f)
+        if (Energy > 0f)
         {
-            Data.Energy -= BaseStats.EnergyPerMinute * _minute;
-            if (Data.Energy < 0) Data.Energy = 0f;
+            Energy -= ModelStats().EnergyPerMinute * _minute;
+            if (Energy < 0) Energy = 0f;
         }
         else
         {
@@ -102,14 +108,18 @@ public class Vehicle
     }
     public bool IsOutOfEnergy()
     {
-        return Data.Energy <= 0f;
+        return Energy <= 0f;
     }
     public float EnergyPercent()
     {
-        return Data.Energy / BaseStats.EnergyMax;
+        return Energy / ModelStats().EnergyMax;
     }
     public void FillUpEnergy()
     {
-        Data.Energy = BaseStats.EnergyMax;
+        Energy = ModelStats().EnergyMax;
+    }
+    public string GetStringJsonData()
+    {
+        return JsonConvert.SerializeObject(this);
     }
 }

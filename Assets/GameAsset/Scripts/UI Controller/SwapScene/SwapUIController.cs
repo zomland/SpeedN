@@ -34,32 +34,32 @@ public class SwapUIController : MonoBehaviour
 
     public void DisplaySwapScene()
     {  
-        for(int i=0;i<2;i++)
-        {
-            icon[i].sprite = ClientData.Instance.GetSpriteIcon(swapSceneData.swapCoin[i].nameCoin).sprite;
-            nameCoin[i].text =  swapSceneData.swapCoin[i].nameCoin;
-            amountText[i].text = ClientData.Instance.ClientCoin.GetAmountCoin(swapSceneData.swapCoin[i].nameCoin).ToString();
-        }
+        // for(int i=0;i<2;i++)
+        // {
+        //     icon[i].sprite = ClientData.Instance.GetSpriteIcon(swapSceneData.swapCoin[i].nameCoin).sprite;
+        //     nameCoin[i].text =  swapSceneData.swapCoin[i].nameCoin;
+        //     amountText[i].text = ClientData.Instance.ClientCoin.GetAmountCoin(swapSceneData.swapCoin[i].nameCoin).ToString();
+        // }
     }
 
 
     // On click Button
     public void OnClickMaxButton()
     {
-        swapSceneData.swapCoin[0].amount =  ClientData.Instance.ClientCoin.GetAmountCoin(swapSceneData.swapCoin[0].nameCoin);
-        inputSend.text =  swapSceneData.swapCoin[0].amount.ToString();
+        // swapSceneData.swapCoin[0].amount =  ClientData.Instance.ClientCoin.GetAmountCoin(swapSceneData.swapCoin[0].nameCoin);
+        // inputSend.text =  swapSceneData.swapCoin[0].amount.ToString();
     }
 
     public void OnClickConfirmTransaction()
     {
-        if(swapSceneData.swapCoin[0].amount > ClientData.Instance.ClientCoin.GetAmountCoin(swapSceneData.swapCoin[0].nameCoin) )
-        {
-            warningPopup.gameObject.SetActive(true);
-        }
-        else
-        {
-            confirmTransactionPopup.gameObject.SetActive(true);
-            confirmTransactionPopup.GetComponent<SwapSceneUIConfirmTransaction>().DisplayUI(swapSceneData.swapCoin);
-        }
+        // if(swapSceneData.swapCoin[0].amount > ClientData.Instance.ClientCoin.GetAmountCoin(swapSceneData.swapCoin[0].nameCoin) )
+        // {
+        //     warningPopup.gameObject.SetActive(true);
+        // }
+        // else
+        // {
+        //     confirmTransactionPopup.gameObject.SetActive(true);
+        //     confirmTransactionPopup.GetComponent<SwapSceneUIConfirmTransaction>().DisplayUI(swapSceneData.swapCoin);
+        // }
     }
 }

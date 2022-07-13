@@ -93,19 +93,18 @@ namespace FirebaseHandler
             _databaseHandler.RemoveUser(callback);
         }
 
-        public async UniTaskVoid AddAMovingRecord(MovingRecordDetail _movingRecord, DatabaseCallback callback)
+        public async UniTaskVoid AddAMovingRecord(MovingRecord _movingRecord, DatabaseCallback callback)
         {
             float _totalKm = ClientData.Instance.ClientUser.totalKm;
             float _totalTime = ClientData.Instance.ClientUser.totalTime;
-            _databaseHandler.AddAMovingRecord(_totalTime, _totalKm, _movingRecord, ClientData.Instance.ClientMovingRecord
-                , callback).Forget();
+            _databaseHandler.AddAMovingRecord(_totalTime, _totalKm, _movingRecord, ClientData.Instance.ClientUser.clientMovingRecord, callback).Forget();
             await UniTask.Yield();
         }
 
         public async UniTaskVoid GetMovingRecords(DatabaseCallback callback)
         {
             _databaseHandler.GetMovingRecordsData(ClientData.Instance.ClientUser
-                , ClientData.Instance.ClientMovingRecord, callback).Forget();
+                , ClientData.Instance.ClientUser.clientMovingRecord, callback).Forget();
             await UniTask.Yield();
         }
 

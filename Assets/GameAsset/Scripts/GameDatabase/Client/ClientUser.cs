@@ -15,6 +15,11 @@ public class ClientUser
     public string currentVehicleID = "null";
     public float totalKm;
     public float totalTime;
+    public float numCoin = 0;
+
+    public ClientVehicle clientVehicle = new ClientVehicle();
+    public ClientMovingRecord clientMovingRecord = new ClientMovingRecord();
+    public ClientStation clientStation = new ClientStation();
 
 
     public ClientUser() { }
@@ -55,5 +60,30 @@ public class ClientUser
     {
         return JsonConvert.SerializeObject(this);
     }
+
+
+    public bool isEnoughCoin(float fee)
+    {
+        return numCoin >= fee;
+    }
+
+    public void ChargeFeeFillUp(float fee)
+    {
+        if (numCoin >= fee)
+            numCoin -= fee;
+    }
+
+
+    public void ReceiveCoinFromDriving(float amount)
+    {
+        numCoin += amount;
+    }
+
+    public void ReceiveCoinFromStation(float amount, float taxPercent)
+    {
+        numCoin += amount * (1 - taxPercent);
+    }
+
+
 
 }

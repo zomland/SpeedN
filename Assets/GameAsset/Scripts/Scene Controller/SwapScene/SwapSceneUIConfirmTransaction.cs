@@ -24,23 +24,23 @@ public class SwapSceneUIConfirmTransaction : MonoBehaviour
 
     public void DisplayUI(List<Coin> swapCoin)
     {
-        for (int i = 0; i < 2; i++)
-        {
-            imageCoin[i].sprite = ClientData.Instance.GetSpriteIcon(swapCoin[i].nameCoin).sprite;
-            amountCoinText[i].text = swapCoin[i].amount.ToString();
-            typeCoinText[i].text = swapCoin[i].nameCoin;
-        }
+        // for (int i = 0; i < 2; i++)
+        // {
+        //     imageCoin[i].sprite = ClientData.Instance.GetSpriteIcon(swapCoin[i].nameCoin).sprite;
+        //     amountCoinText[i].text = swapCoin[i].amount.ToString();
+        //     typeCoinText[i].text = swapCoin[i].nameCoin;
+        // }
     }
 
     public void OnClickConfirmButton()
     {
-        ClientData.Instance.ClientCoin.SwapCoin(swapSceneData.swapCoin[0].nameCoin, swapSceneData.swapCoin[1].nameCoin, swapSceneData.swapCoin[0].amount, swapSceneData.swapCoin[1].amount);
-        List<Coin> Coins = ClientData.Instance.ClientCoin.Coins;
-        DatabaseHandler.SaveClientCoin(SwapCoinCallback);
-        //FirebaseApi.Instance.PostUserValue("clientCoins",newClientCoin,Success);
+        // ClientData.Instance.ClientCoin.SwapCoin(swapSceneData.swapCoin[0].nameCoin, swapSceneData.swapCoin[1].nameCoin, swapSceneData.swapCoin[0].amount, swapSceneData.swapCoin[1].amount);
+        // List<Coin> Coins = ClientData.Instance.ClientCoin.Coins;
+        // DatabaseHandler.SaveClientCoin(SwapCoinCallback);
+        // //FirebaseApi.Instance.PostUserValue("clientCoins",newClientCoin,Success);
 
-        swapSceneData.ResetSwapCoin();
-        FindObjectOfType<SwapUIController>().DisplaySwapScene();
+        // swapSceneData.ResetSwapCoin();
+        // FindObjectOfType<SwapUIController>().DisplaySwapScene();
 
     }
 

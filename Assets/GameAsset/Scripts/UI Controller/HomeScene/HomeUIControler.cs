@@ -23,19 +23,19 @@ public class HomeUIControler : MonoBehaviour
 
     private void Awake()
     {
-        _currentVehicle = ClientData.Instance.ClientVehicle.currentVehicle;
+        _currentVehicle = ClientData.Instance.ClientUser.clientVehicle.currentVehicle;
         LoadEnergyMonitor();
         LoadNameVehicle();
         LoadImageVehicle();
 
-        durabilityText.text = $"Durability: \n{_currentVehicle.BaseStats.DurabilityMax}";
-        efficiencyText.text = $"Efficiency: \n{_currentVehicle.BaseStats.Efficiency}";
+        durabilityText.text = $"Durability: \n{_currentVehicle.DurabilityPercent() * 100}" + "%";
+        efficiencyText.text = $"Efficiency: \n{_currentVehicle.ModelStats().Efficiency}";
         string energyTxt = String.Empty;
-        if (_currentVehicle.BaseStats.NftType == NFTType.Bicycle) energyTxt = "Stamina:";
-        else if (_currentVehicle.BaseStats.NftType == NFTType.Shoes) energyTxt = "Stamina:";
-        else if (_currentVehicle.BaseStats.NftType == NFTType.Car) energyTxt = "Gas:";
+        if (_currentVehicle.ModelStats().NftType == NFTType.Bicycle) energyTxt = "Stamina:";
+        else if (_currentVehicle.ModelStats().NftType == NFTType.Shoes) energyTxt = "Stamina:";
+        else if (_currentVehicle.ModelStats().NftType == NFTType.Car) energyTxt = "Gas:";
 
-        energyText.text = $"{energyTxt} \n{_currentVehicle.BaseStats.EnergyMax}";
+        energyText.text = $"{energyTxt} \n{_currentVehicle.EnergyPercent() * 100}" + "%";
     }
     void Start()
     {
@@ -48,7 +48,7 @@ public class HomeUIControler : MonoBehaviour
         if (_currentVehicle != null)
         {
             currentVehicleRawImg.texture
-                = ClientData.Instance.GetSpriteModelVehicle(_currentVehicle.Data.ModelID).sprite.texture;
+                = ClientData.Instance.GetSpriteModelVehicle(_currentVehicle.ModelID).sprite.texture;
         }
     }
 
@@ -56,7 +56,7 @@ public class HomeUIControler : MonoBehaviour
     {
         if (_currentVehicle != null)
         {
-            nameVehicleText.text = _currentVehicle.Data.NameItem;
+            nameVehicleText.text = _currentVehicle.NameItem;
         }
     }
 

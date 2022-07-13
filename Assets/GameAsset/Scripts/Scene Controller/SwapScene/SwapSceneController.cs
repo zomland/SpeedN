@@ -17,24 +17,24 @@ public class SwapSceneController : MonoBehaviour
 
     public void OnClickChooseCoin(int index)
     {
-        if(isSpawn[index]) return;
-        isSpawn[index] = true;
-        if(index == 0)
-        {      
-            foreach(var child in ClientData.Instance.ClientCoin.Coins)
-            {
-                var item = Instantiate(itemSend,whereSpawn[index].transform.position , Quaternion.identity, list[index].transform);
-                item.SetProperties(child.nameCoin);
-            }
-        }
-        else if(index ==1)
-        {
-            foreach(var child in ClientData.Instance.ClientCoin.Coins)
-            {
-                var item = Instantiate(itemGet,whereSpawn[index].transform.position , Quaternion.identity, list[index].transform);
-                item.SetProperties(child.nameCoin);
-            }
-        }
+        // if(isSpawn[index]) return;
+        // isSpawn[index] = true;
+        // if(index == 0)
+        // {      
+        //     foreach(var child in ClientData.Instance.ClientCoin.Coins)
+        //     {
+        //         var item = Instantiate(itemSend,whereSpawn[index].transform.position , Quaternion.identity, list[index].transform);
+        //         item.SetProperties(child.nameCoin);
+        //     }
+        // }
+        // else if(index ==1)
+        // {
+        //     foreach(var child in ClientData.Instance.ClientCoin.Coins)
+        //     {
+        //         var item = Instantiate(itemGet,whereSpawn[index].transform.position , Quaternion.identity, list[index].transform);
+        //         item.SetProperties(child.nameCoin);
+        //     }
+        // }
     }
 
     public void ChooseCoin(int index)

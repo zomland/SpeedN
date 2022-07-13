@@ -31,23 +31,23 @@ public class MyItemSceneItemVehicle : MonoBehaviour
 
         myItemSceneUI_2Controller.EnergyMonitorControler.Initialize(new float[] { 0f, 1f });
         myItemSceneUI_2Controller.DurabilityMonitorControler.Initialize(new float[] { 0f, 1f });
-        
-        durabilityText.text = $"Durability: \n{vehicle.BaseStats.DurabilityMax}";
-        efficiencyText.text = $"Efficiency: \n{vehicle.BaseStats.Efficiency}";
-        string energyTxt = String.Empty;
-        if (vehicle.BaseStats.NftType == NFTType.Bicycle) energyTxt = "Stamina:";
-        else if (vehicle.BaseStats.NftType == NFTType.Shoes) energyTxt = "Stamina:";
-        else if (vehicle.BaseStats.NftType == NFTType.Car) energyTxt = "Gas:";
 
-        energyText.text = $"{energyTxt} \n{vehicle.BaseStats.EnergyMax}";
+        durabilityText.text = $"Durability: \n{vehicle.DurabilityPercent()*100}" + "%";
+        efficiencyText.text = $"Efficiency: \n{vehicle.ModelStats().Efficiency}";
+        string energyTxt = String.Empty;
+        if (vehicle.ModelStats().NftType == NFTType.Bicycle) energyTxt = "Stamina:";
+        else if (vehicle.ModelStats().NftType == NFTType.Shoes) energyTxt = "Stamina:";
+        else if (vehicle.ModelStats().NftType == NFTType.Car) energyTxt = "Gas:";
+
+        energyText.text = $"{energyTxt} \n{vehicle.EnergyPercent()*100}" + "%";
     }
 
     public void SetProperties(Vehicle _vehicle)
     {
         vehicle = _vehicle;
-        spriteVehicle.sprite = ClientData.Instance.GetSpriteModelVehicle(vehicle.Data.ModelID).sprite;
-        nameVehicleText.text = vehicle.Data.NameItem;
-        tagText.text = vehicle.Data.ItemID;
+        spriteVehicle.sprite = ClientData.Instance.GetSpriteModelVehicle(vehicle.ModelID).sprite;
+        nameVehicleText.text = vehicle.NameItem;
+        tagText.text = vehicle.ItemID;
     }
 
     public void OnClickButton()
@@ -58,8 +58,8 @@ public class MyItemSceneItemVehicle : MonoBehaviour
 
     public void ChooseClick()
     {
-        ClientData.Instance.ClientVehicle.currentVehicle = vehicle;
-        ClientData.Instance.ClientUser.currentVehicleID = vehicle.Data.ItemID;
+        ClientData.Instance.ClientUser.clientVehicle.currentVehicle = vehicle;
+        ClientData.Instance.ClientUser.currentVehicleID = vehicle.ItemID;
         DatabaseHandler.SaveUserData(OnChangeCurrentVehicle);
         Messenger.RaiseMessage(Message.LoadScene, Scenes.HomeScene, Scenes.MyItemScene);
     }

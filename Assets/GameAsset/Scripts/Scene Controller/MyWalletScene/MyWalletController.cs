@@ -19,7 +19,7 @@ public class MyWalletController : MonoBehaviour
     }
 
     private void SortAmountCoin(){
-        sortedList = ClientData.Instance.ClientCoin.Coins.OrderByDescending(coin=>coin.amount).ToList();
+        // sortedList = ClientData.Instance.ClientCoin.Coins.OrderByDescending(coin=>coin.amount).ToList();
     }
 
     private void CreateListCoin(){

@@ -27,7 +27,7 @@ public class DrivingUIControler : MonoBehaviour
     public Button buttonGPSStart;
     //==============================================================
     [Header("MovingRecord")]
-    public MovingRecordDetailControler _movingRecordDetailControler;
+    public MovingRecordControler _movingRecordControler;
     bool isShowRecord = false;
     //==============================================================
     [Header("Calculator")]
@@ -41,10 +41,10 @@ public class DrivingUIControler : MonoBehaviour
 
     void Start()
     {
-        _currentVehicle = ClientData.Instance.ClientVehicle.currentVehicle;
+        _currentVehicle = ClientData.Instance.ClientUser.clientVehicle.currentVehicle;
         float[] vehicleLimitSpeed = new float[] { 0f, 1000f };
         textLimitSpeed.text = vehicleLimitSpeed[0].ToString() + " - " + vehicleLimitSpeed[1].ToString() + " Km/h";
-        textVehicleName.text = _currentVehicle.Data.NameItem;
+        textVehicleName.text = _currentVehicle.NameItem;
         EnergyMonitorControler.Initialize(new float[] { 0f, 1f });
         SpeedMonitorControler.Initialize(new float[] { 0f, vehicleLimitSpeed[1] * 2 + 1000f });
         StartCoroutine(CountDown());
@@ -123,12 +123,12 @@ public class DrivingUIControler : MonoBehaviour
             else
             {
                 drivingCalculator.PauseCalculate();
-                _movingRecordDetailControler.CreateMovingRecord(drivingCalculator.numCoin()
-                    , _currentVehicle.Data.NameItem, _currentVehicle.Data.ItemID, drivingCalculator.Distance()
+                _movingRecordControler.CreateMovingRecord(drivingCalculator.numCoin()
+                    , _currentVehicle.NameItem, _currentVehicle.ItemID, drivingCalculator.Distance()
                         , drivingCalculator.timeDroveString(), drivingCalculator.GetTimeDrove());
 
-                _movingRecordDetailControler.DisplayMovingRecord();
-                ClientData.Instance.ClientCoin.EarnCoin("BNB", drivingCalculator.numCoin());
+                _movingRecordControler.DisplayMovingRecord();
+                ClientData.Instance.ClientUser.ReceiveCoinFromDriving(drivingCalculator.numCoin());
                 DatabaseHandler.SaveUserData(SaveUserCallback);
                 isShowRecord = true;
             }

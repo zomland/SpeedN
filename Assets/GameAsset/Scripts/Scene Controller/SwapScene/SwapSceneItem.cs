@@ -23,9 +23,9 @@ public class SwapSceneItem : MonoBehaviour
 
     public void SetProperties(string _nameCoin)
     {
-        nameCoin =_nameCoin;
-        icon.sprite = ClientData.Instance.GetSpriteIcon(nameCoin).sprite;
-        nameCoinText.text = nameCoin;
+        // nameCoin =_nameCoin;
+        // icon.sprite = ClientData.Instance.GetSpriteIcon(nameCoin).sprite;
+        // nameCoinText.text = nameCoin;
     }
 
     //Button

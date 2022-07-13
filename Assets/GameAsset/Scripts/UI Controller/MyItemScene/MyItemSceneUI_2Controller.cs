@@ -28,25 +28,22 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
     public Button ButtonConfirmRepair;
 
     Vehicle Vehicle;
-    float FeeEnergy;
-    float FeeRepair;
-    float TaxEnergy;
-    float TaxRepair;
+    public float FeeEnergy;
+    public float FeeRepair;
+    public string UnitFee="SPEEDN";
 
     public void DisplayUI(Vehicle _Vehicle)
     {
         Vehicle = _Vehicle;
-        spriteVehicle.sprite = ClientData.Instance.GetSpriteModelVehicle(Vehicle.Data.ModelID).sprite;
-        vehicleIDText.text = Vehicle.Data.ItemID;
-        nameText.text = Vehicle.Data.NameItem;
+        spriteVehicle.sprite = ClientData.Instance.GetSpriteModelVehicle(Vehicle.ModelID).sprite;
+        vehicleIDText.text = Vehicle.ItemID;
+        nameText.text = Vehicle.NameItem;
         EnergyMonitorControler.SetValue(Vehicle.EnergyPercent());
         DurabilityMonitorControler.SetValue(Vehicle.DurabilityPercent());
         if (Vehicle.EnergyPercent() == 1) ButtonFillUp.interactable = false;
         else ButtonFillUp.interactable = true;
         if (Vehicle.DurabilityPercent() == 1) ButtonRepair.interactable = false;
         else ButtonRepair.interactable = true;
-        LoadFillUpPopUp();
-        LoadRepairPopUp();
     }
 
     public void ResetMonitors()
@@ -55,16 +52,14 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
         DurabilityMonitorControler.ResetMonitor();
     }
 
-    public void LoadFillUpPopUp()
+    public void LoadFillUpPopUp(float _FeeEnergy)
     {
-        spriteVehicleOnFillUpPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(Vehicle.Data.ModelID).sprite.texture;
+        spriteVehicleOnFillUpPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(Vehicle.ModelID).sprite.texture;
         string data;
-        string UnitFee = " BNB";
+        FeeEnergy = _FeeEnergy;
         FeeEnergy = (1 - Vehicle.EnergyPercent()) * FeeMenu.FeePerEnergy;
-        TaxEnergy = FeeEnergy * FeeMenu.TaxPercent;
         data = "Fee Energy :   " + FeeEnergy.ToString("0.00") + UnitFee + "\n";
-        data += "Tax fee:       " + TaxEnergy.ToString("0.00") + UnitFee;
-        if (!ClientData.Instance.ClientCoin.isEnoughCoin("BNB", FeeEnergy))
+        if (!ClientData.Instance.ClientUser.isEnoughCoin(FeeEnergy))
         {
             data += "\n" + "Not enough coin to pay";
             ButtonConfirmFillUp.interactable = false;
@@ -74,16 +69,14 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
 
     }
 
-    public void LoadRepairPopUp()
+    public void LoadRepairPopUp(float _FeeRepair)
     {
-        spriteVehicleOnRepairPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(Vehicle.Data.ModelID).sprite.texture;
+        spriteVehicleOnRepairPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(Vehicle.ModelID).sprite.texture;
         string data;
-        string UnitFee = " BNB";
+        FeeRepair = _FeeRepair;
         FeeRepair = (1 - Vehicle.DurabilityPercent()) * FeeMenu.FeePerDurability;
-        TaxRepair = FeeRepair * FeeMenu.TaxPercent;
         data = "Fee Repair :   " + FeeRepair.ToString("0.00") + UnitFee + "\n";
-        data += "Tax fee:       " + TaxRepair.ToString("0.00") + UnitFee;
-        if (!ClientData.Instance.ClientCoin.isEnoughCoin("BNB", FeeRepair))
+        if (!ClientData.Instance.ClientUser.isEnoughCoin(FeeRepair))
         {
             data += "\n" + "Not enough coin to pay";
             ButtonConfirmRepair.interactable = false;
@@ -97,7 +90,7 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
     {
         Vehicle.FillUpEnergy();
         EnergyMonitorControler.SetValue(Vehicle.EnergyPercent());
-        ClientData.Instance.ClientCoin.UseCoin("BNB", FeeEnergy + TaxEnergy);
+        ClientData.Instance.ClientUser.ChargeFeeFillUp(FeeEnergy);
         DatabaseHandler.SaveClientCoin(callbackSaveData);
         DatabaseHandler.SaveVehicleData(callbackSaveData);
     }
@@ -106,7 +99,7 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
     {
         Vehicle.Repair();
         DurabilityMonitorControler.SetValue(Vehicle.DurabilityPercent());
-        ClientData.Instance.ClientCoin.UseCoin("BNB", FeeRepair + TaxRepair);
+        ClientData.Instance.ClientUser.ChargeFeeFillUp(FeeRepair);
         DatabaseHandler.SaveClientCoin(callbackSaveData);
         DatabaseHandler.SaveVehicleData(callbackSaveData);
     }

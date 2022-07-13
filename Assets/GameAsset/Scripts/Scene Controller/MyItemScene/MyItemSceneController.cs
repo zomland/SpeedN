@@ -20,19 +20,19 @@ public class MyItemSceneController : MonoBehaviour
 
     private void CreateItemCar()
     {
-        foreach(var child in ClientData.Instance.ClientVehicle.Vehicles)
+        foreach(var child in ClientData.Instance.ClientUser.clientVehicle.Vehicles)
         {
-            if (child.BaseStats.NftType == NFTType.Car)
+            if (child.ModelStats().NftType == NFTType.Car)
             {
                 var item = Instantiate(carItem,whereToSpawn.transform.position, Quaternion.identity,listCarItems.transform);
                 item.SetProperties(child);
             }
-            else if (child.BaseStats.NftType == NFTType.Bicycle)
+            else if (child.ModelStats().NftType == NFTType.Bicycle)
             {
                 var item = Instantiate(carItem,Vector3.zero, Quaternion.identity,listBicycleItem.transform);
                 item.SetProperties(child);
             }
-            else if (child.BaseStats.NftType == NFTType.Shoes)
+            else if (child.ModelStats().NftType == NFTType.Shoes)
             {
                 var item = Instantiate(carItem,Vector3.zero, Quaternion.identity,listShoesItem.transform);
                 item.SetProperties(child);
