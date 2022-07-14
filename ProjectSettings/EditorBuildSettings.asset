@@ -26,4 +26,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameAsset/Scenes/AccountScene.unity
     guid: 966f58409b5c48f45a4ce1361e84398d
+  - enabled: 1
+    path: Assets/GameAsset/Scenes/MetamaskScene.unity
+    guid: 75cdcd040947d7747a7d593f5a9097c5
   m_configObjects: {}
