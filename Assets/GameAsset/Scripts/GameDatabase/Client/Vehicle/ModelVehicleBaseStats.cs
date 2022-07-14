@@ -14,6 +14,8 @@ public class ModelVehicleBaseStats
     public float EnergyPerMinute;
     public float DurabilityMax;
     public float DurabilityPerMinute;
+
+    
     public ModelVehicleBaseStats() { }
     public ModelVehicleBaseStats(string _ModelID)
     {
