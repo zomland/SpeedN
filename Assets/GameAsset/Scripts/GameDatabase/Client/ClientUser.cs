@@ -2,47 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using Newtonsoft.Json;
 
 [System.Serializable]
 public class ClientUser
 {
-    public string email;
-    public string userName;
-    public string userID;
-    public string address;
-    public string userKey;
-    public List<ClientCoin> clientCoins;
-    public ClientNFT clientNFT;
-    public VehicleController currentVehicleController;
+    public string email = "null";
+    public string userName = "null";
+    public string userID = "null";
+    public string address = "null";
+    public string userKey = "null";
+    public string currentVehicleID = "null";
+    public float totalKm;
+    public float totalTime;
+    public float numCoin = 0;
 
-    public ClientUser(SpeedNDefault speedNDefault)
-    {
-        email = String.Empty;
-        //userName = String.Empty;
-        userName = "Minh ne";
-        userID = String.Empty;
-        address = String.Empty;
+    public ClientVehicle clientVehicle = new ClientVehicle();
+    public ClientMovingRecord clientMovingRecord = new ClientMovingRecord();
+    public ClientStation clientStation = new ClientStation();
 
-        InitializeCoin(speedNDefault);
 
-        clientNFT = new ClientNFT();
-    }
+    public ClientUser() { }
 
-    public void InitializeCoin(SpeedNDefault speedNDefault)
-    {
-        clientCoins = new List<ClientCoin>();
-        int k = 100;
-        for (int i = 0; i < speedNDefault.spriteIcons.Count; i++)
-        {
-            var clientCoin = new ClientCoin(speedNDefault.spriteIcons[i].name, k);
-            clientCoins.Add(clientCoin);
-            k += 10;
-        }
-    }
-    public void InitialVehicle()
-    {
-        currentVehicleController = clientNFT.vehicleControllers[0];
-    }
     public void CreateUserKey()
     {
         userKey = emailProcessed() + "-" + userID;
@@ -77,44 +58,32 @@ public class ClientUser
 
     public string GetStringJsonData()
     {
-        return JsonUtility.ToJson(this);
+        return JsonConvert.SerializeObject(this);
     }
 
-    public float GetAmountCoin(string nameCoin)
+
+    public bool isEnoughCoin(float fee)
     {
-        foreach (var child in clientCoins)
-        {
-            if (child.nameCoin == nameCoin) return child.amount;
-        }
-        return 0;
+        return numCoin >= fee;
     }
 
-    public void SwapCoin(string send, string get, float amountSend, float amountGet)
+    public void ChargeFeeFillUp(float fee)
     {
-        foreach (var child in clientCoins)
-        {
-            if (child.nameCoin == send)
-            {
-                child.amount -= amountSend;
-            }
-            else if (child.nameCoin == get)
-            {
-                child.amount += amountGet;
-            }
-        }
+        if (numCoin >= fee)
+            numCoin -= fee;
     }
 
-    public void EarnCoin(string nameCoin, float amount)
+
+    public void ReceiveCoinFromDriving(float amount)
     {
-        Debug.Log("Earn Coin: " + nameCoin + " | " + amount);
+        numCoin += amount;
     }
 
-    public void UseCoin(string nameCoin, float amount)
+    public void ReceiveCoinFromStation(float amount, float taxPercent)
     {
-        Debug.Log("Use Coin: " + nameCoin + " | " + amount);
+        numCoin += amount * (1 - taxPercent);
     }
-    public bool isEnoughCoin(string nameCoin, float amount)
-    {
-        return true;
-    }
+
+
+
 }

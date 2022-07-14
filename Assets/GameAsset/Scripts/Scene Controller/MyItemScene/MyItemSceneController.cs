@@ -7,6 +7,9 @@ public class MyItemSceneController : MonoBehaviour
     public GameObject listCarItems;
     public GameObject whereToSpawn;
 
+    [SerializeField] private Transform listShoesItem;
+    [SerializeField] private Transform listBicycleItem;
+
     [Header("Prefab Car")]
     public MyItemSceneItemVehicle carItem;
 
@@ -17,10 +20,23 @@ public class MyItemSceneController : MonoBehaviour
 
     private void CreateItemCar()
     {
-        foreach(var child in ClientData.Instance.ClientUser.clientNFT.vehicleControllers)
+        foreach(var child in ClientData.Instance.ClientUser.clientVehicle.Vehicles)
         {
-            var item = Instantiate(carItem,whereToSpawn.transform.position, Quaternion.identity,listCarItems.transform);
-            item.SetProperties(child);
+            if (child.ModelStats().NftType == NFTType.Car)
+            {
+                var item = Instantiate(carItem,whereToSpawn.transform.position, Quaternion.identity,listCarItems.transform);
+                item.SetProperties(child);
+            }
+            else if (child.ModelStats().NftType == NFTType.Bicycle)
+            {
+                var item = Instantiate(carItem,Vector3.zero, Quaternion.identity,listBicycleItem.transform);
+                item.SetProperties(child);
+            }
+            else if (child.ModelStats().NftType == NFTType.Shoes)
+            {
+                var item = Instantiate(carItem,Vector3.zero, Quaternion.identity,listShoesItem.transform);
+                item.SetProperties(child);
+            }
         }
     }
 }

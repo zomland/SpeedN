@@ -1,0 +1,8 @@
+NftType,NfyRarity,ModelID,ModelName,Efficiency,Resiliency,EnergyMax,EnergyPerMinute,DurabilityMax,DurabilityPerMinute,MaxENERZIPerEnergy,MinOptimalSpeed,MaxOptimalSpeed
+string,string,string,string,float,float,float,float,float,float,float,float,float
+Car,Common,IC000,InitialCar000,1,1,200,1,200,1,10,20,50
+Car,Common,TL001,Tesla001,1,1,200,1,200,1,15,20,50
+Car,Uncommon,MB001,MercedesBenz001,1,1,300,1,300,1,20,20,50
+Car,Rare,HD001,Honda001,1,1,400,1,400,1,25,20,50
+Car,Legendary,SP001,SuperCar001,1,1,500,1,500,1,30,20,50
+Car,Legendary,SP002,SuperCar002,1,1,500,1,500,1,30,20,50

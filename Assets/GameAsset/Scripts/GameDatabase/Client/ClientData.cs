@@ -11,52 +11,58 @@ using Newtonsoft.Json;
 
 public class ClientData : Singleton<ClientData>
 {
-    public ClientUser _clientUser;
-    public ClientUser ClientUser => _clientUser;
-    public ClientMovingRecord clientMovingRecord;
+    public ClientUser ClientUser = new ClientUser();
     [field: SerializeField] public SpeedNDefault speedNDefault { get; private set; }
 
     void Awake()
     {
-        _clientUser = new ClientUser(speedNDefault);
-        //Test add Vehicle
-        AddVehicle();
-        _clientUser.InitialVehicle();
-        clientMovingRecord = new ClientMovingRecord();
     }
 
-    public SpriteIcon GetSpriteIcon(string name)
+    #region =====================================LoadData================================================
+    public void InitialLoadData()
     {
-        foreach (var child in speedNDefault.spriteIcons)
-        {
-            if (child.name == name) return child;
-        }
-        return null;
+        LoadModelVehicleBaseStats();
+        LoadUserData();
+        LoadClientVehicle();
+
     }
+
+    void LoadClientVehicle()
+    {
+        ClientUser.clientVehicle.CreateFromLocal(speedNDefault);
+        ClientUser.clientVehicle.InitialLoad(ClientUser.currentVehicleID);
+    }
+
+    void LoadModelVehicleBaseStats()
+    {
+        foreach (var child in speedNDefault.modelVehicleBaseStats)
+        {
+            ModelVehicle.AddModelStat(child);
+        }
+    }
+
+    void LoadUserData()
+    {
+
+    }
+
+    #endregion =====================================LoadData==============================================
+
+    #region =====================================Sprite===================================================
 
     //Vehicle Sprite
-    public SpriteVehicle GetSpriteVehicle(string name)
+    public SpriteModelVehicle GetSpriteModelVehicle(string _spriteID)
     {
-        foreach (var child in speedNDefault.spriteVehicles)
+        foreach (var child in speedNDefault.spriteModelVehicles)
         {
-            if (child.name == name) return child;
+            if (child.spriteID == _spriteID)
+                return child;
         }
         return null;
     }
+    #endregion =====================================Sprite================================================
 
-    private void AddVehicle()
-    {
-        List<Dictionary<string, object>> VehicleDataDicts
-            = CSVControler.DataFromCSV("Assets/GameAsset/Scripts/GameDatabase/Client/Vehicle/Data/VehicleDatabase.csv");
-        foreach (var child in VehicleDataDicts)
-        {
-            string Json = JsonConvert.SerializeObject(child);
-            VehicleData vehicleData = new VehicleData();
-            vehicleData = JsonConvert.DeserializeObject<VehicleData>(Json);
-            _clientUser.clientNFT.vehicleControllers.Add(new VehicleController(vehicleData));
-        }
-    }
-
+    #region =====================================Audio====================================================
     public AudioClip GetAudioClip(Audio.AudioType type, string AudioClipID)
     {
         switch (type)
@@ -86,4 +92,62 @@ public class ClientData : Singleton<ClientData>
         Debug.Log("Exception GetAudio: Check Type or ClipID");
         return null;
     }
+    #endregion ========================================Audio==============================================
+
+    #region =====================================Load&SaveCallback========================================
+    void LoadClientVehicleDataCallback(string message)
+    {
+        Debug.Log("LoadClientVehicleDataCallback: " + message);
+    }
+
+    void LoadClientVehicleDataFallback(string message)
+    {
+        Debug.Log("LoadClientVehicleDataCallback: " + message);
+    }
+
+    void LoadClientUserDataCallback(string message)
+    {
+        Debug.Log("LoadClientUserDataCallback: " + message);
+    }
+
+    void LoadClientUserDataFallback(string message)
+    {
+        Debug.Log("LoadClientUserDataFallback: " + message);
+    }
+
+    void LoadClientMovingRecordCallback(string message)
+    {
+        Debug.Log("LoadClientMovingRecordCallback: " + message);
+    }
+
+    void LoadClientMovingRecordFallback(string message)
+    {
+        Debug.Log("LoadClientMovingRecordFallback: " + message);
+    }
+
+    void LoadClientCoinCallback(string message)
+    {
+        Debug.Log("LoadClientCoinCallback: " + message);
+    }
+
+    void LoadClientCoinFallback(string message)
+    {
+        Debug.Log("LoadClientCoinFallback: " + message);
+    }
+
+    void SaveClientCoinCallback(string message)
+    {
+        Debug.Log("SaveClientCoinFallback: " + message);
+    }
+    void SaveClientVehicleDataCallback(string message)
+    {
+        Debug.Log("SaveClientVehicleDataCallback: " + message);
+    }
+
+    void SaveClientUserCallback(string message)
+    {
+        Debug.Log("SaveClientUserDataCallback: " + message);
+    }
+    #endregion =====================================Load&SaveCallback=====================================
+
 }
