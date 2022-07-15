@@ -7,6 +7,9 @@ using System.IO;
 using Base.Helper;
 using System;
 using Newtonsoft.Json;
+using FirebaseHandler;
+using Cysharp.Threading.Tasks;
+using Global;
 
 
 public class ClientData : Singleton<ClientData>
@@ -21,29 +24,35 @@ public class ClientData : Singleton<ClientData>
     #region =====================================LoadData================================================
     public void InitialLoadData()
     {
-        LoadModelVehicleBaseStats();
-        LoadUserData();
-        LoadClientVehicle();
-
+        FirebaseApi.Instance.SetUpDatabaseRef();
+        LoadServerStation();
+        LoadModelVehicle();
+        LoadClientUser();
     }
 
-    void LoadClientVehicle()
+    public void LoadClientVehicle()
     {
-        ClientUser.clientVehicle.CreateFromLocal(speedNDefault);
-        ClientUser.clientVehicle.InitialLoad(ClientUser.currentVehicleID);
-    }
-
-    void LoadModelVehicleBaseStats()
-    {
-        foreach (var child in speedNDefault.modelVehicleBaseStats)
+        if (ClientUser.clientVehicle == null)
         {
-            ModelVehicle.AddModelStat(child);
+            ClientUser.clientVehicle.CreateFromLocal(speedNDefault);
+            FirebaseApi.Instance.PostClientVehicle(PostDatabaseCallback).Forget();
         }
     }
 
-    void LoadUserData()
+    void LoadModelVehicle()
     {
+        FirebaseApi.Instance.GetModelVehicle(GetDatabaseCallback).Forget();
+    }
 
+
+    void LoadClientUser()
+    {
+        FirebaseApi.Instance.GetUserData(GetDatabaseCallback).Forget();
+    }
+
+    void LoadServerStation()
+    {
+        FirebaseApi.Instance.GetServerStation(GetDatabaseCallback).Forget();
     }
 
     #endregion =====================================LoadData==============================================
@@ -94,60 +103,15 @@ public class ClientData : Singleton<ClientData>
     }
     #endregion ========================================Audio==============================================
 
-    #region =====================================Load&SaveCallback========================================
-    void LoadClientVehicleDataCallback(string message)
+    #region =====================================DatabaseCallback====================================================
+    void GetDatabaseCallback(string method, string mess, int id)
     {
-        Debug.Log("LoadClientVehicleDataCallback: " + message);
+        Debug.Log(method + mess + id);
     }
-
-    void LoadClientVehicleDataFallback(string message)
+    void PostDatabaseCallback(string method, string mess, int id)
     {
-        Debug.Log("LoadClientVehicleDataCallback: " + message);
+        Debug.Log(method + mess + id);
     }
-
-    void LoadClientUserDataCallback(string message)
-    {
-        Debug.Log("LoadClientUserDataCallback: " + message);
-    }
-
-    void LoadClientUserDataFallback(string message)
-    {
-        Debug.Log("LoadClientUserDataFallback: " + message);
-    }
-
-    void LoadClientMovingRecordCallback(string message)
-    {
-        Debug.Log("LoadClientMovingRecordCallback: " + message);
-    }
-
-    void LoadClientMovingRecordFallback(string message)
-    {
-        Debug.Log("LoadClientMovingRecordFallback: " + message);
-    }
-
-    void LoadClientCoinCallback(string message)
-    {
-        Debug.Log("LoadClientCoinCallback: " + message);
-    }
-
-    void LoadClientCoinFallback(string message)
-    {
-        Debug.Log("LoadClientCoinFallback: " + message);
-    }
-
-    void SaveClientCoinCallback(string message)
-    {
-        Debug.Log("SaveClientCoinFallback: " + message);
-    }
-    void SaveClientVehicleDataCallback(string message)
-    {
-        Debug.Log("SaveClientVehicleDataCallback: " + message);
-    }
-
-    void SaveClientUserCallback(string message)
-    {
-        Debug.Log("SaveClientUserDataCallback: " + message);
-    }
-    #endregion =====================================Load&SaveCallback=====================================
+    #endregion =====================================DatabaseCallback=================================================
 
 }

@@ -164,15 +164,13 @@ namespace FirebaseHandler
                     ClientUser user = ClientData.Instance.ClientUser;
                     user.userID = senderAuth.CurrentUser.UserId;
                     user.userName = senderAuth.CurrentUser.DisplayName;
-                    if (user.userName.Length == 0) user.userName = "null";
-                    if (user.email.Length == 0) user.email = senderAuth.CurrentUser.Email;
+                    user.email = senderAuth.CurrentUser.Email;
                     user.CreateUserKey();
                     ClientData.Instance.InitialLoadData();
                     if (!_isAutoCheck) return;
-                    GameStateParam.MainState = true;
+        
                 }
             }
         }
-
     }
 }

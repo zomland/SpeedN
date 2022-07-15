@@ -30,7 +30,7 @@ namespace FirebaseHandler
             _authHandler.InitializeAuth();
             _databaseHandler.InitializeDatabase();
         }
-
+        #region =============================================Auth=============================================
         public async UniTaskVoid SignInWithGoogle(AuthCallback callback)
         {
             _authHandler.SignInWithGoogle(callback).Forget();
@@ -58,7 +58,14 @@ namespace FirebaseHandler
         {
             _authHandler.SignOut();
         }
+        #endregion=============================================Auth=============================================
 
+        #region=============================================Database=============================================
+
+        public void SetUpDatabaseRef()
+        {
+            _databaseHandler.SetUpReferences();
+        }
         public async UniTaskVoid PostUser(DatabaseCallback callback)
         {
             _databaseHandler.PostUser(ClientData.Instance.ClientUser, callback).Forget();
@@ -81,13 +88,6 @@ namespace FirebaseHandler
             await UniTask.Yield();
         }
 
-        public async UniTaskVoid CheckUserExisted(DatabaseCallback callback)
-        {
-            _databaseHandler.CheckUserExisted(ClientData.Instance.ClientUser, callback).Forget();
-
-            await UniTask.Yield();
-        }
-
         public void RemoveUser(DatabaseCallback callback)
         {
             _databaseHandler.RemoveUser(callback);
@@ -95,44 +95,30 @@ namespace FirebaseHandler
 
         public async UniTaskVoid AddAMovingRecord(MovingRecord _movingRecord, DatabaseCallback callback)
         {
-            float _totalKm = ClientData.Instance.ClientUser.totalKm;
-            float _totalTime = ClientData.Instance.ClientUser.totalTime;
-            _databaseHandler.AddAMovingRecord(_totalTime, _totalKm, _movingRecord, ClientData.Instance.ClientUser.clientMovingRecord, callback).Forget();
+            _databaseHandler.AddAMovingRecord(_movingRecord, ClientData.Instance.ClientUser.clientMovingRecord, callback).Forget();
             await UniTask.Yield();
         }
-
-        public async UniTaskVoid GetMovingRecords(DatabaseCallback callback)
+        public async UniTaskVoid PostClientVehicle(DatabaseCallback callback)
         {
-            _databaseHandler.GetMovingRecordsData(ClientData.Instance.ClientUser
-                , ClientData.Instance.ClientUser.clientMovingRecord, callback).Forget();
+            _databaseHandler.PostClientVehicle(callback).Forget();
             await UniTask.Yield();
         }
-
-        public async UniTaskVoid InitialSetUpClient(DatabaseCallback callbackUser, DatabaseCallback callbackMovingRecord)
+        public async UniTaskVoid GetModelVehicle(DatabaseCallback callback)
         {
-            _databaseHandler.InitialSetUpClient(ClientData.Instance.ClientUser, callbackUser, callbackMovingRecord);
+            _databaseHandler.GetModelVehicle(callback).Forget();
             await UniTask.Yield();
         }
-
-        public async UniTaskVoid PostUserNFT(System.Object newValue, TypeNFT type, DatabaseCallback callback)
+        public async UniTaskVoid PostClientStation(DatabaseCallback callback)
         {
-            _databaseHandler.PostUserNFT(ClientData.Instance.ClientUser, type, newValue, callback).Forget();
+            _databaseHandler.PostClientStation(callback).Forget();
             await UniTask.Yield();
         }
-
-        void OnFirebaseDatabaseHandling(string nameProcedure, string message, int errorID)
+        public async UniTaskVoid GetServerStation(DatabaseCallback callback)
         {
-            string detailError = "";
-            switch (errorID)
-            {
-                case (int)DatabaseErrorID.None:
-                    detailError = "None error";
-                    break;
-                default:
-                    break;
-            }
-            Debug.LogWarning(nameProcedure + ": " + message + ": " + detailError);
+            _databaseHandler.GetServerStation(callback).Forget();
+            await UniTask.Yield();
         }
+        #endregion=============================================Database=============================================
     }
 }
 

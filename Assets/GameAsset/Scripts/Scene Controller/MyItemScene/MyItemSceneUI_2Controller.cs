@@ -30,7 +30,7 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
     Vehicle Vehicle;
     public float FeeEnergy;
     public float FeeRepair;
-    public string UnitFee="SPEEDN";
+    public string UnitFee = "SPEEDN";
 
     public void DisplayUI(Vehicle _Vehicle)
     {
@@ -52,12 +52,11 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
         DurabilityMonitorControler.ResetMonitor();
     }
 
-    public void LoadFillUpPopUp(float _FeeEnergy)
+    public void LoadFillUpPopUp(float _priceEnergy)
     {
         spriteVehicleOnFillUpPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(Vehicle.ModelID).sprite.texture;
         string data;
-        FeeEnergy = _FeeEnergy;
-        FeeEnergy = (1 - Vehicle.EnergyPercent()) * FeeMenu.FeePerEnergy;
+        FeeEnergy = (1 - Vehicle.EnergyPercent()) * _priceEnergy;
         data = "Fee Energy :   " + FeeEnergy.ToString("0.00") + UnitFee + "\n";
         if (!ClientData.Instance.ClientUser.isEnoughCoin(FeeEnergy))
         {
@@ -69,12 +68,11 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
 
     }
 
-    public void LoadRepairPopUp(float _FeeRepair)
+    public void LoadRepairPopUp(float _priceRepair)
     {
         spriteVehicleOnRepairPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(Vehicle.ModelID).sprite.texture;
         string data;
-        FeeRepair = _FeeRepair;
-        FeeRepair = (1 - Vehicle.DurabilityPercent()) * FeeMenu.FeePerDurability;
+        FeeRepair = (1 - Vehicle.DurabilityPercent()) * _priceRepair;
         data = "Fee Repair :   " + FeeRepair.ToString("0.00") + UnitFee + "\n";
         if (!ClientData.Instance.ClientUser.isEnoughCoin(FeeRepair))
         {

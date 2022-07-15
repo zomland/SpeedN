@@ -7,15 +7,16 @@ using Newtonsoft.Json;
 public class ModelVehicleBaseStats
 {
     public NFTType NftType;
-    public string ModelID;
-    public string ModelName;
+    public string ModelID = "null";
+    public string ModelName = "null";
     public float Efficiency;
+    public float Resiliency;
     public float EnergyMax;
     public float EnergyPerMinute;
     public float DurabilityMax;
     public float DurabilityPerMinute;
 
-    
+
     public ModelVehicleBaseStats() { }
     public ModelVehicleBaseStats(string _ModelID)
     {

@@ -7,12 +7,11 @@ using Newtonsoft.Json;
 [System.Serializable]
 public class ClientUser
 {
-    public string email = "null";
-    public string userName = "null";
-    public string userID = "null";
-    public string address = "null";
-    public string userKey = "null";
-    public string currentVehicleID = "null";
+    public string email;
+    public string userName;
+    public string userID;
+    public string address;
+    public string userKey;
     public float totalKm;
     public float totalTime;
     public float numCoin = 0;
@@ -26,10 +25,11 @@ public class ClientUser
 
     public void CreateUserKey()
     {
-        userKey = emailProcessed() + "-" + userID;
+        userKey = emailProcessed() + "_" + userID;
     }
     string emailProcessed()
     {
+        if(email==null|email=="null") return null;
         string result = email;
         char[] specialChars = {'!', '#', '$','%' ,'&' ,'*','+' ,'-','/' ,'=','?', '^', '_',
         '`','{','|','}','"','(',')',',',':',';','<','>','@','[',']','.'};
@@ -41,13 +41,6 @@ public class ClientUser
                 result = result.Remove(result.IndexOf(specialChar), 1);
             }
         }
-
-        // int index = email.IndexOf('@');
-        // if (index > -1)
-        // {
-        //     result = email.Remove(index);
-        // }
-
         return result;
     }
 
