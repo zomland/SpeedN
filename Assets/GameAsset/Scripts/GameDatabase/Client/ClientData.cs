@@ -22,37 +22,39 @@ public class ClientData : Singleton<ClientData>
     }
 
     #region =====================================LoadData================================================
-    public void InitialLoadData()
+    public async UniTask InitialLoadData()
     {
         FirebaseApi.Instance.SetUpDatabaseRef();
-        LoadServerStation();
-        LoadModelVehicle();
-        LoadClientUser();
+        await LoadModelVehicle();
+        await LoadServerStation();
+        await LoadClientUser();
+        await LoadClientVehicle();
     }
 
-    public void LoadClientVehicle()
+    async UniTask LoadClientVehicle()
     {
-        if (ClientUser.clientVehicle == null)
+        if (ClientUser.clientVehicle.currentVehicle.ModelID.Length == 0)
         {
             ClientUser.clientVehicle.CreateFromLocal(speedNDefault);
-            FirebaseApi.Instance.PostClientVehicle(PostDatabaseCallback).Forget();
+            await FirebaseApi.Instance.PostClientVehicle(PostDatabaseCallback);
+            Debug.Log(JsonConvert.SerializeObject(ClientData.Instance.ClientUser.clientVehicle));
         }
     }
 
-    void LoadModelVehicle()
+    async UniTask LoadModelVehicle()
     {
-        FirebaseApi.Instance.GetModelVehicle(GetDatabaseCallback).Forget();
+        await FirebaseApi.Instance.GetModelVehicle(GetDatabaseCallback);
     }
 
 
-    void LoadClientUser()
+    async UniTask LoadClientUser()
     {
-        FirebaseApi.Instance.GetUserData(GetDatabaseCallback).Forget();
+        await FirebaseApi.Instance.GetUserData(GetDatabaseCallback);
     }
 
-    void LoadServerStation()
+    async UniTask LoadServerStation()
     {
-        FirebaseApi.Instance.GetServerStation(GetDatabaseCallback).Forget();
+        await FirebaseApi.Instance.GetServerStation(GetDatabaseCallback);
     }
 
     #endregion =====================================LoadData==============================================

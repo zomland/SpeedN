@@ -155,7 +155,7 @@ namespace FirebaseHandler
             _auth.SignOut();
         }
 
-        private void OnAuthStateChanged(object sender, System.EventArgs eventArgs)
+        private async void OnAuthStateChanged(object sender, System.EventArgs eventArgs)
         {
             if (sender is FirebaseAuth senderAuth)
             {
@@ -166,7 +166,8 @@ namespace FirebaseHandler
                     user.userName = senderAuth.CurrentUser.DisplayName;
                     user.email = senderAuth.CurrentUser.Email;
                     user.CreateUserKey();
-                    ClientData.Instance.InitialLoadData();
+                    await ClientData.Instance.InitialLoadData();
+                    GameStateParam.MainState=true;
                     if (!_isAutoCheck) return;
         
                 }

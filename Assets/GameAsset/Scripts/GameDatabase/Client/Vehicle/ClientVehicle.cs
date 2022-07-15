@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 [System.Serializable]
 public class ClientVehicle
 {
-    public Vehicle currentVehicle;
+    public Vehicle currentVehicle=new Vehicle();
     public List<Vehicle> Vehicles = new List<Vehicle>();
     public ClientVehicle() { }
 
@@ -17,25 +17,9 @@ public class ClientVehicle
             string _itemID = UnityEngine.Random.Range(1000, 9999).ToString("0000");
             Vehicles.Add(new Vehicle(child.spriteID, _itemID));
         }
+        currentVehicle = Vehicles[0];
     }
 
-    public void InitialLoad(string _currentVehicleID)
-    {
-        if (_currentVehicleID != "null")
-        {
-            foreach (var vehicle in Vehicles)
-            {
-                if (vehicle.ItemID == _currentVehicleID) currentVehicle = vehicle;
-            }
-        }
-        else
-        {
-            if (Vehicles.Count > 0)
-            {
-                currentVehicle = Vehicles[0];
-            }
-        }
-    }
     public string GetModelID(string _itemID)
     {
         foreach (var child in Vehicles)
@@ -62,7 +46,7 @@ public class Vehicle : NFTBaseStats
 
     public void InitialLoad()
     {
-        ModelVehicleBaseStats modelStat=ModelStats();
+        ModelVehicleBaseStats modelStat = ModelStats();
         Energy = modelStat.EnergyMax;
         Durability = modelStat.DurabilityMax;
         NameItem = modelStat.ModelName;

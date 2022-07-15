@@ -20,6 +20,7 @@ public class MyItemSceneController : MonoBehaviour
 
     private void CreateItemCar()
     {
+        Debug.Log(ClientData.Instance.ClientUser.clientVehicle.Vehicles.Count);
         foreach(var child in ClientData.Instance.ClientUser.clientVehicle.Vehicles)
         {
             if (child.ModelStats().NftType == NFTType.Car)

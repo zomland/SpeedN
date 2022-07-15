@@ -107,7 +107,7 @@ namespace Runtime.Controller
             }
             else if (errorId == AuthError.None)
             {
-                GameStateParam.MainState = true;
+
             }
         }
 
@@ -131,39 +131,6 @@ namespace Runtime.Controller
             else GameStateParam.MainState = true;
             Debug.Log("get data s");
         }
-        // IEnumerator CheckLoadData()
-        // {
-        //     int timeCount = 30;
-        //     while ((ClientData.Instance.ClientUser == null || ServerStation.booster_stores == null
-        //         || ModelVehicle.ModelsDict == null) && timeCount > 0)
-        //     {
-        //         yield return new WaitForSeconds(1);
-        //         timeCount--;
-        //     }
-        //     if (timeCount == 0) yield break;
-        // }
-        // IEnumerator CheckLoadData()
-        // {
-        //     int timeCount = 30;
-        //     while ((ClientData.Instance.ClientUser == null || ServerStation.booster_stores == null
-        //         || ModelVehicle.ModelsDict == null) && timeCount > 0)
-        //     {
-        //         yield return new WaitForSeconds(1);
-        //         timeCount--;
-        //     }
-        //     if (timeCount == 0) yield break;
-        // }
-        // IEnumerator CheckLoadData()
-        // {
-        //     int timeCount = 30;
-        //     while ((ClientData.Instance.ClientUser == null || ServerStation.booster_stores == null
-        //         || ModelVehicle.ModelsDict == null) && timeCount > 0)
-        //     {
-        //         yield return new WaitForSeconds(1);
-        //         timeCount--;
-        //     }
-        //     if (timeCount == 0) yield break;
-        // }
     }
 }
 

@@ -66,26 +66,20 @@ namespace FirebaseHandler
         {
             _databaseHandler.SetUpReferences();
         }
-        public async UniTaskVoid PostUser(DatabaseCallback callback)
-        {
-            _databaseHandler.PostUser(ClientData.Instance.ClientUser, callback).Forget();
 
-            await UniTask.Yield();
+        public async UniTask PostUser(DatabaseCallback callback)
+        {
+            await _databaseHandler.PostUser(ClientData.Instance.ClientUser, callback);
         }
 
-        public async UniTaskVoid PostUserValue(string valueKey, System.Object newValue, DatabaseCallback callback)
+        public async UniTask PostUserValue(string valueKey, System.Object newValue, DatabaseCallback callback)
         {
-            _databaseHandler.PostUserValue(ClientData.Instance.ClientUser, valueKey, newValue, callback)
-                .Forget();
-
-            await UniTask.Yield();
+            await _databaseHandler.PostUserValue(ClientData.Instance.ClientUser, valueKey, newValue, callback);
         }
 
-        public async UniTaskVoid GetUserData(DatabaseCallback callback)
+        public async UniTask GetUserData(DatabaseCallback callback)
         {
-            _databaseHandler.GetUserData(ClientData.Instance.ClientUser, callback).Forget();
-
-            await UniTask.Yield();
+            await _databaseHandler.GetUserData(ClientData.Instance.ClientUser, callback);
         }
 
         public void RemoveUser(DatabaseCallback callback)
@@ -93,30 +87,25 @@ namespace FirebaseHandler
             _databaseHandler.RemoveUser(callback);
         }
 
-        public async UniTaskVoid AddAMovingRecord(MovingRecord _movingRecord, DatabaseCallback callback)
+        public async UniTask AddAMovingRecord(MovingRecord _movingRecord, DatabaseCallback callback)
         {
-            _databaseHandler.AddAMovingRecord(_movingRecord, ClientData.Instance.ClientUser.clientMovingRecord, callback).Forget();
-            await UniTask.Yield();
+            await _databaseHandler.AddAMovingRecord(_movingRecord, ClientData.Instance.ClientUser.clientMovingRecord, callback);
         }
-        public async UniTaskVoid PostClientVehicle(DatabaseCallback callback)
+        public async UniTask PostClientVehicle(DatabaseCallback callback)
         {
-            _databaseHandler.PostClientVehicle(callback).Forget();
-            await UniTask.Yield();
+            await _databaseHandler.PostClientVehicle(callback);
         }
-        public async UniTaskVoid GetModelVehicle(DatabaseCallback callback)
+        public async UniTask GetModelVehicle(DatabaseCallback callback)
         {
-            _databaseHandler.GetModelVehicle(callback).Forget();
-            await UniTask.Yield();
+            await _databaseHandler.GetModelVehicle(callback);
         }
-        public async UniTaskVoid PostClientStation(DatabaseCallback callback)
+        public async UniTask PostClientStation(DatabaseCallback callback)
         {
-            _databaseHandler.PostClientStation(callback).Forget();
-            await UniTask.Yield();
+            await _databaseHandler.PostClientStation(callback);
         }
-        public async UniTaskVoid GetServerStation(DatabaseCallback callback)
+        public async UniTask GetServerStation(DatabaseCallback callback)
         {
-            _databaseHandler.GetServerStation(callback).Forget();
-            await UniTask.Yield();
+            await _databaseHandler.GetServerStation(callback);
         }
         #endregion=============================================Database=============================================
     }

@@ -39,16 +39,12 @@ namespace FirebaseHandler
             databaseModelVehicleRef = databaseRef.Child("ModelVehicles");
             databaseStationRef = FirebaseDatabase.DefaultInstance.GetReference("Stations");
             databaseClientUserRef = databaseUsersRef.Child(ClientData.Instance.ClientUser.userKey);
-            databaseClientVehicleRef = databaseClientUserRef.Child(ClientData.Instance.ClientUser.userKey)
-                .Child("clientVehicle");
-            databaseClientMovingRecordRef = databaseClientUserRef.Child(ClientData.Instance.ClientUser.userKey)
-                .Child("clientMovingRecord");
-            databaseClientStationRef = databaseClientUserRef.Child(ClientData.Instance.ClientUser.userKey)
-                .Child("clientStation");
+            databaseClientVehicleRef = databaseClientUserRef.Child("clientVehicle");
+            databaseClientMovingRecordRef = databaseClientUserRef.Child("clientMovingRecord");
         }
 
         #region ===========================================User===========================================
-        public async UniTaskVoid PostUser(ClientUser user, DatabaseCallback databaseCallback)
+        public async UniTask PostUser(ClientUser user, DatabaseCallback databaseCallback)
         {
             await databaseClientUserRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
@@ -75,7 +71,7 @@ namespace FirebaseHandler
             });
         }
 
-        public async UniTaskVoid PostUserValue(ClientUser user, string valueKey, System.Object newValue, DatabaseCallback databaseCallback)
+        public async UniTask PostUserValue(ClientUser user, string valueKey, System.Object newValue, DatabaseCallback databaseCallback)
         {
             await databaseClientUserRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
@@ -104,7 +100,7 @@ namespace FirebaseHandler
             });
         }
 
-        public async UniTaskVoid GetUserData(ClientUser user, DatabaseCallback databaseCallback)
+        public async UniTask GetUserData(ClientUser user, DatabaseCallback databaseCallback)
         {
             await databaseClientUserRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
@@ -144,7 +140,7 @@ namespace FirebaseHandler
         #endregion ===========================================User===========================================
 
         #region ===========================================Vehicle===========================================
-        public async UniTaskVoid PostClientVehicle(DatabaseCallback databaseCallback)
+        public async UniTask PostClientVehicle(DatabaseCallback databaseCallback)
         {
             await databaseClientVehicleRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
@@ -171,7 +167,7 @@ namespace FirebaseHandler
                 }
             });
         }
-        public async UniTaskVoid GetModelVehicle(DatabaseCallback databaseCallback)
+        public async UniTask GetModelVehicle(DatabaseCallback databaseCallback)
         {
             await databaseModelVehicleRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
@@ -194,7 +190,7 @@ namespace FirebaseHandler
         #endregion ===========================================Vehicle==========================================
 
         #region ===========================================Moving Record===========================================
-        public async UniTaskVoid AddAMovingRecord(MovingRecord _movingRecord
+        public async UniTask AddAMovingRecord(MovingRecord _movingRecord
             , ClientMovingRecord clientMovingRecord, DatabaseCallback databaseCallback)
         {
             await databaseClientMovingRecordRef
@@ -226,12 +222,11 @@ namespace FirebaseHandler
         #endregion ===========================================Moving Record===========================================
 
         #region ===========================================Station===========================================
-        public async UniTaskVoid PostClientStation(DatabaseCallback databaseCallback)
+        public async UniTask PostClientStation(DatabaseCallback databaseCallback)
         {
             await databaseClientStationRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
             {
-
                 if (task.IsFaulted)
                 {
                     databaseCallback.Invoke("PostClientStation", "connect database failed", 0);
@@ -239,7 +234,6 @@ namespace FirebaseHandler
                 else if (task.IsCompleted)
                 {
                     DataSnapshot snapshot = task.Result;
-
                     bool isUserExisted = snapshot.GetValue(true) != null;
                     if (isUserExisted)
                     {
@@ -255,7 +249,7 @@ namespace FirebaseHandler
             });
         }
 
-        public async UniTaskVoid GetServerStation(DatabaseCallback databaseCallback)
+        public async UniTask GetServerStation(DatabaseCallback databaseCallback)
         {
             await databaseStationRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
