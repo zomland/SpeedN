@@ -19,6 +19,8 @@ public class MetamaskSceneController : MonoBehaviour
     public TextMeshProUGUI addressTextPopup;
     public TextMeshProUGUI amountImportText;
     public TextMeshProUGUI alertText;
+    public GameObject successPopup;
+    public GameObject rejectPopup;
 
     string alert;
     float amountImport;
@@ -43,6 +45,18 @@ public class MetamaskSceneController : MonoBehaviour
             alert ="NOT ENOUGH BALANCE";
         }
         alertText.text =  alert;
+    }
+
+    public void ConfirmButton()
+    {
+        if(alert=="") return;
+        successPopup.SetActive(true);
+        ClientData.Instance.ClientUser.numCoin += amountImport;
+    }
+
+    public void RejectButton()
+    {
+        rejectPopup.SetActive(true);
     }
 }
 
