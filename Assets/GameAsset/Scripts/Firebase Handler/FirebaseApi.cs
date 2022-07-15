@@ -61,7 +61,6 @@ namespace FirebaseHandler
         #endregion=============================================Auth=============================================
 
         #region=============================================Database=============================================
-
         public void SetUpDatabaseRef()
         {
             _databaseHandler.SetUpReferences();
@@ -82,30 +81,44 @@ namespace FirebaseHandler
             await _databaseHandler.GetUserData(ClientData.Instance.ClientUser, callback);
         }
 
-        public void RemoveUser(DatabaseCallback callback)
+        public async UniTask RemoveUser(DatabaseCallback callback)
         {
-            _databaseHandler.RemoveUser(callback);
+            await _databaseHandler.RemoveUser(callback);
         }
 
         public async UniTask AddAMovingRecord(MovingRecord _movingRecord, DatabaseCallback callback)
         {
             await _databaseHandler.AddAMovingRecord(_movingRecord, ClientData.Instance.ClientUser.clientMovingRecord, callback);
         }
+
         public async UniTask PostClientVehicle(DatabaseCallback callback)
         {
             await _databaseHandler.PostClientVehicle(callback);
         }
+
         public async UniTask GetModelVehicle(DatabaseCallback callback)
         {
             await _databaseHandler.GetModelVehicle(callback);
         }
+
         public async UniTask PostClientStation(DatabaseCallback callback)
         {
             await _databaseHandler.PostClientStation(callback);
         }
+
         public async UniTask GetServerStation(DatabaseCallback callback)
         {
             await _databaseHandler.GetServerStation(callback);
+        }
+
+        public async UniTask PostServerStationOwner(string _stationID, string _ownerID, DatabaseCallback callback)
+        {
+            await _databaseHandler.PostServerStationOwner(_stationID, _ownerID, callback);
+        }
+        
+        public async UniTask GetServerStation(string _stationID, float _priceEnergy, float _priceRepair, DatabaseCallback callback)
+        {
+            await _databaseHandler.PostServerStationPrice(_stationID, _priceEnergy, _priceRepair, callback);
         }
         #endregion=============================================Database=============================================
     }

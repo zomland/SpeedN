@@ -37,10 +37,15 @@ namespace FirebaseHandler
             DatabaseReference databaseUsersRef = databaseRef.Child("Users");
             databaseStationRef = databaseRef.Child("Stations");
             databaseModelVehicleRef = databaseRef.Child("ModelVehicles");
-            databaseStationRef = FirebaseDatabase.DefaultInstance.GetReference("Stations");
             databaseClientUserRef = databaseUsersRef.Child(ClientData.Instance.ClientUser.userKey);
             databaseClientVehicleRef = databaseClientUserRef.Child("clientVehicle");
             databaseClientMovingRecordRef = databaseClientUserRef.Child("clientMovingRecord");
+            //Set up event
+            databaseStationRef.ValueChanged+=HandleServerStationChanged;
+            databaseModelVehicleRef.ValueChanged+=HandleModelVehicleChanged;
+            databaseClientUserRef.ValueChanged+=HandleUserChanged;
+            databaseClientVehicleRef.ValueChanged+=HandleVehicleChanged;
+            databaseClientMovingRecordRef.ValueChanged+=HandleMovingRecordChanged;
         }
 
         #region ===========================================User===========================================
@@ -130,10 +135,10 @@ namespace FirebaseHandler
                 }
             });
         }
-        public void RemoveUser(DatabaseCallback databaseCallback)
+        public async UniTask RemoveUser(DatabaseCallback databaseCallback)
         {
             //Delete Account
-            databaseClientUserRef.SetValueAsync(null);
+            await databaseClientUserRef.SetValueAsync(null);
             databaseCallback.Invoke("RemoveUser", "User is removed", 0);
         }
 
@@ -249,6 +254,19 @@ namespace FirebaseHandler
             });
         }
 
+        public async UniTask PostServerStationOwner(string _stationID, string _ownerID, DatabaseCallback databaseCallback)
+        {
+            await databaseStationRef.Child(_stationID).Child("ownerID").SetValueAsync(_ownerID);
+            databaseCallback.Invoke("PostServerStationOwner: ", "success", 0);
+        }
+
+        public async UniTask PostServerStationPrice(string _stationID, float _priceEnergy, float _priceRepair, DatabaseCallback databaseCallback)
+        {
+            await databaseStationRef.Child(_stationID).Child("priceEnergy").SetValueAsync(_priceEnergy);
+            await databaseStationRef.Child(_stationID).Child("priceRepair").SetValueAsync(_priceRepair);
+            databaseCallback.Invoke("PostServerStationOwner: ", "success", 0);
+        }
+
         public async UniTask GetServerStation(DatabaseCallback databaseCallback)
         {
             await databaseStationRef
@@ -281,11 +299,10 @@ namespace FirebaseHandler
                 }
             });
         }
-
         #endregion===========================================Stations===========================================
 
         #region ===========================================Handler Events===========================================
-        void HandleUserValueChanged(object sender, ValueChangedEventArgs args)
+        void HandleUserChanged(object sender, ValueChangedEventArgs args)
         {
             if (args.DatabaseError != null)
             {
@@ -295,7 +312,7 @@ namespace FirebaseHandler
             DisplayMessage("Client user Changed");
         }
 
-        void HandleMovingRecordChanged(object sender, ChildChangedEventArgs args)
+        void HandleMovingRecordChanged(object sender, ValueChangedEventArgs args)
         {
             if (args.DatabaseError != null)
             {
@@ -306,7 +323,7 @@ namespace FirebaseHandler
             DisplayMessage("Moving Record changed");
         }
 
-        void HandleVehicleChanged(object sender, ChildChangedEventArgs args)
+        void HandleVehicleChanged(object sender, ValueChangedEventArgs args)
         {
             if (args.DatabaseError != null)
             {
@@ -317,7 +334,7 @@ namespace FirebaseHandler
             DisplayMessage("Client vehicle changed");
         }
 
-        void HandleClientStationChanged(object sender, ChildChangedEventArgs args)
+        void HandleClientStationChanged(object sender, ValueChangedEventArgs args)
         {
             if (args.DatabaseError != null)
             {
@@ -326,6 +343,28 @@ namespace FirebaseHandler
             }
             // Do something with the data in args.Snapshot
             DisplayMessage("Client station changed");
+        }
+
+        void HandleServerStationChanged(object sender, ValueChangedEventArgs args)
+        {
+            if (args.DatabaseError != null)
+            {
+                DisplayError(args.DatabaseError.Message);
+                return;
+            }
+            // Do something with the data in args.Snapshot
+            DisplayMessage("ServerStation changed");
+        }
+
+        void HandleModelVehicleChanged(object sender, ValueChangedEventArgs args)
+        {
+            if (args.DatabaseError != null)
+            {
+                DisplayError(args.DatabaseError.Message);
+                return;
+            }
+            // Do something with the data in args.Snapshot
+            DisplayMessage("Model Vehicle changed");
         }
 
         #endregion ===========================================Handler Events==========================================
