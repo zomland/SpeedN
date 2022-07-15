@@ -59,7 +59,6 @@ public class MyItemSceneItemVehicle : MonoBehaviour
     public void ChooseClick()
     {
         ClientData.Instance.ClientUser.clientVehicle.currentVehicle = vehicle;
-        ClientData.Instance.ClientUser.currentVehicleID = vehicle.ItemID;
         DatabaseHandler.SaveUserData(OnChangeCurrentVehicle);
         Messenger.RaiseMessage(Message.LoadScene, Scenes.HomeScene, Scenes.MyItemScene);
     }

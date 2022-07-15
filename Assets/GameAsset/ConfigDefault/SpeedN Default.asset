@@ -12,17 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 731a6ed1cef979a4aa339aa046f33968, type: 3}
   m_Name: SpeedN Default
   m_EditorClassIdentifier: 
-  spriteIcons:
-  - spriteID: BNB
-    sprite: {fileID: 21300000, guid: 566739880dbcf6c42acca076b6d4ba64, type: 3}
-  - spriteID: SpeedN
-    sprite: {fileID: 21300000, guid: b590d26e55861de4297d095be78c640b, type: 3}
-  - spriteID: SpeedM
-    sprite: {fileID: 21300000, guid: 5be7e61675c64804b84fbb0a0af31a1c, type: 3}
-  - spriteID: SpeedI
-    sprite: {fileID: 21300000, guid: c8c11ed9ae4210c468430d93be0c9eea, type: 3}
-  - spriteID: SpeedP
-    sprite: {fileID: 21300000, guid: 9e8eb8427c7ef2e4da1fb1b65131af98, type: 3}
   spriteModelVehicles:
   - spriteID: HD001
     sprite: {fileID: 21300000, guid: eb0033b16bd3017428a4f52f454aed2e, type: 3}
@@ -30,87 +19,10 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 16fac6b879d6a9c4c828d213655075c0, type: 3}
   - spriteID: SP001
     sprite: {fileID: 21300000, guid: 0bb58ed377bd37e4fbd20a87dd6ce053, type: 3}
-  - spriteID: SP002
+  - spriteID: TL001
     sprite: {fileID: 21300000, guid: 1c331ab402c838043a13236b01bc3544, type: 3}
-  modelVehicleBaseStats:
-  - NftType: 0
-    NftRarity: 0
-    ModelID: IC000
-    ModelName: InitialCar000
-    Efficiency: 1
-    Resilience: 0.1
-    EnergyMax: 200
-    EnergyPerMinute: 1
-    DurabilityMax: 200
-    DurabilityPerMinute: 1
-    MaxENERZIPerEnergy: 5
-    MinOptimalSpeed: 20
-    MaxOptimalSpeed: 50
-  - NftType: 0
-    NftRarity: 0
-    ModelID: TL001
-    ModelName: Tesla001
-    Efficiency: 1
-    Resilience: 0.1
-    EnergyMax: 200
-    EnergyPerMinute: 1
-    DurabilityMax: 200
-    DurabilityPerMinute: 1
-    MaxENERZIPerEnergy: 5
-    MinOptimalSpeed: 20
-    MaxOptimalSpeed: 50
-  - NftType: 0
-    NftRarity: 1
-    ModelID: MB001
-    ModelName: MercedesBenz001
-    Efficiency: 1
-    Resilience: 0.2
-    EnergyMax: 300
-    EnergyPerMinute: 1
-    DurabilityMax: 300
-    DurabilityPerMinute: 1
-    MaxENERZIPerEnergy: 5
-    MinOptimalSpeed: 20
-    MaxOptimalSpeed: 50
-  - NftType: 0
-    NftRarity: 2
-    ModelID: HD001
-    ModelName: Honda001
-    Efficiency: 1
-    Resilience: 0.3
-    EnergyMax: 350
-    EnergyPerMinute: 1
-    DurabilityMax: 350
-    DurabilityPerMinute: 1
-    MaxENERZIPerEnergy: 5
-    MinOptimalSpeed: 20
-    MaxOptimalSpeed: 50
-  - NftType: 0
-    NftRarity: 3
-    ModelID: SP001
-    ModelName: SuperCar001
-    Efficiency: 1
-    Resilience: 0.5
-    EnergyMax: 400
-    EnergyPerMinute: 1
-    DurabilityMax: 400
-    DurabilityPerMinute: 1
-    MaxENERZIPerEnergy: 5
-    MinOptimalSpeed: 20
-    MaxOptimalSpeed: 50
-  - NftType: 0
-    NftRarity: 3
-    ModelID: SP002
-    ModelName: SuperCar002
-    Efficiency: 1
-    Resilience: 0.5
-    EnergyMax: 400
-    EnergyPerMinute: 1
-    DurabilityMax: 400
-    DurabilityPerMinute: 1
-    MaxENERZIPerEnergy: 5
-    MinOptimalSpeed: 20
-    MaxOptimalSpeed: 50
+  - spriteID: IC000
+    sprite: {fileID: 21300000, guid: 79f8549ff74ac9840a690da402fcefa5, type: 3}
   musicAudioClips:
   - name: HItTheGas96
     ID: music001

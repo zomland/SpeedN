@@ -6,6 +6,7 @@ using FirebaseHandler;
 using Global;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using Cysharp.Threading.Tasks;
 
 
 namespace Runtime.Controller
@@ -23,6 +24,12 @@ namespace Runtime.Controller
         [SerializeField] private GameObject SignUp;
         [SerializeField] private GameObject popup;
         [SerializeField] private Text textPopup;
+
+        [Header("Loading Data")]
+        public GameObject LoadingDataPage;
+        public Slider LoadDataSlider;
+        public Text textMess;
+
         void Start()
         {
             popup.SetActive(false);
@@ -103,6 +110,60 @@ namespace Runtime.Controller
                 GameStateParam.MainState = true;
             }
         }
+
+        IEnumerator CheckLoadData()
+        {
+            int timeCount = 30;
+            while ((ClientData.Instance.ClientUser == null || ServerStation.booster_stores == null
+                || ModelVehicle.ModelsDict == null) && timeCount > 0)
+            {
+                yield return new WaitForSeconds(1);
+                Debug.Log("get data l");
+                timeCount--;
+            }
+            if (timeCount == 0)
+            {
+                textMess.text = "Connect error";
+                textMess.color = Color.red;
+                Debug.Log("get data f");
+                yield break;
+            }
+            else GameStateParam.MainState = true;
+            Debug.Log("get data s");
+        }
+        // IEnumerator CheckLoadData()
+        // {
+        //     int timeCount = 30;
+        //     while ((ClientData.Instance.ClientUser == null || ServerStation.booster_stores == null
+        //         || ModelVehicle.ModelsDict == null) && timeCount > 0)
+        //     {
+        //         yield return new WaitForSeconds(1);
+        //         timeCount--;
+        //     }
+        //     if (timeCount == 0) yield break;
+        // }
+        // IEnumerator CheckLoadData()
+        // {
+        //     int timeCount = 30;
+        //     while ((ClientData.Instance.ClientUser == null || ServerStation.booster_stores == null
+        //         || ModelVehicle.ModelsDict == null) && timeCount > 0)
+        //     {
+        //         yield return new WaitForSeconds(1);
+        //         timeCount--;
+        //     }
+        //     if (timeCount == 0) yield break;
+        // }
+        // IEnumerator CheckLoadData()
+        // {
+        //     int timeCount = 30;
+        //     while ((ClientData.Instance.ClientUser == null || ServerStation.booster_stores == null
+        //         || ModelVehicle.ModelsDict == null) && timeCount > 0)
+        //     {
+        //         yield return new WaitForSeconds(1);
+        //         timeCount--;
+        //     }
+        //     if (timeCount == 0) yield break;
+        // }
     }
 }
 
