@@ -111,25 +111,16 @@ namespace Runtime.Controller
             }
         }
 
-        IEnumerator CheckLoadData()
+        public void showLoadingDataPage(float _percentLoad)
         {
-            int timeCount = 30;
-            while ((ClientData.Instance.ClientUser == null || ServerStation.booster_stores == null
-                || ModelVehicle.ModelsDict == null) && timeCount > 0)
-            {
-                yield return new WaitForSeconds(1);
-                Debug.Log("get data l");
-                timeCount--;
-            }
-            if (timeCount == 0)
-            {
-                textMess.text = "Connect error";
-                textMess.color = Color.red;
-                Debug.Log("get data f");
-                yield break;
-            }
-            else GameStateParam.MainState = true;
-            Debug.Log("get data s");
+            textMess.text = "Loading..." + (_percentLoad * 100).ToString() + "%";
+            LoadDataSlider.value = _percentLoad;
+            Debug.Log("Loading..." + (_percentLoad * 100).ToString() + "%");
+        }
+
+        public void ActiveLoadingPage()
+        {
+            LoadingDataPage.SetActive(true);
         }
     }
 }

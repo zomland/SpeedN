@@ -728,7 +728,7 @@ MonoBehaviour:
   textPopup: {fileID: 2073694989}
   LoadingDataPage: {fileID: 6507395}
   LoadDataSlider: {fileID: 1223626356}
-  textMess: {fileID: 0}
+  textMess: {fileID: 1774629771}
 --- !u!4 &106596835
 Transform:
   m_ObjectHideFlags: 0
@@ -4723,7 +4723,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: Loading...
 --- !u!222 &1774629772
 CanvasRenderer:
   m_ObjectHideFlags: 0

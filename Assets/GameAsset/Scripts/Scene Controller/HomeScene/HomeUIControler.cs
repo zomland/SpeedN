@@ -74,17 +74,8 @@ public class HomeUIControler : MonoBehaviour
 
     private void SceneTransferClick(Scenes sceneFrom, Scenes sceneTo)
     {
-        Messenger.RaiseMessage(Message.LoadScene, sceneTo, sceneFrom);
-    }
-
-    public void ClickToAccountScene()
-    {
-        SceneTransferClick(Scenes.HomeScene, Scenes.AccountScene);
-    }
-
-    public void ClickToItemScene()
-    {
-        SceneTransferClick(Scenes.HomeScene, Scenes.MyItemScene);
+        SceneManager.LoadScene(sceneTo.ToString(), LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(sceneFrom.ToString());
     }
 
     public void ClickToDrivingScene()

@@ -10,11 +10,15 @@ using Newtonsoft.Json;
 using FirebaseHandler;
 using Cysharp.Threading.Tasks;
 using Global;
+using Runtime.Controller;
 
 
 public class ClientData : Singleton<ClientData>
 {
     public ClientUser ClientUser = new ClientUser();
+    float percentLoad;
+    float numTask = 0;
+    float totalTask = 4;
     [field: SerializeField] public SpeedNDefault speedNDefault { get; private set; }
 
     void Awake()
@@ -24,11 +28,27 @@ public class ClientData : Singleton<ClientData>
     #region =====================================LoadData================================================
     public async UniTask InitialLoadData()
     {
+        LoginSceneController loginSceneController = FindObjectOfType<LoginSceneController>();
+        loginSceneController.ActiveLoadingPage();
         FirebaseApi.Instance.SetUpDatabaseRef();
         await LoadModelVehicle();
+        CalculateLoad();
+        loginSceneController.showLoadingDataPage(percentLoad);
         await LoadServerStation();
+        CalculateLoad();
+        loginSceneController.showLoadingDataPage(percentLoad);
         await LoadClientUser();
+        CalculateLoad();
+        loginSceneController.showLoadingDataPage(percentLoad);
         await LoadClientVehicle();
+        CalculateLoad();
+        loginSceneController.showLoadingDataPage(percentLoad);
+    }
+
+    void CalculateLoad()
+    {
+        numTask++;
+        percentLoad = numTask / totalTask;
     }
 
     async UniTask LoadClientVehicle()

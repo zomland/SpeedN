@@ -30,7 +30,8 @@ namespace Runtime.UIHandler
         public void ButtonClick()
         {
             if (toScene == fromScene) return;
-            SceneManager.LoadScene(toScene.ToString());
+            SceneManager.LoadScene(toScene.ToString(),LoadSceneMode.Additive);
+            SceneManager.UnloadSceneAsync(fromScene.ToString());
         }
     }
 }
