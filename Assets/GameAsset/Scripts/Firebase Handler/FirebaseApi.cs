@@ -78,7 +78,7 @@ namespace FirebaseHandler
 
         public async UniTask GetUserData(DatabaseCallback callback)
         {
-            await _databaseHandler.GetUserData(ClientData.Instance.ClientUser, callback);
+            await _databaseHandler.GetUserData(callback);
         }
 
         public async UniTask RemoveUser(DatabaseCallback callback)
@@ -115,7 +115,7 @@ namespace FirebaseHandler
         {
             await _databaseHandler.PostServerStationOwner(_stationID, _ownerID, callback);
         }
-        
+
         public async UniTask GetServerStation(string _stationID, float _priceEnergy, float _priceRepair, DatabaseCallback callback)
         {
             await _databaseHandler.PostServerStationPrice(_stationID, _priceEnergy, _priceRepair, callback);

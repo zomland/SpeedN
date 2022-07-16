@@ -20,7 +20,7 @@ public class MovingRecordControler : MonoBehaviour
 
     MovingRecord _movingRecord;
 
-    public void CreateMovingRecord(float _numCoin, string _vehicleName, string _vehicleID, float _distance
+    public async void CreateMovingRecord(float _numCoin, string _vehicleName, string _vehicleID, float _distance
         , string _timeDroveString, float _timeDrove)
     {
         string _timeCreate = System.DateTime.Now.ToString();
@@ -28,8 +28,13 @@ public class MovingRecordControler : MonoBehaviour
         _movingRecord = new MovingRecord(_timeCreate, _numCoin, _vehicleName, _vehicleID, _distance, _timeDroveString, _timeStamp);
         ClientData.Instance.ClientUser.totalKm += _distance;
         ClientData.Instance.ClientUser.totalTime += _timeDrove;
+        ClientData.Instance.ClientUser.ReceiveCoinFromDriving(_numCoin);
         ClientData.Instance.ClientUser.clientMovingRecord.AddMovingRecordDetail(_movingRecord);
-        DatabaseHandler.SaveAMovingRecord(_movingRecord, SaveMovingRecordCallback);
+        await FirebaseApi.Instance.PostUserValue("totalKm", ClientData.Instance.ClientUser.totalKm, PostDataCallback);
+        await FirebaseApi.Instance.PostUserValue("totalTime", ClientData.Instance.ClientUser.totalTime, PostDataCallback);
+        await FirebaseApi.Instance.PostUserValue("numCoin", ClientData.Instance.ClientUser.numCoin, PostDataCallback);
+        await FirebaseApi.Instance.AddAMovingRecord(_movingRecord, PostDataCallback);
+        await FirebaseApi.Instance.PostClientVehicle(PostDataCallback);
     }
 
     public void LoadDataMovingRecord(int index)
@@ -75,21 +80,8 @@ public class MovingRecordControler : MonoBehaviour
         }
     }
 
-    public void PostRecords()
+    void PostDataCallback(string nameMethod, string message, int id)
     {
-        Debug.LogWarning("Save Record");
+        Debug.Log("MovingRecordControler" + nameMethod + message + ":" + id);
     }
-
-    void OnAddAMovingRecord(string nameProcedure, string message, int Id)
-    {
-        Debug.Log("OnAddAMovingRecord");
-    }
-
-    public static void SaveMovingRecordCallback(string message)
-    {
-        Debug.Log("SaveMovingRecordCallbackOnRecordControler: " + message);
-    }
-
-
-
 }

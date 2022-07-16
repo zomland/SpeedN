@@ -59,6 +59,7 @@ public class ClientData : Singleton<ClientData>
             await FirebaseApi.Instance.PostClientVehicle(PostDatabaseCallback);
             Debug.Log(JsonConvert.SerializeObject(ClientData.Instance.ClientUser.clientVehicle));
         }
+        else ClientUser.clientVehicle.UpLoadCurrentVehicle();
     }
 
     async UniTask LoadModelVehicle()

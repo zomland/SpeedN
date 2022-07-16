@@ -14,7 +14,7 @@ public class ClientUser
     public string userKey;
     public float totalKm;
     public float totalTime;
-    public float numCoin = 0;
+    public float numCoin;
 
     public ClientVehicle clientVehicle = new ClientVehicle();
     public ClientMovingRecord clientMovingRecord = new ClientMovingRecord();
@@ -29,7 +29,7 @@ public class ClientUser
     }
     string emailProcessed()
     {
-        if(email==null|email=="null") return null;
+        if (email == null | email == "null") return null;
         string result = email;
         char[] specialChars = {'!', '#', '$','%' ,'&' ,'*','+' ,'-','/' ,'=','?', '^', '_',
         '`','{','|','}','"','(',')',',',':',';','<','>','@','[',']','.'};
@@ -61,6 +61,12 @@ public class ClientUser
     }
 
     public void ChargeFeeFillUp(float fee)
+    {
+        if (numCoin >= fee)
+            numCoin -= fee;
+    }
+
+    public void ChargeFeeRepair(float fee)
     {
         if (numCoin >= fee)
             numCoin -= fee;

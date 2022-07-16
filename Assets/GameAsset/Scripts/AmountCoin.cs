@@ -9,6 +9,11 @@ public class AmountCoin : MonoBehaviour
 
     void Start()
     {
-        amountCoinText.text =  ClientData.Instance.ClientUser.numCoin.ToString();        
+        UpdateCoin();
+    }
+
+    public void UpdateCoin()
+    {
+        amountCoinText.text = ClientData.Instance.ClientUser.numCoin.ToString() + " coin";
     }
 }

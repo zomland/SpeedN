@@ -19,18 +19,13 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
     public Button ButtonFillUp;
     public Button ButtonRepair;
 
-    [Header("PopUpData")]
-    public RawImage spriteVehicleOnFillUpPopUp;
-    public RawImage spriteVehicleOnRepairPopUp;
-    public Text textOnPopUpFillUp;
-    public Text textOnPopUpRepair;
-    public Button ButtonConfirmFillUp;
-    public Button ButtonConfirmRepair;
-
     Vehicle Vehicle;
+
+    [HideInInspector]
     public float FeeEnergy;
+    [HideInInspector]
     public float FeeRepair;
-    public string UnitFee = "SPEEDN";
+    [HideInInspector]
 
     public void DisplayUI(Vehicle _Vehicle)
     {
@@ -40,6 +35,11 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
         nameText.text = Vehicle.NameItem;
         EnergyMonitorControler.SetValue(Vehicle.EnergyPercent());
         DurabilityMonitorControler.SetValue(Vehicle.DurabilityPercent());
+        CheckButtonFillAndRepair();
+    }
+
+    public void CheckButtonFillAndRepair()
+    {
         if (Vehicle.EnergyPercent() == 1) ButtonFillUp.interactable = false;
         else ButtonFillUp.interactable = true;
         if (Vehicle.DurabilityPercent() == 1) ButtonRepair.interactable = false;
@@ -51,70 +51,4 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
         EnergyMonitorControler.ResetMonitor();
         DurabilityMonitorControler.ResetMonitor();
     }
-
-    public void LoadFillUpPopUp(float _priceEnergy)
-    {
-        spriteVehicleOnFillUpPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(Vehicle.ModelID).sprite.texture;
-        string data;
-        FeeEnergy = (1 - Vehicle.EnergyPercent()) * _priceEnergy;
-        data = "Fee Energy :   " + FeeEnergy.ToString("0.00") + UnitFee + "\n";
-        if (!ClientData.Instance.ClientUser.isEnoughCoin(FeeEnergy))
-        {
-            data += "\n" + "Not enough coin to pay";
-            ButtonConfirmFillUp.interactable = false;
-            textOnPopUpFillUp.color = Color.red;
-        }
-        textOnPopUpFillUp.text = data;
-
-    }
-
-    public void LoadRepairPopUp(float _priceRepair)
-    {
-        spriteVehicleOnRepairPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(Vehicle.ModelID).sprite.texture;
-        string data;
-        FeeRepair = (1 - Vehicle.DurabilityPercent()) * _priceRepair;
-        data = "Fee Repair :   " + FeeRepair.ToString("0.00") + UnitFee + "\n";
-        if (!ClientData.Instance.ClientUser.isEnoughCoin(FeeRepair))
-        {
-            data += "\n" + "Not enough coin to pay";
-            ButtonConfirmRepair.interactable = false;
-            textOnPopUpRepair.color = Color.red;
-        }
-        textOnPopUpRepair.text = data;
-
-    }
-
-    public void FillUpEnergyVehicle()
-    {
-        Vehicle.FillUpEnergy();
-        EnergyMonitorControler.SetValue(Vehicle.EnergyPercent());
-        ClientData.Instance.ClientUser.ChargeFeeFillUp(FeeEnergy);
-        DatabaseHandler.SaveClientCoin(callbackSaveData);
-        DatabaseHandler.SaveVehicleData(callbackSaveData);
-    }
-
-    public void RepairVehicle()
-    {
-        Vehicle.Repair();
-        DurabilityMonitorControler.SetValue(Vehicle.DurabilityPercent());
-        ClientData.Instance.ClientUser.ChargeFeeFillUp(FeeRepair);
-        DatabaseHandler.SaveClientCoin(callbackSaveData);
-        DatabaseHandler.SaveVehicleData(callbackSaveData);
-    }
-
-    void callbackFillUp(string a, string b, int c)
-    {
-
-    }
-
-    void callbackRepair(string a, string b, int c)
-    {
-
-    }
-
-    void callbackSaveData(string message)
-    {
-
-    }
-
 }

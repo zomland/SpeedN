@@ -41,11 +41,11 @@ namespace FirebaseHandler
             databaseClientVehicleRef = databaseClientUserRef.Child("clientVehicle");
             databaseClientMovingRecordRef = databaseClientUserRef.Child("clientMovingRecord");
             //Set up event
-            databaseStationRef.ValueChanged+=HandleServerStationChanged;
-            databaseModelVehicleRef.ValueChanged+=HandleModelVehicleChanged;
-            databaseClientUserRef.ValueChanged+=HandleUserChanged;
-            databaseClientVehicleRef.ValueChanged+=HandleVehicleChanged;
-            databaseClientMovingRecordRef.ValueChanged+=HandleMovingRecordChanged;
+            databaseStationRef.ValueChanged += HandleServerStationChanged;
+            databaseModelVehicleRef.ValueChanged += HandleModelVehicleChanged;
+            databaseClientUserRef.ValueChanged += HandleUserChanged;
+            databaseClientVehicleRef.ValueChanged += HandleVehicleChanged;
+            databaseClientMovingRecordRef.ValueChanged += HandleMovingRecordChanged;
         }
 
         #region ===========================================User===========================================
@@ -105,7 +105,7 @@ namespace FirebaseHandler
             });
         }
 
-        public async UniTask GetUserData(ClientUser user, DatabaseCallback databaseCallback)
+        public async UniTask GetUserData(DatabaseCallback databaseCallback)
         {
             await databaseClientUserRef
             .GetValueAsync().ContinueWithOnMainThread(task =>
@@ -121,14 +121,12 @@ namespace FirebaseHandler
                     if (isUserExisted)
                     {
                         string JsonData = JsonConvert.SerializeObject(snapshot.GetValue(true));
-                        user = JsonConvert.DeserializeObject<ClientUser>(JsonData);
-                        Debug.Log(JsonData);
-                        //DisplayMessage("Get data success");
+                        ClientData.Instance.ClientUser = JsonConvert.DeserializeObject<ClientUser>(JsonData);
                         databaseCallback.Invoke("GetUser", "Get data success", 0);
                     }
                     else
                     {
-                        string JsonData = JsonConvert.SerializeObject(user);
+                        string JsonData = ClientData.Instance.ClientUser.GetStringJsonData();
                         databaseClientUserRef.SetRawJsonValueAsync(JsonData);
                         databaseCallback.Invoke("GetUser", "New User -> create data from local", 0);
                     }

@@ -23,6 +23,10 @@ public class HomeUIControler : MonoBehaviour
 
     private void Awake()
     {
+
+    }
+    void Start()
+    {
         _currentVehicle = ClientData.Instance.ClientUser.clientVehicle.currentVehicle;
         LoadEnergyMonitor();
         LoadNameVehicle();
@@ -36,9 +40,6 @@ public class HomeUIControler : MonoBehaviour
         else if (_currentVehicle.ModelStats().NftType == NFTType.Car) energyTxt = "Gas:";
 
         energyText.text = $"{energyTxt} \n{_currentVehicle.EnergyPercent() * 100}" + "%";
-    }
-    void Start()
-    {
         Translator.Translate("HomeScene");
         SoundManager.PlayMusic(ClientData.Instance.GetAudioClip(Audio.AudioType.Music, "music001"), 0.3f, true, true);
     }
@@ -76,6 +77,13 @@ public class HomeUIControler : MonoBehaviour
     {
         SceneManager.LoadScene(sceneTo.ToString(), LoadSceneMode.Additive);
         SceneManager.UnloadSceneAsync(sceneFrom.ToString());
+    }
+
+    public void ClickToImportScene()
+    {
+
+        SceneTransferClick(Scenes.HomeScene, Scenes.ImportScene);
+
     }
 
     public void ClickToDrivingScene()

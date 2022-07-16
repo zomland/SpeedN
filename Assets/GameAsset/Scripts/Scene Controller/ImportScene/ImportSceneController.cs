@@ -6,7 +6,7 @@ using TMPro;
 
 public class ImportSceneController : MonoBehaviour
 {
-    public  GameObject inputField;
+    public GameObject inputField;
     public Button importButton;
 
     float amountImport;
@@ -23,14 +23,14 @@ public class ImportSceneController : MonoBehaviour
 
     private void Import()
     {
-        string tmp =  inputField.GetComponent<TMP_InputField>().text;
-        if(tmp == "")
+        string tmp = inputField.GetComponent<TMP_InputField>().text;
+        if (tmp == "")
         {
             amountImport = 0;
         }
         else
         {
-            amountImport =  float.Parse(tmp);
+            amountImport = float.Parse(tmp);
         }
         Debug.Log(amountImport);
         PlayerPrefs.SetFloat("AmountImport",amountImport);

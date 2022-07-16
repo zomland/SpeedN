@@ -125,10 +125,7 @@ public class DrivingUIControler : MonoBehaviour
                 _movingRecordControler.CreateMovingRecord(drivingCalculator.numCoin()
                     , _currentVehicle.NameItem, _currentVehicle.ItemID, drivingCalculator.Distance()
                         , drivingCalculator.timeDroveString(), drivingCalculator.GetTimeDrove());
-
                 _movingRecordControler.DisplayMovingRecord();
-                ClientData.Instance.ClientUser.ReceiveCoinFromDriving(drivingCalculator.numCoin());
-                DatabaseHandler.SaveUserData(SaveUserCallback);
                 isShowRecord = true;
             }
         }
