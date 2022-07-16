@@ -75,5 +75,9 @@ public class MyItemSceneItemVehicle : MonoBehaviour
         SceneManager.UnloadSceneAsync(Scenes.MyItemScene.ToString());
         await FirebaseApi.Instance.PostClientVehicle(PostDatabaseCallback);
     }
+    void PostDatabaseCallback(string method, string mess, int id)
+    {
+        Debug.Log(method + mess + id);
+    }
 
 }
