@@ -7663,8 +7663,7 @@ MonoBehaviour:
   textTitlePanel: {fileID: 549007744}
   listStationEnergy: {fileID: 685294886}
   listStationRepair: {fileID: 797030442}
-  TfSpawnStationEnergy: {fileID: 34113106}
-  TfSpawnStationRepair: {fileID: 1205754343}
+  TfSpawn: {fileID: 34113106}
   stationGUIPf: {fileID: 9184645750300256595, guid: 400c0bfddabd8a64095f07c4073872dd,
     type: 3}
   coinControler: {fileID: 2064974294}

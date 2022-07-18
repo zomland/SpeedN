@@ -60,18 +60,10 @@ public class ClientUser
         return numCoin >= fee;
     }
 
-    public void ChargeFeeFillUp(float fee)
+    public void ChargeFee(float fee)
     {
-        if (numCoin >= fee)
-            numCoin -= fee;
+        if (isEnoughCoin(fee)) numCoin -= fee;
     }
-
-    public void ChargeFeeRepair(float fee)
-    {
-        if (numCoin >= fee)
-            numCoin -= fee;
-    }
-
 
     public void ReceiveCoinFromDriving(float amount)
     {

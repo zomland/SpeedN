@@ -12,8 +12,7 @@ public class PanelStationControler : MonoBehaviour
     public TMP_Text textTitlePanel;
     public GameObject listStationEnergy;
     public GameObject listStationRepair;
-    public Transform TfSpawnStationEnergy;
-    public Transform TfSpawnStationRepair;
+    public Transform TfSpawn;
     public StationGUIPfControler stationGUIPf;
     public AmountCoin coinControler;
 
@@ -48,8 +47,6 @@ public class PanelStationControler : MonoBehaviour
 
     void LoadTitlePanelStation(PanelStationType _panelStationType)
     {
-        spriteVehicleOnFillUpPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(vehicle.ModelID).sprite.texture;
-        spriteVehicleOnRepairPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(vehicle.ModelID).sprite.texture;
         if (_panelStationType == PanelStationType.Energy)
         {
             if (vehicle.NftType == NFTType.Car || vehicle.NftType == NFTType.Motorbike) textTitlePanel.text = "Gas Station";
@@ -71,14 +68,14 @@ public class PanelStationControler : MonoBehaviour
             Debug.Log("LoadListsStation");
             foreach (var child in ServerStation.gas_stations.Values)
             {
-                var station = Instantiate(stationGUIPf, TfSpawnStationEnergy.position, Quaternion.identity, listStationEnergy.transform);
-                station.LoadStationInfo(child);
+                var station = Instantiate(stationGUIPf, TfSpawn.position, Quaternion.identity, listStationEnergy.transform);
+                station.LoadStationInfoForFillAndRepair(child);
                 Debug.Log("LoadListsStation " + child.stationID);
             }
             foreach (var child in ServerStation.garages.Values)
             {
-                var station = Instantiate(stationGUIPf, TfSpawnStationRepair.position, Quaternion.identity, listStationRepair.transform);
-                station.LoadStationInfo(child);
+                var station = Instantiate(stationGUIPf, TfSpawn.position, Quaternion.identity, listStationRepair.transform);
+                station.LoadStationInfoForFillAndRepair(child);
                 Debug.Log("LoadListsStation " + child.stationID);
             }
         }
@@ -86,13 +83,13 @@ public class PanelStationControler : MonoBehaviour
         {
             foreach (var child in ServerStation.booster_stores.Values)
             {
-                var station = Instantiate(stationGUIPf, TfSpawnStationEnergy.position, Quaternion.identity, listStationEnergy.transform);
-                station.LoadStationInfo(child);
+                var station = Instantiate(stationGUIPf, TfSpawn.position, Quaternion.identity, listStationEnergy.transform);
+                station.LoadStationInfoForFillAndRepair(child);
             }
             foreach (var child in ServerStation.sport_stores.Values)
             {
-                var station = Instantiate(stationGUIPf, TfSpawnStationRepair.position, Quaternion.identity, listStationRepair.transform);
-                station.LoadStationInfo(child);
+                var station = Instantiate(stationGUIPf, TfSpawn.position, Quaternion.identity, listStationRepair.transform);
+                station.LoadStationInfoForFillAndRepair(child);
             }
         }
     }
@@ -115,9 +112,10 @@ public class PanelStationControler : MonoBehaviour
 
     public void LoadFillUpPopUp()
     {
+        spriteVehicleOnFillUpPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(vehicle.ModelID).sprite.texture;
         string data;
         amountEnergy = vehicle.LostEnergy() * fillEnergySlider.value;
-        feeEnergy = amountEnergy * chosenStation.priceEnergy;
+        feeEnergy = amountEnergy * chosenStation.GetPrice();
         data = "Fee Energy :   " + feeEnergy.ToString("0.00") + " " + UnitFee + "\n";
         data += "New" + vehicle.EnergyName() + ":   " + (amountEnergy + vehicle.Energy).ToString("0") + "/"
             + vehicle.ModelStats().EnergyMax.ToString("0") + "\n";
@@ -133,9 +131,10 @@ public class PanelStationControler : MonoBehaviour
 
     public void LoadRepairPopUp()
     {
+        spriteVehicleOnRepairPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(vehicle.ModelID).sprite.texture;
         string data;
         amountRepair = vehicle.LostDurability() * repairSlider.value;
-        feeRepair = amountRepair * chosenStation.priceRepair;
+        feeRepair = amountRepair * chosenStation.GetPrice();
         data = "Fee Repair :   " + feeRepair.ToString("0.00") + " " + UnitFee + "\n";
         data += "New Durability :   " + (amountRepair + vehicle.Durability).ToString("0") + "/"
             + vehicle.ModelStats().DurabilityMax.ToString("0") + "\n";
@@ -153,7 +152,7 @@ public class PanelStationControler : MonoBehaviour
     {
         vehicle.FillUpEnergy(amountEnergy);
         myItemSceneUI_2Controller.EnergyMonitorControler.SetValue(vehicle.EnergyPercent());
-        ClientData.Instance.ClientUser.ChargeFeeFillUp(feeEnergy);
+        ClientData.Instance.ClientUser.ChargeFee(feeEnergy);
         ClientData.Instance.ClientUser.clientVehicle.UpLoadCurrentVehicle();
         coinControler.UpdateCoin();
         myItemSceneUI_2Controller.CheckButtonFillAndRepair();
@@ -172,7 +171,7 @@ public class PanelStationControler : MonoBehaviour
     {
         vehicle.Repair(amountRepair);
         myItemSceneUI_2Controller.DurabilityMonitorControler.SetValue(vehicle.DurabilityPercent());
-        ClientData.Instance.ClientUser.ChargeFeeRepair(feeRepair);
+        ClientData.Instance.ClientUser.ChargeFee(feeRepair);
         ClientData.Instance.ClientUser.clientVehicle.UpLoadCurrentVehicle();
         coinControler.UpdateCoin();
         myItemSceneUI_2Controller.CheckButtonFillAndRepair();
@@ -202,9 +201,9 @@ public class PanelStationControler : MonoBehaviour
         }
     }
 
-    void PostDataCallback(string nameProcedure, string message, int errorId = 0)
+    void PostDataCallback(string nameMethod, string message, int errorId = 0)
     {
-        Debug.Log("PanelStationControler:" + nameProcedure + message + ":" + errorId);
+        Debug.Log("PanelStationControler:" + nameMethod + message + ":" + errorId);
     }
 
 

@@ -111,9 +111,9 @@ namespace FirebaseHandler
             await _databaseHandler.GetServerStation(callback);
         }
 
-        public async UniTask PostServerStationOwner(string _stationID, string _ownerID, DatabaseCallback callback)
+        public async UniTask PostServerStationOwner(Station _station, DatabaseCallback callback)
         {
-            await _databaseHandler.PostServerStationOwner(_stationID, _ownerID, callback);
+            await _databaseHandler.PostServerStationOwner(_station, callback);
         }
 
         public async UniTask GetServerStation(string _stationID, float _priceEnergy, float _priceRepair, DatabaseCallback callback)

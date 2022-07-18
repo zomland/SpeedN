@@ -40,12 +40,14 @@ namespace FirebaseHandler
             databaseClientUserRef = databaseUsersRef.Child(ClientData.Instance.ClientUser.userKey);
             databaseClientVehicleRef = databaseClientUserRef.Child("clientVehicle");
             databaseClientMovingRecordRef = databaseClientUserRef.Child("clientMovingRecord");
+            databaseClientStationRef = databaseClientUserRef.Child("clientStation");
             //Set up event
             databaseStationRef.ValueChanged += HandleServerStationChanged;
             databaseModelVehicleRef.ValueChanged += HandleModelVehicleChanged;
             databaseClientUserRef.ValueChanged += HandleUserChanged;
             databaseClientVehicleRef.ValueChanged += HandleVehicleChanged;
             databaseClientMovingRecordRef.ValueChanged += HandleMovingRecordChanged;
+            databaseClientStationRef.ValueChanged += HandleClientStationChanged;
         }
 
         #region ===========================================User===========================================
@@ -206,19 +208,9 @@ namespace FirebaseHandler
                 }
                 else if (task.IsCompleted)
                 {
-                    DataSnapshot snapshot = task.Result;
-
-                    bool isUserExisted = snapshot.GetValue(true) != null;
-                    if (isUserExisted)
-                    {
-                        string json = _movingRecord.GetStringJsonData();
-                        databaseClientMovingRecordRef.Child(_movingRecord.RecordID).SetRawJsonValueAsync(json);
-                        databaseCallback.Invoke("AddMovingRecord", "Add success", 0);
-                    }
-                    else
-                    {
-                        databaseCallback.Invoke("AddAMovingRecord: ", "User not existed", 0);
-                    }
+                    string json = _movingRecord.GetStringJsonData();
+                    databaseClientMovingRecordRef.Child("movingRecords").Child(_movingRecord.RecordID).SetRawJsonValueAsync(json);
+                    databaseCallback.Invoke("AddMovingRecord", "Add success", 0);
                 }
             });
         }
@@ -236,25 +228,33 @@ namespace FirebaseHandler
                 }
                 else if (task.IsCompleted)
                 {
-                    DataSnapshot snapshot = task.Result;
-                    bool isUserExisted = snapshot.GetValue(true) != null;
-                    if (isUserExisted)
-                    {
-                        string json = JsonConvert.SerializeObject(ClientData.Instance.ClientUser.clientStation);
-                        databaseClientStationRef.SetRawJsonValueAsync(json);
-                        databaseCallback.Invoke("PostClientStation: ", "success", 0);
-                    }
-                    else
-                    {
-                        databaseCallback.Invoke("PostClientStation: ", "User not existed", 0);
-                    }
+                    string json = JsonConvert.SerializeObject(ClientData.Instance.ClientUser.clientStation);
+                    databaseClientStationRef.SetRawJsonValueAsync(json);
+                    databaseCallback.Invoke("PostClientStation: ", "success", 0);
+
                 }
             });
         }
 
-        public async UniTask PostServerStationOwner(string _stationID, string _ownerID, DatabaseCallback databaseCallback)
+        public async UniTask PostServerStationOwner(Station _station, DatabaseCallback databaseCallback)
         {
-            await databaseStationRef.Child(_stationID).Child("ownerID").SetValueAsync(_ownerID);
+            string stationTypeKey = "";
+            switch (_station.stationType)
+            {
+                case StationType.booster_store:
+                    stationTypeKey = "booster_stores";
+                    break;
+                case StationType.gas_station:
+                    stationTypeKey = "gas_stations";
+                    break;
+                case StationType.garage:
+                    stationTypeKey = "garages";
+                    break;
+                case StationType.sport_store:
+                    stationTypeKey = "sport_stores";
+                    break;
+            }
+            await databaseStationRef.Child(stationTypeKey).Child(_station.stationID).Child("ownerID").SetValueAsync(_station.ownerID);
             databaseCallback.Invoke("PostServerStationOwner: ", "success", 0);
         }
 

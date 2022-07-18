@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7370723257051567902}
   - component: {fileID: 9184645750300256595}
   m_Layer: 5
-  m_Name: StationGUI
+  m_Name: StationGUIOnItem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -61,6 +61,7 @@ MonoBehaviour:
     taxPercent: 0
   price: 0
   textStationInfo: {fileID: 3543139800372918649}
+  Background: {fileID: 3879008227524246817}
 --- !u!1 &3041265547252854844
 GameObject:
   m_ObjectHideFlags: 0
@@ -417,7 +418,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9184645750300256595}
         m_TargetAssemblyTypeName: StationGUIPfControler, Assembly-CSharp
-        m_MethodName: ChooseStation
+        m_MethodName: ChooseStationOnItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

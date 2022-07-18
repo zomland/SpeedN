@@ -7,43 +7,53 @@ public class StationGUIPfControler : MonoBehaviour
 {
     [HideInInspector]
     public Station station;
-
-    [HideInInspector]
-    public float price;
-
     public Text textStationInfo;
-    PanelStationControler panelStationControler;
+    public Image Background;
 
+    Color[] ColorsStationType = new Color[]
+    { new Color(0.3f, 0.5f, 0.5f),new Color(0.3f, 0.4f, 0.6f), new Color(0.7f, 0.5f, 0.3f),new Color(0.7f, 0.3f, 0.3f)};
 
     private void Start()
     {
-        panelStationControler = FindObjectOfType<PanelStationControler>();
+
     }
 
-    public void LoadStationInfo(Station _station)
+    public void LoadStationInfoForFillAndRepair(Station _station)
     {
         station = _station;
         string info;
         info = "StationID: " + station.stationID + "\n";
         info += "OwnerID: " + station.ownerID + "\n";
-        if (station.stationType == StationType.booster_store || station.stationType == StationType.gas_station)
-        {
-            info += "PricePerUnit: " + station.priceEnergy.ToString("0.00") + "\n";
-            price = station.priceEnergy;
-        }
-        else
-        {
-            info += "PricePerUnit: " + station.priceRepair.ToString("0.00") + "\n";
-            price = station.priceRepair;
-        }
+        info += "PricePerUnit: " + station.GetPrice().ToString("0.00");
+
+        Background.color = ColorsStationType[(int)station.stationType];
         textStationInfo.text = info;
-        Debug.Log(info);
     }
 
-    public void ChooseStation()
+    public void LoadStationInfoForBidding(Station _station)
     {
+        station = _station;
+        string info;
+        info = "StationID: " + station.stationID + "\n";
+        info += "OwnerID: " + station.ownerID + "\n";
+        info += "FeeBidding: 300";
+        Background.color = ColorsStationType[(int)station.stationType];
+        textStationInfo.text = info;
+    }
+
+    public void ChooseStationOnItem()
+    {
+        PanelStationControler panelStationControler = FindObjectOfType<PanelStationControler>();
         panelStationControler.chosenStation = station;
         panelStationControler.ShowPopUpStation();
+    }
+
+    public void ChooseStationOnBidding()
+    {
+        BiddingSceneControler biddingSceneControler = FindObjectOfType<BiddingSceneControler>();
+        biddingSceneControler.chosenStation = station;
+        biddingSceneControler.chosenStationGUIPf = this.gameObject;
+        biddingSceneControler.ShowPopupBidding();
     }
 
 }
