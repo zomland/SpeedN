@@ -1106,7 +1106,7 @@ PrefabInstance:
     - target: {fileID: 7205811911859644107, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7205811911859644107, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
@@ -2701,7 +2701,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: DriveC
+  m_Text: Coin
 --- !u!222 &1057701970
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3000,6 +3000,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -50
+      objectReference: {fileID: 0}
+    - target: {fileID: 329120418159295097, guid: a56b613c9962f3a4a82db50f06a8927d,
+        type: 3}
+      propertyPath: m_Text
+      value: Coin
       objectReference: {fileID: 0}
     - target: {fileID: 329120418316771304, guid: a56b613c9962f3a4a82db50f06a8927d,
         type: 3}
@@ -3364,7 +3369,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264224264}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 710.69684, y: 817.6225, z: -1267.2644}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3542,9 +3547,9 @@ RectTransform:
   - {fileID: 1465058163}
   - {fileID: 679627032}
   - {fileID: 2038653647}
+  - {fileID: 1516896387}
   - {fileID: 1630870976}
   - {fileID: 433399415}
-  - {fileID: 1516896387}
   - {fileID: 1178271873}
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -3579,7 +3584,7 @@ MonoBehaviour:
   SpeedMonitorControler: {fileID: 1766064987}
   PopupGPSWarning: {fileID: 2038653649}
   buttonGPSStart: {fileID: 2038653648}
-  _movingRecordDetailControler: {fileID: 1178271875}
+  _movingRecordControler: {fileID: 1178271875}
   drivingCalculator: {fileID: 1264224265}
 --- !u!1 &1465058162
 GameObject:
@@ -3793,7 +3798,7 @@ RectTransform:
   - {fileID: 685698308}
   - {fileID: 298968844}
   m_Father: {fileID: 1426653729}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -3919,6 +3924,11 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -60
       objectReference: {fileID: 0}
+    - target: {fileID: 7205811911421554706, guid: 85f1967cea02b0644ba39a9331da48fe,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SetActive
+      objectReference: {fileID: 0}
     - target: {fileID: 7205811911531304297, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
       propertyPath: m_Text
@@ -4017,7 +4027,7 @@ PrefabInstance:
     - target: {fileID: 7205811911859644107, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7205811911859644107, guid: 85f1967cea02b0644ba39a9331da48fe,
         type: 3}

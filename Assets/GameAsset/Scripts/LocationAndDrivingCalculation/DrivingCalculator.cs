@@ -115,8 +115,7 @@ public class DrivingCalculator : MonoBehaviour
     }
     public float numCoin()
     {
-        return 0f;
-        //return ClientData.Instance.ClientUser.currentVehicleController.data.CoinPerKm * distance;
+        return ClientData.Instance.ClientUser.clientVehicle.currentVehicle.ModelStats().CoinPerMin * distance;
     }
     #endregion ========================Get result===========================
 

@@ -30,7 +30,7 @@ namespace FirebaseHandler
             _authHandler.InitializeAuth();
             _databaseHandler.InitializeDatabase();
         }
-
+        #region =============================================Auth=============================================
         public async UniTaskVoid SignInWithGoogle(AuthCallback callback)
         {
             _authHandler.SignInWithGoogle(callback).Forget();
@@ -58,81 +58,69 @@ namespace FirebaseHandler
         {
             _authHandler.SignOut();
         }
+        #endregion=============================================Auth=============================================
 
-        public async UniTaskVoid PostUser(DatabaseCallback callback)
+        #region=============================================Database=============================================
+        public void SetUpDatabaseRef()
         {
-            _databaseHandler.PostUser(ClientData.Instance.ClientUser, callback).Forget();
-
-            await UniTask.Yield();
+            _databaseHandler.SetUpReferences();
         }
 
-        public async UniTaskVoid PostUserValue(string valueKey, System.Object newValue, DatabaseCallback callback)
+        public async UniTask PostUser(DatabaseCallback callback)
         {
-            _databaseHandler.PostUserValue(ClientData.Instance.ClientUser, valueKey, newValue, callback)
-                .Forget();
-
-            await UniTask.Yield();
+            await _databaseHandler.PostUser(ClientData.Instance.ClientUser, callback);
         }
 
-        public async UniTaskVoid GetUserData(DatabaseCallback callback)
+        public async UniTask PostUserValue(string valueKey, System.Object newValue, DatabaseCallback callback)
         {
-            _databaseHandler.GetUserData(ClientData.Instance.ClientUser, callback).Forget();
-
-            await UniTask.Yield();
+            await _databaseHandler.PostUserValue(ClientData.Instance.ClientUser, valueKey, newValue, callback);
         }
 
-        public async UniTaskVoid CheckUserExisted(DatabaseCallback callback)
+        public async UniTask GetUserData(DatabaseCallback callback)
         {
-            _databaseHandler.CheckUserExisted(ClientData.Instance.ClientUser, callback).Forget();
-
-            await UniTask.Yield();
+            await _databaseHandler.GetUserData(callback);
         }
 
-        public void RemoveUser(DatabaseCallback callback)
+        public async UniTask RemoveUser(DatabaseCallback callback)
         {
-            _databaseHandler.RemoveUser(callback);
+            await _databaseHandler.RemoveUser(callback);
         }
 
-        public async UniTaskVoid AddAMovingRecord(MovingRecord _movingRecord, DatabaseCallback callback)
+        public async UniTask AddAMovingRecord(MovingRecord _movingRecord, DatabaseCallback callback)
         {
-            float _totalKm = ClientData.Instance.ClientUser.totalKm;
-            float _totalTime = ClientData.Instance.ClientUser.totalTime;
-            _databaseHandler.AddAMovingRecord(_totalTime, _totalKm, _movingRecord, ClientData.Instance.ClientUser.clientMovingRecord, callback).Forget();
-            await UniTask.Yield();
+            await _databaseHandler.AddAMovingRecord(_movingRecord, ClientData.Instance.ClientUser.clientMovingRecord, callback);
         }
 
-        public async UniTaskVoid GetMovingRecords(DatabaseCallback callback)
+        public async UniTask PostClientVehicle(DatabaseCallback callback)
         {
-            _databaseHandler.GetMovingRecordsData(ClientData.Instance.ClientUser
-                , ClientData.Instance.ClientUser.clientMovingRecord, callback).Forget();
-            await UniTask.Yield();
+            await _databaseHandler.PostClientVehicle(callback);
         }
 
-        public async UniTaskVoid InitialSetUpClient(DatabaseCallback callbackUser, DatabaseCallback callbackMovingRecord)
+        public async UniTask GetModelVehicle(DatabaseCallback callback)
         {
-            _databaseHandler.InitialSetUpClient(ClientData.Instance.ClientUser, callbackUser, callbackMovingRecord);
-            await UniTask.Yield();
+            await _databaseHandler.GetModelVehicle(callback);
         }
 
-        public async UniTaskVoid PostUserNFT(System.Object newValue, TypeNFT type, DatabaseCallback callback)
+        public async UniTask PostClientStation(DatabaseCallback callback)
         {
-            _databaseHandler.PostUserNFT(ClientData.Instance.ClientUser, type, newValue, callback).Forget();
-            await UniTask.Yield();
+            await _databaseHandler.PostClientStation(callback);
         }
 
-        void OnFirebaseDatabaseHandling(string nameProcedure, string message, int errorID)
+        public async UniTask GetServerStation(DatabaseCallback callback)
         {
-            string detailError = "";
-            switch (errorID)
-            {
-                case (int)DatabaseErrorID.None:
-                    detailError = "None error";
-                    break;
-                default:
-                    break;
-            }
-            Debug.LogWarning(nameProcedure + ": " + message + ": " + detailError);
+            await _databaseHandler.GetServerStation(callback);
         }
+
+        public async UniTask PostServerStationOwner(Station _station, DatabaseCallback callback)
+        {
+            await _databaseHandler.PostServerStationOwner(_station, callback);
+        }
+
+        public async UniTask GetServerStation(string _stationID, float _priceEnergy, float _priceRepair, DatabaseCallback callback)
+        {
+            await _databaseHandler.PostServerStationPrice(_stationID, _priceEnergy, _priceRepair, callback);
+        }
+        #endregion=============================================Database=============================================
     }
 }
 

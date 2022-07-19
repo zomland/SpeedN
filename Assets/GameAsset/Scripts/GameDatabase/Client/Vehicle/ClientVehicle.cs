@@ -6,7 +6,7 @@ using Newtonsoft.Json;
 [System.Serializable]
 public class ClientVehicle
 {
-    public Vehicle currentVehicle;
+    public Vehicle currentVehicle = new Vehicle();
     public List<Vehicle> Vehicles = new List<Vehicle>();
     public ClientVehicle() { }
 
@@ -17,25 +17,17 @@ public class ClientVehicle
             string _itemID = UnityEngine.Random.Range(1000, 9999).ToString("0000");
             Vehicles.Add(new Vehicle(child.spriteID, _itemID));
         }
+        currentVehicle =  Vehicles[0];
     }
 
-    public void InitialLoad(string _currentVehicleID)
+    public void UpLoadCurrentVehicle()
     {
-        if (_currentVehicleID != "null")
+        foreach (var child in Vehicles)
         {
-            foreach (var vehicle in Vehicles)
-            {
-                if (vehicle.ItemID == _currentVehicleID) currentVehicle = vehicle;
-            }
-        }
-        else
-        {
-            if (Vehicles.Count > 0)
-            {
-                currentVehicle = Vehicles[0];
-            }
+            if (child.ItemID == currentVehicle.ItemID) currentVehicle = child;
         }
     }
+
     public string GetModelID(string _itemID)
     {
         foreach (var child in Vehicles)
@@ -62,7 +54,7 @@ public class Vehicle : NFTBaseStats
 
     public void InitialLoad()
     {
-        ModelVehicleBaseStats modelStat=ModelStats();
+        ModelVehicleBaseStats modelStat = ModelStats();
         Energy = modelStat.EnergyMax;
         Durability = modelStat.DurabilityMax;
         NameItem = modelStat.ModelName;
@@ -90,9 +82,10 @@ public class Vehicle : NFTBaseStats
     {
         return Durability / ModelStats().DurabilityMax;
     }
-    public void Repair()
+    public void Repair(float _amount)
     {
-        Durability = ModelStats().DurabilityMax;
+        Durability += _amount;
+        if (Durability >= ModelStats().DurabilityMax) Durability = ModelStats().DurabilityMax;
     }
     public void UseEnergy(float _minute)
     {
@@ -114,9 +107,26 @@ public class Vehicle : NFTBaseStats
     {
         return Energy / ModelStats().EnergyMax;
     }
-    public void FillUpEnergy()
+    public void FillUpEnergy(float _amount)
     {
-        Energy = ModelStats().EnergyMax;
+        Energy += _amount;
+        if (Energy >= ModelStats().EnergyMax) Energy = ModelStats().EnergyMax;
+    }
+
+    public float LostEnergy()
+    {
+        return ModelStats().EnergyMax - Energy;
+    }
+
+    public float LostDurability()
+    {
+        return ModelStats().DurabilityMax - Durability;
+    }
+
+    public string EnergyName()
+    {
+        if (NftType == NFTType.Car || NftType == NFTType.Motorbike) return "Gas";
+        else return "Stamina";
     }
     public string GetStringJsonData()
     {

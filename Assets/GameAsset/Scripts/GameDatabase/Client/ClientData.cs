@@ -7,11 +7,18 @@ using System.IO;
 using Base.Helper;
 using System;
 using Newtonsoft.Json;
+using FirebaseHandler;
+using Cysharp.Threading.Tasks;
+using Global;
+using Runtime.Controller;
 
 
 public class ClientData : Singleton<ClientData>
 {
     public ClientUser ClientUser = new ClientUser();
+    float percentLoad;
+    float numTask = 0;
+    float totalTask = 4;
     [field: SerializeField] public SpeedNDefault speedNDefault { get; private set; }
 
     void Awake()
@@ -19,31 +26,56 @@ public class ClientData : Singleton<ClientData>
     }
 
     #region =====================================LoadData================================================
-    public void InitialLoadData()
+    public async UniTask InitialLoadData()
     {
-        LoadModelVehicleBaseStats();
-        LoadUserData();
-        LoadClientVehicle();
-
+        LoginSceneController loginSceneController = FindObjectOfType<LoginSceneController>();
+        loginSceneController.ActiveLoadingPage();
+        FirebaseApi.Instance.SetUpDatabaseRef();
+        await LoadModelVehicle();
+        CalculateLoad();
+        loginSceneController.showLoadingDataPage(percentLoad);
+        await LoadServerStation();
+        CalculateLoad();
+        loginSceneController.showLoadingDataPage(percentLoad);
+        await LoadClientUser();
+        CalculateLoad();
+        loginSceneController.showLoadingDataPage(percentLoad);
+        await LoadClientVehicle();
+        CalculateLoad();
+        loginSceneController.showLoadingDataPage(percentLoad);
     }
 
-    void LoadClientVehicle()
+    void CalculateLoad()
     {
-        ClientUser.clientVehicle.CreateFromLocal(speedNDefault);
-        ClientUser.clientVehicle.InitialLoad(ClientUser.currentVehicleID);
+        numTask++;
+        percentLoad = numTask / totalTask;
     }
 
-    void LoadModelVehicleBaseStats()
+    async UniTask LoadClientVehicle()
     {
-        foreach (var child in speedNDefault.modelVehicleBaseStats)
+        if (ClientUser.clientVehicle.currentVehicle.ModelID.Length == 0)
         {
-            ModelVehicle.AddModelStat(child);
+            ClientUser.clientVehicle.CreateFromLocal(speedNDefault);
+            await FirebaseApi.Instance.PostClientVehicle(PostDatabaseCallback);
+            Debug.Log(JsonConvert.SerializeObject(ClientData.Instance.ClientUser.clientVehicle));
         }
+        else ClientUser.clientVehicle.UpLoadCurrentVehicle();
     }
 
-    void LoadUserData()
+    async UniTask LoadModelVehicle()
     {
+        await FirebaseApi.Instance.GetModelVehicle(GetDatabaseCallback);
+    }
 
+
+    async UniTask LoadClientUser()
+    {
+        await FirebaseApi.Instance.GetUserData(GetDatabaseCallback);
+    }
+
+    async UniTask LoadServerStation()
+    {
+        await FirebaseApi.Instance.GetServerStation(GetDatabaseCallback);
     }
 
     #endregion =====================================LoadData==============================================
@@ -94,60 +126,15 @@ public class ClientData : Singleton<ClientData>
     }
     #endregion ========================================Audio==============================================
 
-    #region =====================================Load&SaveCallback========================================
-    void LoadClientVehicleDataCallback(string message)
+    #region =====================================DatabaseCallback====================================================
+    void GetDatabaseCallback(string method, string mess, int id)
     {
-        Debug.Log("LoadClientVehicleDataCallback: " + message);
+        Debug.Log(method + mess + id);
     }
-
-    void LoadClientVehicleDataFallback(string message)
+    void PostDatabaseCallback(string method, string mess, int id)
     {
-        Debug.Log("LoadClientVehicleDataCallback: " + message);
+        Debug.Log(method + mess + id);
     }
-
-    void LoadClientUserDataCallback(string message)
-    {
-        Debug.Log("LoadClientUserDataCallback: " + message);
-    }
-
-    void LoadClientUserDataFallback(string message)
-    {
-        Debug.Log("LoadClientUserDataFallback: " + message);
-    }
-
-    void LoadClientMovingRecordCallback(string message)
-    {
-        Debug.Log("LoadClientMovingRecordCallback: " + message);
-    }
-
-    void LoadClientMovingRecordFallback(string message)
-    {
-        Debug.Log("LoadClientMovingRecordFallback: " + message);
-    }
-
-    void LoadClientCoinCallback(string message)
-    {
-        Debug.Log("LoadClientCoinCallback: " + message);
-    }
-
-    void LoadClientCoinFallback(string message)
-    {
-        Debug.Log("LoadClientCoinFallback: " + message);
-    }
-
-    void SaveClientCoinCallback(string message)
-    {
-        Debug.Log("SaveClientCoinFallback: " + message);
-    }
-    void SaveClientVehicleDataCallback(string message)
-    {
-        Debug.Log("SaveClientVehicleDataCallback: " + message);
-    }
-
-    void SaveClientUserCallback(string message)
-    {
-        Debug.Log("SaveClientUserDataCallback: " + message);
-    }
-    #endregion =====================================Load&SaveCallback=====================================
+    #endregion =====================================DatabaseCallback=================================================
 
 }

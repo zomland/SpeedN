@@ -1,12 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using Base.MessageSystem;
 using Global;
 using UnityEngine;
-using FirebaseHandler;
 using UnityEngine.UI;
 //#if PLATFORM_ANDROID
 using UnityEngine.Android;
+using UnityEngine.SceneManagement;
 //#endif
 
 public class DrivingUIControler : MonoBehaviour
@@ -126,10 +125,7 @@ public class DrivingUIControler : MonoBehaviour
                 _movingRecordControler.CreateMovingRecord(drivingCalculator.numCoin()
                     , _currentVehicle.NameItem, _currentVehicle.ItemID, drivingCalculator.Distance()
                         , drivingCalculator.timeDroveString(), drivingCalculator.GetTimeDrove());
-
                 _movingRecordControler.DisplayMovingRecord();
-                ClientData.Instance.ClientUser.ReceiveCoinFromDriving(drivingCalculator.numCoin());
-                DatabaseHandler.SaveUserData(SaveUserCallback);
                 isShowRecord = true;
             }
         }
@@ -165,7 +161,8 @@ public class DrivingUIControler : MonoBehaviour
     }
     public void BackToHome()
     {
-        Messenger.RaiseMessage(Message.LoadScene, Scenes.HomeScene, Scenes.DrivingScene);
+        SceneManager.LoadScene(Scenes.HomeScene.ToString(), LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(Scenes.DrivingScene.ToString());
     }
     public void StartGPSAgain()
     {

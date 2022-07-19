@@ -6,6 +6,7 @@ using FirebaseHandler;
 using Global;
 using UnityEngine.UI;
 using System.Text.RegularExpressions;
+using Cysharp.Threading.Tasks;
 
 
 namespace Runtime.Controller
@@ -23,6 +24,12 @@ namespace Runtime.Controller
         [SerializeField] private GameObject SignUp;
         [SerializeField] private GameObject popup;
         [SerializeField] private Text textPopup;
+
+        [Header("Loading Data")]
+        public GameObject LoadingDataPage;
+        public Slider LoadDataSlider;
+        public Text textMess;
+
         void Start()
         {
             popup.SetActive(false);
@@ -100,8 +107,20 @@ namespace Runtime.Controller
             }
             else if (errorId == AuthError.None)
             {
-                GameStateParam.MainState = true;
+
             }
+        }
+
+        public void showLoadingDataPage(float _percentLoad)
+        {
+            textMess.text = "Loading..." + (_percentLoad * 100).ToString() + "%";
+            LoadDataSlider.value = _percentLoad;
+            Debug.Log("Loading..." + (_percentLoad * 100).ToString() + "%");
+        }
+
+        public void ActiveLoadingPage()
+        {
+            LoadingDataPage.SetActive(true);
         }
     }
 }

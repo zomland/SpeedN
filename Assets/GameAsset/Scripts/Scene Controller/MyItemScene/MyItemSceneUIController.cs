@@ -17,6 +17,10 @@ public class MyItemSceneUIController : MonoBehaviour
     [Header("PopUp")]
     public GameObject panelMain;
     public GameObject panelMyItemDetail;
+    public GameObject panelStations;
+    public GameObject panelStationsEnergy;
+    public GameObject panelStationsRepair;
+
 
     [Header("Coin")]
     public Image[] spriteTypeCoin;
@@ -24,17 +28,17 @@ public class MyItemSceneUIController : MonoBehaviour
 
     void Start()
     {
-        DisplayCoinUI(); 
+        // DisplayCoinUI(); 
     }
 
     private void DisplayCoinUI()
     {
-        /*var sortedList = ClientData.Instance.ClientCoin.Coins.OrderByDescending(coin=>coin.amount).ToList();
-        for(int i = 0;i< 3; i++)
-        {
-            coinAmountText[i].text = sortedList[i].amount.ToString();
-            spriteTypeCoin[i].sprite = ClientData.Instance.GetSpriteIcon(sortedList[i].nameCoin).sprite;
-        }*/
+        // var sortedList = ClientData.Instance.ClientCoin.Coins.OrderByDescending(coin=>coin.amount).ToList();
+        // for(int i = 0;i< 3; i++)
+        // {
+        //     coinAmountText[i].text = sortedList[i].amount.ToString();
+        //     spriteTypeCoin[i].sprite = ClientData.Instance.GetSpriteIcon(sortedList[i].nameCoin).sprite;
+        // }
     }
 
     public void OnClickMenuButton(MyItemSceneMenuButton tmp)
