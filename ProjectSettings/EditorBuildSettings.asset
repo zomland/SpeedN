@@ -35,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/GameAsset/Scenes/BiddingScene.unity
     guid: d37d4730ebf01004ca5f5f209d63d0c4
+  - enabled: 1
+    path: Assets/GameAsset/Scenes/FillFixScene.unity
+    guid: c60e1f0887086c340aada3de1881f0d4
   m_configObjects: {}

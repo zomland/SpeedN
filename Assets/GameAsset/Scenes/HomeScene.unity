@@ -1066,6 +1066,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 956713454}
     m_Modifications:
+    - target: {fileID: 835187645, guid: 55be4eac7a4971c4a9fafe77f0c86011, type: 3}
+      propertyPath: toScene
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 835187646, guid: 55be4eac7a4971c4a9fafe77f0c86011, type: 3}
       propertyPath: fromScene
       value: 3

@@ -31,6 +31,7 @@ namespace Global
         [StringValue("HomeScene")] HomeScene, [StringValue("DrivingScene")] DrivingScene,
         [StringValue("AccountScene")] AccountScene, [StringValue("MyItemScene")] MyItemScene,
         [StringValue("MetamaskScene")] MetamaskScene, [StringValue("ImportScene")] ImportScene,
-        [StringValue("BiddingScene")] BiddingScene
+        [StringValue("BiddingScene")] BiddingScene,
+        [StringValue("FillFixScene")] FillFixScene
     }
 }
