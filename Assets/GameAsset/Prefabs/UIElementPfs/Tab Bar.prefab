@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 2655808131061618773}
   - component: {fileID: 835187646}
   m_Layer: 5
-  m_Name: ButtonMarket
+  m_Name: ButtonBidding
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -403,7 +403,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d5677094a61eb74ca21e5c13162fe35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toScene: 0
+  toScene: 9
   fromScene: 6
 --- !u!1 &2655808131311774861
 GameObject:

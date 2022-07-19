@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Base.Helper;
 using Firebase.Auth;
+using Firebase.Database;
 using UnityEngine;
 
 namespace Global
@@ -15,33 +16,13 @@ namespace Global
 
     public delegate void AuthCallback(FirebaseUser user, string message, AuthError errorId = AuthError.None);
 
-    public delegate void DatabaseCallback(string nameProcedure, string message, int DatabaseErrorID = 0);
+    public delegate void DatabaseCallback(string nameProcedure, string message, int errorId = 0);
 
     public delegate void GPSPermissionCallback(string permissionName);
     public enum FirebaseError { }
 
-    public enum DatabaseErrorID
-    {
-        None = 0, Disconnected = -4, ExpiredToken = -6, InvalidToken = -7, MaxRetries = -8,
-        NetworkError = -24, OperationFailed = -2, OverriddenBySet = -9, PermissionDenied = -3,
-        Unavailable = -10, UnknownError = -999, UserCodeException = -11,
-        WriteCanceled = -25
-    }
-
-    public enum TypeNFT
-    {
-        Gem, Blueprint, Vehicle
-    }
 
     public enum Message { LoadScene }
-
-    public struct FeeMenu
-    {
-        public const float FeePerEnergy = 1f;
-        public const float FeePerDurability = 1f;
-        public const float TaxPercent = 0.01f;
-    }
-
 
     public enum Scenes
     {
@@ -49,7 +30,7 @@ namespace Global
         [StringValue("LoadingScene")] LoadingScene, [StringValue("LoginScene")] LoginScene,
         [StringValue("HomeScene")] HomeScene, [StringValue("DrivingScene")] DrivingScene,
         [StringValue("AccountScene")] AccountScene, [StringValue("MyItemScene")] MyItemScene,
-        [StringValue("MyWalletScene")] MyWalletScene, [StringValue("SwapScene")] SwapScene,
-        [StringValue("ConnectMetamask")] ConnectMetamask, [StringValue("Import")] Import
+        [StringValue("MetamaskScene")] MetamaskScene, [StringValue("ImportScene")] ImportScene,
+        [StringValue("BiddingScene")] BiddingScene
     }
 }

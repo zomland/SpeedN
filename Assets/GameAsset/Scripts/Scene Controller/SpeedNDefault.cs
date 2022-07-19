@@ -8,10 +8,7 @@ public class SpeedNDefault : ScriptableObject
 {
     [Header("SpriteModelVehicles")]
     public List<SpriteModelVehicle> spriteModelVehicles;
-
-    [Header("ModelVehicle")]
-    public List<ModelVehicleBaseStats> modelVehicleBaseStats;
-
+    
     [Header("AudioClip")]
     public List<musicAudioClip> musicAudioClips;
     public List<soundAudioClip> soundAudioClips;

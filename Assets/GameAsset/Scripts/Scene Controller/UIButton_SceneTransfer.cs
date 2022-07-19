@@ -13,7 +13,7 @@ namespace Runtime.UIHandler
     {
         [SerializeField] private Scenes toScene;
         [SerializeField] private Scenes fromScene;
-
+        
         private Button _button;
 
         private void Start()
@@ -30,7 +30,8 @@ namespace Runtime.UIHandler
         public void ButtonClick()
         {
             if (toScene == fromScene) return;
-            Messenger.RaiseMessage(Message.LoadScene, toScene, fromScene);
+            SceneManager.LoadScene(toScene.ToString(),LoadSceneMode.Additive);
+            SceneManager.UnloadSceneAsync(fromScene.ToString());
         }
     }
 }
