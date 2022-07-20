@@ -81,9 +81,8 @@ public class HomeUIControler : MonoBehaviour
 
     public void ClickToImportScene()
     {
-
+        ClientData.Instance.sceneBeforeImport = Scenes.HomeScene;
         SceneTransferClick(Scenes.HomeScene, Scenes.ImportScene);
-
     }
 
     public void ClickToDrivingScene()

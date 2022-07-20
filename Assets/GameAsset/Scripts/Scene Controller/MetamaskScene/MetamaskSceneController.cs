@@ -58,9 +58,9 @@ public class MetamaskSceneController : MonoBehaviour
         await FirebaseApi.Instance.PostUserValue("numCoin", ClientData.Instance.ClientUser.numCoin, PostDataCallback);
     }
 
-    public void BackToHome()
+    public void OutMetamaskScene()
     {
-        SceneManager.LoadScene(Scenes.HomeScene.ToString(), LoadSceneMode.Additive);
+        SceneManager.LoadScene(ClientData.Instance.sceneBeforeImport.ToString(), LoadSceneMode.Additive);
         SceneManager.UnloadSceneAsync(Scenes.MetamaskScene.ToString());
     }
 

@@ -101,9 +101,9 @@ namespace FirebaseHandler
             await _databaseHandler.GetModelVehicle(callback);
         }
 
-        public async UniTask PostClientStation(DatabaseCallback callback)
+        public async UniTask PostClientStation(Station _station, DatabaseCallback callback)
         {
-            await _databaseHandler.PostClientStation(callback);
+            await _databaseHandler.PostClientStation(_station, callback);
         }
 
         public async UniTask GetServerStation(DatabaseCallback callback)
@@ -111,14 +111,9 @@ namespace FirebaseHandler
             await _databaseHandler.GetServerStation(callback);
         }
 
-        public async UniTask PostServerStationOwner(Station _station, DatabaseCallback callback)
+        public async UniTask PostServerStation(Station _station, DatabaseCallback callback)
         {
-            await _databaseHandler.PostServerStationOwner(_station, callback);
-        }
-
-        public async UniTask GetServerStation(string _stationID, float _priceEnergy, float _priceRepair, DatabaseCallback callback)
-        {
-            await _databaseHandler.PostServerStationPrice(_stationID, _priceEnergy, _priceRepair, callback);
+            await _databaseHandler.PostServerStation(_station, callback);
         }
         #endregion=============================================Database=============================================
     }

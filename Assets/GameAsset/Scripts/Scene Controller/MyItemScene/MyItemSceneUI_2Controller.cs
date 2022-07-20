@@ -40,10 +40,10 @@ public class MyItemSceneUI_2Controller : MonoBehaviour
 
     public void CheckButtonFillAndRepair()
     {
-        if (Vehicle.EnergyPercent() == 1) ButtonFillUp.interactable = false;
-        else ButtonFillUp.interactable = true;
-        if (Vehicle.DurabilityPercent() == 1) ButtonRepair.interactable = false;
-        else ButtonRepair.interactable = true;
+        // if (Vehicle.EnergyPercent() == 1) ButtonFillUp.interactable = false;
+        // else ButtonFillUp.interactable = true;
+        // if (Vehicle.DurabilityPercent() == 1) ButtonRepair.interactable = false;
+        // else ButtonRepair.interactable = true;
     }
 
     public void ResetMonitors()

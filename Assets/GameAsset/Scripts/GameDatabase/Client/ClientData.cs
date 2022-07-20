@@ -16,6 +16,7 @@ using Runtime.Controller;
 public class ClientData : Singleton<ClientData>
 {
     public ClientUser ClientUser = new ClientUser();
+    [HideInInspector] public Scenes sceneBeforeImport;
     float percentLoad;
     float numTask = 0;
     float totalTask = 4;

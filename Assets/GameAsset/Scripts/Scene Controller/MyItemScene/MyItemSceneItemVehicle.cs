@@ -26,7 +26,7 @@ public class MyItemSceneItemVehicle : MonoBehaviour
     MyItemSceneUI_2Controller myItemSceneUI_2Controller;
 
     [Header("PanelControler")]
-    PanelStationControler panelStationControler;
+    PanelStationOnItemControler panelStationOnItemControler;
 
 
     Vehicle vehicle;
@@ -36,7 +36,7 @@ public class MyItemSceneItemVehicle : MonoBehaviour
         myItemSceneUIController = FindObjectOfType<MyItemSceneUIController>();
         myItemSceneController = FindObjectOfType<MyItemSceneController>();
         myItemSceneUI_2Controller = FindObjectOfType<MyItemSceneUI_2Controller>();
-        panelStationControler = FindObjectOfType<PanelStationControler>();
+        panelStationOnItemControler = FindObjectOfType<PanelStationOnItemControler>();
 
 
         myItemSceneUI_2Controller.EnergyMonitorControler.Initialize(new float[] { 0f, 1f });
@@ -64,7 +64,7 @@ public class MyItemSceneItemVehicle : MonoBehaviour
     {
         myItemSceneUIController.OnClickVehicleItem();
         myItemSceneUI_2Controller.DisplayUI(vehicle);
-        panelStationControler.LoadListsStation(vehicle);
+        panelStationOnItemControler.LoadListsStation(vehicle);
     }
 
 

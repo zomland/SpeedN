@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using FirebaseHandler;
 
-public class PanelStationControler : MonoBehaviour
+public class PanelStationOnItemControler : MonoBehaviour
 {
     [HideInInspector] public Vehicle vehicle;
     [HideInInspector] public Station chosenStation;
@@ -44,6 +44,8 @@ public class PanelStationControler : MonoBehaviour
     float feeEnergy;
     float amountRepair;
     float feeRepair;
+    float maxEnergyCanFill;
+    float maxDurabilityCanRepair;
 
     void LoadTitlePanelStation(PanelStationType _panelStationType)
     {
@@ -93,7 +95,7 @@ public class PanelStationControler : MonoBehaviour
             }
         }
     }
-
+    #region ==========================================ShowPanelStation===========================================
     public void ShowPanelStationEnergy()
     {
         LoadTitlePanelStation(PanelStationType.Energy);
@@ -109,12 +111,14 @@ public class PanelStationControler : MonoBehaviour
         panelStationEnergy.SetActive(false);
         panelStationRepair.SetActive(true);
     }
+    #endregion ==========================================ShowPanelStation===========================================
 
+    #region ==========================================FillUp===========================================
     public void LoadFillUpPopUp()
     {
         spriteVehicleOnFillUpPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(vehicle.ModelID).sprite.texture;
         string data;
-        amountEnergy = vehicle.LostEnergy() * fillEnergySlider.value;
+        amountEnergy = maxEnergyCanFill * fillEnergySlider.value;
         feeEnergy = amountEnergy * chosenStation.GetPrice();
         data = "Fee Energy :   " + feeEnergy.ToString("0.00") + " " + UnitFee + "\n";
         data += "New" + vehicle.EnergyName() + ":   " + (amountEnergy + vehicle.Energy).ToString("0") + "/"
@@ -125,15 +129,42 @@ public class PanelStationControler : MonoBehaviour
             ButtonConfirmFillUp.interactable = false;
             textOnPopUpFillUp.color = Color.red;
         }
+        else ButtonConfirmFillUp.interactable = true;
         textOnPopUpFillUp.color = Color.white;
         textOnPopUpFillUp.text = data;
     }
 
+    public async void FillUpEnergyVehicle()
+    {
+        vehicle.FillUpEnergy(amountEnergy);
+        myItemSceneUI_2Controller.EnergyMonitorControler.SetValue(vehicle.EnergyPercent());
+        ClientData.Instance.ClientUser.ChargeFee(feeEnergy);
+        ClientData.Instance.ClientUser.clientVehicle.UpLoadCurrentVehicle();
+        coinControler.UpdateCoin();
+        chosenStation.ReceiveCoin(feeEnergy);
+        ClientData.Instance.ClientUser.clientStation.UpdateNumCoin(chosenStation);
+        ServerStation.UpdateNumCoin(chosenStation);
+        myItemSceneUI_2Controller.CheckButtonFillAndRepair();
+        if (vehicle.EnergyPercent() == 1)
+        {
+            panelStation.SetActive(false);
+            PopupFillEnergy.SetActive(false);
+        }
+        else PopupFillEnergy.SetActive(false);
+        await FirebaseApi.Instance.PostUserValue("numCoin", ClientData.Instance.ClientUser.numCoin, PostDataCallback);
+        await FirebaseApi.Instance.PostClientVehicle(PostDataCallback);
+        await FirebaseApi.Instance.PostClientStation(chosenStation, PostDataCallback);
+        await FirebaseApi.Instance.PostServerStation(chosenStation, PostDataCallback);
+
+    }
+    #endregion ==========================================FillUp===========================================
+
+    #region ==========================================Repair===========================================
     public void LoadRepairPopUp()
     {
         spriteVehicleOnRepairPopUp.texture = ClientData.Instance.GetSpriteModelVehicle(vehicle.ModelID).sprite.texture;
         string data;
-        amountRepair = vehicle.LostDurability() * repairSlider.value;
+        amountRepair = maxDurabilityCanRepair * repairSlider.value;
         feeRepair = amountRepair * chosenStation.GetPrice();
         data = "Fee Repair :   " + feeRepair.ToString("0.00") + " " + UnitFee + "\n";
         data += "New Durability :   " + (amountRepair + vehicle.Durability).ToString("0") + "/"
@@ -144,27 +175,9 @@ public class PanelStationControler : MonoBehaviour
             ButtonConfirmRepair.interactable = false;
             textOnPopUpRepair.color = Color.red;
         }
+        else ButtonConfirmRepair.interactable = true;
         textOnPopUpRepair.color = Color.white;
         textOnPopUpRepair.text = data;
-    }
-
-    public async void FillUpEnergyVehicle()
-    {
-        vehicle.FillUpEnergy(amountEnergy);
-        myItemSceneUI_2Controller.EnergyMonitorControler.SetValue(vehicle.EnergyPercent());
-        ClientData.Instance.ClientUser.ChargeFee(feeEnergy);
-        ClientData.Instance.ClientUser.clientVehicle.UpLoadCurrentVehicle();
-        coinControler.UpdateCoin();
-        myItemSceneUI_2Controller.CheckButtonFillAndRepair();
-        if (vehicle.EnergyPercent() == 1)
-        {
-            panelStation.SetActive(false);
-            PopupFillEnergy.SetActive(false);
-        }
-        else PopupFillEnergy.SetActive(false);
-        await FirebaseApi.Instance.PostUserValue("numCoin", ClientData.Instance.ClientUser.numCoin, PostDataCallback);
-        await FirebaseApi.Instance.PostClientVehicle(PostDataCallback);
-
     }
 
     public async void RepairVehicle()
@@ -174,6 +187,9 @@ public class PanelStationControler : MonoBehaviour
         ClientData.Instance.ClientUser.ChargeFee(feeRepair);
         ClientData.Instance.ClientUser.clientVehicle.UpLoadCurrentVehicle();
         coinControler.UpdateCoin();
+        chosenStation.ReceiveCoin(feeRepair);
+        ClientData.Instance.ClientUser.clientStation.UpdateNumCoin(chosenStation);
+        ServerStation.UpdateNumCoin(chosenStation);
         myItemSceneUI_2Controller.CheckButtonFillAndRepair();
         if (vehicle.DurabilityPercent() == 1)
         {
@@ -183,19 +199,29 @@ public class PanelStationControler : MonoBehaviour
         else PopupRepair.SetActive(false);
         await FirebaseApi.Instance.PostUserValue("numCoin", ClientData.Instance.ClientUser.numCoin, PostDataCallback);
         await FirebaseApi.Instance.PostClientVehicle(PostDataCallback);
+        await FirebaseApi.Instance.PostClientStation(chosenStation, PostDataCallback);
+        await FirebaseApi.Instance.PostServerStation(chosenStation, PostDataCallback);
+
     }
+    #endregion ==========================================Repair===========================================
 
     public void ShowPopUpStation()
     {
         if (chosenStation.stationType == StationType.booster_store || chosenStation.stationType == StationType.gas_station)
         {
             fillEnergySlider.value = 1;
+            if (vehicle.LostEnergy() * chosenStation.GetPrice() <= ClientData.Instance.ClientUser.numCoin)
+                maxEnergyCanFill = vehicle.LostEnergy();
+            else maxEnergyCanFill = ClientData.Instance.ClientUser.numCoin / chosenStation.GetPrice();
             LoadFillUpPopUp();
             PopupFillEnergy.SetActive(true);
         }
         else
         {
             repairSlider.value = 1;
+            if (vehicle.LostDurability() * chosenStation.GetPrice() <= ClientData.Instance.ClientUser.numCoin)
+                maxDurabilityCanRepair = vehicle.LostDurability();
+            else maxDurabilityCanRepair = ClientData.Instance.ClientUser.numCoin / chosenStation.GetPrice();
             LoadRepairPopUp();
             PopupRepair.SetActive(true);
         }

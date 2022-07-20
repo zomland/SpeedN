@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7370723257051567902}
   - component: {fileID: 9184645750300256595}
   m_Layer: 5
-  m_Name: StationGUIOnBidding
+  m_Name: StationGUIOnMarket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -56,12 +56,14 @@ MonoBehaviour:
     stationType: 0
     ownerID: 
     stationID: 
+    dateUpdate: 
     priceEnergy: 0
     priceRepair: 0
+    numCoin: 0
     taxPercent: 0
-  price: 0
   textStationInfo: {fileID: 3543139800372918649}
   Background: {fileID: 3879008227524246817}
+  buttonChoose: {fileID: 7838563256637631113}
 --- !u!1 &3041265547252854844
 GameObject:
   m_ObjectHideFlags: 0

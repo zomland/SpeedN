@@ -217,26 +217,7 @@ namespace FirebaseHandler
         #endregion ===========================================Moving Record===========================================
 
         #region ===========================================Station===========================================
-        public async UniTask PostClientStation(DatabaseCallback databaseCallback)
-        {
-            await databaseClientStationRef
-            .GetValueAsync().ContinueWithOnMainThread(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    databaseCallback.Invoke("PostClientStation", "connect database failed", 0);
-                }
-                else if (task.IsCompleted)
-                {
-                    string json = JsonConvert.SerializeObject(ClientData.Instance.ClientUser.clientStation);
-                    databaseClientStationRef.SetRawJsonValueAsync(json);
-                    databaseCallback.Invoke("PostClientStation: ", "success", 0);
-
-                }
-            });
-        }
-
-        public async UniTask PostServerStationOwner(Station _station, DatabaseCallback databaseCallback)
+        public async UniTask PostClientStation(Station _station,DatabaseCallback databaseCallback)
         {
             string stationTypeKey = "";
             switch (_station.stationType)
@@ -254,15 +235,32 @@ namespace FirebaseHandler
                     stationTypeKey = "sport_stores";
                     break;
             }
-            await databaseStationRef.Child(stationTypeKey).Child(_station.stationID).Child("ownerID").SetValueAsync(_station.ownerID);
-            databaseCallback.Invoke("PostServerStationOwner: ", "success", 0);
+            string Json = JsonConvert.SerializeObject(_station);
+            await databaseClientStationRef.Child(stationTypeKey).Child(_station.stationID).SetRawJsonValueAsync(Json);
+            databaseCallback.Invoke("PostServerStation: ", "success", 0);
         }
 
-        public async UniTask PostServerStationPrice(string _stationID, float _priceEnergy, float _priceRepair, DatabaseCallback databaseCallback)
+        public async UniTask PostServerStation(Station _station, DatabaseCallback databaseCallback)
         {
-            await databaseStationRef.Child(_stationID).Child("priceEnergy").SetValueAsync(_priceEnergy);
-            await databaseStationRef.Child(_stationID).Child("priceRepair").SetValueAsync(_priceRepair);
-            databaseCallback.Invoke("PostServerStationOwner: ", "success", 0);
+            string stationTypeKey = "";
+            switch (_station.stationType)
+            {
+                case StationType.booster_store:
+                    stationTypeKey = "booster_stores";
+                    break;
+                case StationType.gas_station:
+                    stationTypeKey = "gas_stations";
+                    break;
+                case StationType.garage:
+                    stationTypeKey = "garages";
+                    break;
+                case StationType.sport_store:
+                    stationTypeKey = "sport_stores";
+                    break;
+            }
+            string Json = JsonConvert.SerializeObject(_station);
+            await databaseStationRef.Child(stationTypeKey).Child(_station.stationID).SetRawJsonValueAsync(Json);
+            databaseCallback.Invoke("PostServerStation: ", "success", 0);
         }
 
         public async UniTask GetServerStation(DatabaseCallback databaseCallback)

@@ -70,9 +70,9 @@ public class ClientUser
         numCoin += amount;
     }
 
-    public void ReceiveCoinFromStation(float amount, float taxPercent)
+    public void ReceiveCoinFromStation(float amount)
     {
-        numCoin += amount * (1 - taxPercent);
+        numCoin += amount;
     }
 
 

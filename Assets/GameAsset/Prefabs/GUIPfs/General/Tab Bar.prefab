@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2655808130761630814}
   - component: {fileID: 835187645}
   m_Layer: 5
-  m_Name: ButtonChart
+  m_Name: ButtonMyStation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -67,7 +67,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: f640195a93a0a5a469ee0cff7d25491b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: c8c11ed9ae4210c468430d93be0c9eea, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d5677094a61eb74ca21e5c13162fe35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toScene: 0
+  toScene: 10
   fromScene: 6
 --- !u!1 &2655808130897704127
 GameObject:
@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 2655808131061618773}
   - component: {fileID: 835187646}
   m_Layer: 5
-  m_Name: ButtonBidding
+  m_Name: ButtonMarket
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -4,6 +4,8 @@ using FirebaseHandler;
 using UnityEngine;
 using Global;
 using Base.MessageSystem;
+using UnityEngine.SceneManagement;
+using Global;
 
 public class PopUpControler : MonoBehaviour
 {
@@ -20,6 +22,7 @@ public class PopUpControler : MonoBehaviour
 
     public void GotoItemFromHomeScene()
     {
-        Messenger.RaiseMessage(Message.LoadScene,Scenes.MyItemScene,Scenes.HomeScene);
+        SceneManager.LoadScene(Scenes.HomeScene.ToString(), LoadSceneMode.Additive);
+        SceneManager.UnloadSceneAsync(Scenes.MyItemScene.ToString());
     }
 }
