@@ -7,6 +7,7 @@ using TMPro;
 using Global;
 using UnityEngine.SceneManagement;
 using System;
+using GUIHandler;
 
 public class MyStationSceneControler : MonoBehaviour
 {
@@ -59,10 +60,10 @@ public class MyStationSceneControler : MonoBehaviour
     {
         LoadListsStation();
         ChangeGUIToBoosterStore();
+        ResizeContents();
     }
 
     #region =========================================LoadDataStation=====================================
-
     public void LoadListsStation()
     {
         ClientStation clientStation = ClientData.Instance.ClientUser.clientStation;
@@ -88,6 +89,14 @@ public class MyStationSceneControler : MonoBehaviour
             var stationGUI = Instantiate(stationGUIPf, TfSpawn.position, Quaternion.identity, listSportStore.transform);
             stationGUI.LoadStationInfoForMyStation(child);
         }
+    }
+
+    void ResizeContents()
+    {
+        GUIManager.ResizeScrollRectContent(listBoosterStore);
+        GUIManager.ResizeScrollRectContent(listGasStation);
+        GUIManager.ResizeScrollRectContent(listGarage);
+        GUIManager.ResizeScrollRectContent(listSportStore);
     }
     #endregion =========================================LoadDataStation=====================================
 

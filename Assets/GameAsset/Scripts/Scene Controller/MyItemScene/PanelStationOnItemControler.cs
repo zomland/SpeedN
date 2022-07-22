@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using FirebaseHandler;
+using GUIHandler;
 
 public class PanelStationOnItemControler : MonoBehaviour
 {
@@ -60,6 +61,11 @@ public class PanelStationOnItemControler : MonoBehaviour
             else textTitlePanel.text = "Sport Store";
         }
     }
+    void ResizeStationContents()
+    {
+        GUIManager.ResizeScrollRectContent(listStationEnergy);
+        GUIManager.ResizeScrollRectContent(listStationRepair);
+    }
 
     public void LoadListsStation(Vehicle _vehicle)
     {
@@ -94,6 +100,7 @@ public class PanelStationOnItemControler : MonoBehaviour
                 station.LoadStationInfoForFillAndRepair(child);
             }
         }
+        Invoke("void ResizeStationContents", 0.2f);
     }
     #region ==========================================ShowPanelStation===========================================
     public void ShowPanelStationEnergy()

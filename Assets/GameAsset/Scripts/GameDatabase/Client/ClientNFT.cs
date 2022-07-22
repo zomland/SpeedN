@@ -7,6 +7,7 @@ public abstract class NFTBaseStats
     public string ItemID;
     public string ModelID;
     public string NameItem;
+    public string OwnerID;
 }
 
 public enum NFTType

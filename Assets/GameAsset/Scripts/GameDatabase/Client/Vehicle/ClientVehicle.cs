@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Newtonsoft.Json;
 
+
+
+
 [System.Serializable]
 public class ClientVehicle
 {
@@ -17,7 +20,7 @@ public class ClientVehicle
             string _itemID = UnityEngine.Random.Range(1000, 9999).ToString("0000");
             Vehicles.Add(new Vehicle(child.spriteID, _itemID));
         }
-        currentVehicle =  Vehicles[0];
+        currentVehicle = Vehicles[0];
     }
 
     public void UpLoadCurrentVehicle()
@@ -50,6 +53,11 @@ public class Vehicle : NFTBaseStats
         ItemID = _itemID;
         NameItem = ModelStats().ModelName;
         InitialLoad();
+    }
+
+    public void SetOwner(string _ownerID)
+    {
+        OwnerID = _ownerID;
     }
 
     public void InitialLoad()

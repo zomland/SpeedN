@@ -6,6 +6,7 @@ using FirebaseHandler;
 using TMPro;
 using Global;
 using UnityEngine.SceneManagement;
+using GUIHandler;
 
 public class MarketPlaceSceneControler : MonoBehaviour
 {
@@ -81,6 +82,14 @@ public class MarketPlaceSceneControler : MonoBehaviour
         ChangUIToStationState();
         ChangeGUIToBoosterStore();
         ChangeGUIToShoes();
+        ResizeStationContents();
+    }
+    void ResizeStationContents()
+    {
+        GUIManager.ResizeScrollRectContent(listBoosterStore);
+        GUIManager.ResizeScrollRectContent(listGasStation);
+        GUIManager.ResizeScrollRectContent(listGarage);
+        GUIManager.ResizeScrollRectContent(listSportStore);
     }
 
     #region =========================================LoadDataStation=====================================
@@ -161,6 +170,7 @@ public class MarketPlaceSceneControler : MonoBehaviour
         ServerStation.UpdateOwner(chosenStation, dateBidding);
         chosenStationGUIControler.LoadStationInfoForBidding();
         Destroy(chosenStationGUIControler.gameObject, 4f);
+        Invoke("ResizeStationContents",4.1f);
         popupBidding.SetActive(false);
         await FirebaseApi.Instance.PostUserValue("numCoin", ClientData.Instance.ClientUser.numCoin, PostDataCallback);
         await FirebaseApi.Instance.PostClientStation(chosenStation,PostDataCallback);

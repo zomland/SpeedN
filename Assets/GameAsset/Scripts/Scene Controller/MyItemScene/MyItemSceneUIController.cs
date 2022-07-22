@@ -17,9 +17,6 @@ public class MyItemSceneUIController : MonoBehaviour
     [Header("PopUp")]
     public GameObject panelMain;
     public GameObject panelMyItemDetail;
-    public GameObject panelStations;
-    public GameObject panelStationsEnergy;
-    public GameObject panelStationsRepair;
 
 
     [Header("Coin")]

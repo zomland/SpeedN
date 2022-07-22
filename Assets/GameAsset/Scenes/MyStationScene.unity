@@ -1170,7 +1170,7 @@ MonoBehaviour:
   textContentPopupGetCoin: {fileID: 2134523995}
   buttonConfirmGetCoin: {fileID: 1083738981}
   sliderGetCoin: {fileID: 1509803275}
-  stationGUIPf: {fileID: 6304028478908042315, guid: 75750429041b3c14f80966293fb6fb6a,
+  stationGUIPf: {fileID: 2344857109413764813, guid: 75750429041b3c14f80966293fb6fb6a,
     type: 3}
   coinControler: {fileID: 199084527}
   noItemMess: {fileID: 1225703816}
@@ -2153,8 +2153,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2000, y: 0}
-  m_SizeDelta: {x: 4000, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -1080, y: -1232}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &646953112
 MonoBehaviour:
@@ -2175,10 +2175,10 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 3
   m_StartCorner: 0
-  m_StartAxis: 1
+  m_StartAxis: 0
   m_CellSize: {x: 1050, y: 1100}
-  m_Spacing: {x: 100, y: 85}
-  m_Constraint: 0
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 2
   m_ConstraintCount: 1
 --- !u!1 &719527384
 GameObject:
@@ -2340,7 +2340,7 @@ RectTransform:
   m_GameObject: {fileID: 749728586}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.03098, y: 1.03098, z: 1.03098}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1090930722}
   m_Father: {fileID: 1113975735}
@@ -2591,7 +2591,7 @@ RectTransform:
   m_GameObject: {fileID: 806664865}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.03098, y: 1.03098, z: 1.03098}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 646953111}
   m_Father: {fileID: 773920648}
@@ -3181,7 +3181,7 @@ RectTransform:
   m_GameObject: {fileID: 912277380}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.03098, y: 1.03098, z: 1.03098}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 937164326}
   m_Father: {fileID: 340817266}
@@ -3269,8 +3269,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2000, y: 0}
-  m_SizeDelta: {x: 4000, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -1080, y: -1232}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &937164327
 MonoBehaviour:
@@ -3291,10 +3291,10 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 3
   m_StartCorner: 0
-  m_StartAxis: 1
+  m_StartAxis: 0
   m_CellSize: {x: 1050, y: 1100}
-  m_Spacing: {x: 100, y: 85}
-  m_Constraint: 0
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 2
   m_ConstraintCount: 1
 --- !u!1 &1080593689
 GameObject:
@@ -3541,8 +3541,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2000, y: 0}
-  m_SizeDelta: {x: 4000, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -1080, y: -1232}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1090930723
 MonoBehaviour:
@@ -3563,10 +3563,10 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 3
   m_StartCorner: 0
-  m_StartAxis: 1
-  m_CellSize: {x: 1050, y: 1100}
-  m_Spacing: {x: 100, y: 85}
-  m_Constraint: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 1000, y: 1100}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 2
   m_ConstraintCount: 1
 --- !u!1 &1113975734
 GameObject:
@@ -5694,7 +5694,7 @@ RectTransform:
   m_GameObject: {fileID: 1685001627}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.03098, y: 1.03098, z: 1.03098}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1822871907}
   m_Father: {fileID: 416072278}
@@ -5921,8 +5921,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2000, y: 0}
-  m_SizeDelta: {x: 4000, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: -1080, y: -1232}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1822871908
 MonoBehaviour:
@@ -5943,10 +5943,10 @@ MonoBehaviour:
     m_Bottom: 0
   m_ChildAlignment: 3
   m_StartCorner: 0
-  m_StartAxis: 1
+  m_StartAxis: 0
   m_CellSize: {x: 1050, y: 1100}
-  m_Spacing: {x: 100, y: 85}
-  m_Constraint: 0
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 2
   m_ConstraintCount: 1
 --- !u!1 &1917019897
 GameObject:

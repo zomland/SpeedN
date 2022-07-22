@@ -23,14 +23,14 @@ public class StationGUIPfControler : MonoBehaviour
     {
         station = _station;
         string info;
-        info = "StationID: " + station.stationID + "\n";
+        info = "ID: " + station.stationID + "\n";
         if (_station.ownerID.Length == 0)
         {
             info += "No owner" + "\n";
         }
         else if (_station.ownerID == ClientData.Instance.ClientUser.userID) info += "Your Station" + "\n";
-        else info += "OwnerID: " + station.ownerID + "\n";
-        info += "PricePerUnit: " + station.GetPrice().ToString("0.00");
+        else info += "OwnerID : " + station.ownerID + "\n";
+        info += "Price : " + station.GetPrice().ToString("0");
         Background.color = ColorsStationType[(int)station.stationType];
         textStationInfo.text = info;
     }
