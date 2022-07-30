@@ -70,7 +70,6 @@
     <file>Assets/Plugins/Android/com.google.firebase.firebase-installations-17.0.0.aar</file>
     <file>Assets/Plugins/Android/com.google.firebase.firebase-installations-interop-17.0.0.aar</file>
     <file>Assets/Plugins/Android/com.google.firebase.firebase-measurement-connector-19.0.0.aar</file>
-    <file>Assets/Plugins/Android/com.google.signin.google-signin-support-1.0.4.aar</file>
   </files>
   <settings>
     <setting name="androidAbis" value="armeabi-v7a" />

@@ -13,9 +13,9 @@ namespace FirebaseHandler
 {
     public class FirebaseApi : Singleton<FirebaseApi>
     {
-        private FirebaseAuthHandler _authHandler;
+        private FirebaseAuthHandler _authHandler=new FirebaseAuthHandler();
 
-        private FirebaseDatabaseHandler _databaseHandler;
+        private FirebaseDatabaseHandler _databaseHandler=new FirebaseDatabaseHandler();
 
 
         [Inject]
@@ -27,6 +27,8 @@ namespace FirebaseHandler
 
         public void InitApi()
         {
+
+            Debug.Log("óidmosd"+_authHandler.ToString());
             _authHandler.InitializeAuth();
             _databaseHandler.InitializeDatabase();
         }

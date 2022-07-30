@@ -22,6 +22,10 @@ public class ClientVehicle
         }
         currentVehicle = Vehicles[0];
     }
+    public void CreateARandom()
+    {
+        
+    }
 
     public void UpLoadCurrentVehicle()
     {
