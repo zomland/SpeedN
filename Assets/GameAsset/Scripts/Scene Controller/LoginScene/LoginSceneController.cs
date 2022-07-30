@@ -1,12 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using Firebase.Auth;
-using UnityEngine;
 using FirebaseHandler;
-using Global;
-using UnityEngine.UI;
 using System.Text.RegularExpressions;
-using Cysharp.Threading.Tasks;
+using UnityEngine;
+using UnityEngine.UI;
 
 
 namespace Runtime.Controller
@@ -53,6 +49,47 @@ namespace Runtime.Controller
             else
                 return (false);
         }
+
+        #region ================== Check User SignUp Input =================
+        public void CheckEmail_SignUpInput()
+        {
+            popup.SetActive(false);
+            if (emailSignupInput.text == "")
+            {
+                textPopup.text = "Your email can not null";
+                popup.SetActive(true);
+            }
+            if (isValidEmail(emailSignupInput.text) == false)
+            {
+                textPopup.text = "Incorrect email format";
+                popup.SetActive(true);
+            }
+        }
+        public void CheckPasword_SignUpInput()
+        {
+            popup.SetActive(false);
+            if (passwordSignupInput.text == "")
+            {
+                textPopup.text = "Password can not null";
+                popup.SetActive(true);
+            }
+            if (passwordSignupInput.text.Length < 7)
+            {
+                textPopup.text = "Password must contain at least 8 character";
+                popup.SetActive(true);
+            }
+        }
+        public void CheckPasswordComfirm_SignUpInput()
+        {
+            popup.SetActive(false);
+            if (passwordSignupInput.text != passwordconfirmSignupInput.text)
+            {
+                textPopup.text = "Password confirmation does not match";
+                popup.SetActive(true);
+            }
+        }
+        #endregion
+
         public void SignUpWithEmail()
         {
             if (emailSignupInput.text == "" || passwordSignupInput.text == "")
@@ -68,7 +105,6 @@ namespace Runtime.Controller
                     {
                         popup.SetActive(true);
                         textPopup.text = "Password not enough characters";
-
                     }
                     else
                     {
